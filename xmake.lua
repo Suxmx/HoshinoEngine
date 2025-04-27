@@ -1,8 +1,19 @@
-add_rules("mode.debug", "mode.release")
+set_project("HoshinoEngine")
+
+add_cxflags("/utf-8")
+
+add_rules("mode.debug", "mode.releasedbg", "mode.release", "mode.minsizerel")
+set_arch("x64")
+-- set_warnings("all")
+set_languages("c++20")
+
+add_requires("glfw", "glm") 
 
 target("HoshinoEngine")
+    set_default(true)   
     set_kind("binary")
     add_files("src/*.cpp")
+    add_packages("glfw", "glm")
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
