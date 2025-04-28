@@ -1,0 +1,5 @@
+target("HoshinoEngine")   
+    set_kind("shared")
+    add_files("**.cpp")
+    add_includedirs("includes",{public = true})
+    add_packages("glfw", "glm","vulkansdk","imgui","glad")
