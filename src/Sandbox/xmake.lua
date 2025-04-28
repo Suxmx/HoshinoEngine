@@ -1,6 +1,0 @@
-target("Sandbox")
-    set_default(true)   
-    set_kind("binary")
-    add_files("**.cpp")
-    add_deps("HoshinoEngine")
-    add_links("HoshinoEngine") 
