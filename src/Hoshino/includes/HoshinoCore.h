@@ -10,4 +10,7 @@
 #endif
 
 #include <iostream>
+#include <memory>
+#include <glad/glad.h>
+#include "Log.h"
 #include "Application.h"

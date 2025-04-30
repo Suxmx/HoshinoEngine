@@ -3,7 +3,8 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    cout<<"Hoshino Engine Start" << endl;
+    Hoshino::Log::Init();
+    CORE_TRACE("Hoshino Engine is starting...");
     Hoshino::Application* app = Hoshino::CreateApplication();
     app->Run();
     delete app;
