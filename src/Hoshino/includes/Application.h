@@ -2,14 +2,12 @@
 #include "HoshinoCore.h"
 namespace Hoshino
 {
-    class HOSHINO_API Application 
-    {
-    public:
-        
-        Application();
-        virtual ~Application();
-        void Run();
-        
-    };
-    Application* CreateApplication();
-}
+	class HOSHINO_API Application
+	{
+	public:
+		Application();
+		virtual ~Application();
+		void Run();
+	};
+	Application* CreateApplication();
+} // namespace Hoshino
