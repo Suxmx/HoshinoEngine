@@ -76,12 +76,14 @@ namespace Hoshino
 		bool Dispatch(EventFn<T> func)
 		{
 			T* derivedEvent = dynamic_cast<T*>(&m_Event);
-				if (derivedEvent) {
-					m_Event.m_Handled = func(*derivedEvent);
-				}
-				else {
-					CORE_ERROR("EventDispatcher: Dynamic cast failed!");
-				}
+			if (derivedEvent)
+			{
+				m_Event.m_Handled = func(*derivedEvent);
+			}
+			else
+			{
+				CORE_ERROR("EventDispatcher: Dynamic cast failed!");
+			}
 		}
 
 	private:

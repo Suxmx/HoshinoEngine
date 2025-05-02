@@ -57,7 +57,7 @@ BinPackParameters: true
 BraceWrapping:
   AfterCaseLabel:  true
   AfterClass:      true
-  AfterControlStatement: Never
+  AfterControlStatement: Always  
   AfterEnum:       true
   AfterFunction:   true
   AfterNamespace:  true
@@ -69,7 +69,7 @@ BraceWrapping:
   BeforeElse:      true
   BeforeLambdaBody: true
   BeforeWhile:     true
-  IndentBraces:    true
+  IndentBraces:    false
   SplitEmptyFunction: false
   SplitEmptyRecord: false
   SplitEmptyNamespace: false
