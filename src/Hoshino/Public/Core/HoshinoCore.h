@@ -1,9 +1,7 @@
 #pragma once
 
 // std
-#include <iostream>
-#include <memory>
-#include <string>
+#include "Core/HoshinoPch.h"
 
 // 3rd
 #include <glad/glad.h>

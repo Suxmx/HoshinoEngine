@@ -3,7 +3,7 @@
 
 #include "Event/Event.h"
 #include "Enum/KeyCode.h"
-#include <sstream>
+#include "Core/HoshinoPch.h"
 
 namespace Hoshino
 {

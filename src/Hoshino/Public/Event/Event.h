@@ -1,10 +1,7 @@
 #pragma once
 #include "Core/Log.h"
 #include "Core/Macro.h"
-#include <functional>
-#include <ostream>
-#include <string>
-
+#include "Core/HoshinoPch.h"
 
 #define EVENT_CLASS_TYPE(type)                                   \
 	static EventType GetStaticType() { return EventType::type; } \

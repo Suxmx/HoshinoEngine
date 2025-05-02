@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Event/Event.h"
-#include <sstream>
+#include "Core/HoshinoPch.h"
 
 namespace Hoshino
 {
