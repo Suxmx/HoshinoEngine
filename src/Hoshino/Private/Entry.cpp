@@ -1,5 +1,5 @@
-#include "HoshinoCore.h"
-#include "Log.h"
+#include "Core/HoshinoCore.h"
+
 using namespace std;
 
 int main(int argc, char** argv)

@@ -88,7 +88,7 @@ BreakConstructorInitializers: AfterColon
 # 在java字段的注释后换行
 BreakAfterJavaFieldAnnotations: false
 # 每行字符的限制，0表示没有限制
-ColumnLimit:     80
+ColumnLimit:     110
 # 描述具有特殊意义的注释的正则表达式，它不应该被分割为多行或以其它方式改变
 CommentPragmas:  '^ IWYU pragma:'
 # 在新行上声明每个命名空间
@@ -202,7 +202,7 @@ ReflowComments:  true
 # 短命名空间跨越的最大展开行数
 ShortNamespaceLines: 1
 # 允许排序#include
-SortIncludes:    CaseSensitive
+SortIncludes:    false
 # java静态导入放在非静态导入之前
 SortJavaStaticImport: Before
 # 对using声明排序

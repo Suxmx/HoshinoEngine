@@ -1,8 +1,10 @@
 #pragma once
-#include "HoshinoCore.h"
-#include "Log.h"
+#include "Core/Log.h"
+#include "Core/Macro.h"
 #include <functional>
+#include <ostream>
 #include <string>
+
 
 #define EVENT_CLASS_TYPE(type)                                   \
 	static EventType GetStaticType() { return EventType::type; } \
@@ -27,7 +29,7 @@ namespace Hoshino
 		MouseButtonRelease,
 		MouseMove,
 		// Window
-		WindowResize,
+		WindowResized,
 		WindowClose,
 		WindowFocus,
 		WindowLostFocus,
@@ -37,9 +39,10 @@ namespace Hoshino
 		AppRender,
 		AppUpdate
 	};
+
 	enum EventCategory
 	{
-		None = 0,
+		EventCategoryNone = 0,
 		EventCategoryInput = BIT(0),
 		EventCategoryKeyboard = BIT(1),
 		EventCategoryMouse = BIT(2),
@@ -58,12 +61,14 @@ namespace Hoshino
 		virtual std::string ToString() const { return GetName(); }
 		inline bool IsInCategory(EventCategory category)
 		{
-			return GetCategoryFlags() & category;
+			return (GetCategoryFlags() & static_cast<int>(category)) != 0;
 		}
 
 	protected:
 		bool m_Handled = false;
 	};
+	inline std::ostream& operator<<(std::ostream& os, const Event& e) { return os << e.ToString(); }
+
 	class HOSHINO_API EventDispatcher
 	{
 		template <typename T>
@@ -79,14 +84,17 @@ namespace Hoshino
 			if (derivedEvent)
 			{
 				m_Event.m_Handled = func(*derivedEvent);
+				return true;
 			}
 			else
 			{
 				CORE_ERROR("EventDispatcher: Dynamic cast failed!");
+				return false;
 			}
 		}
-
+		
 	private:
 		Event& m_Event;
 	};
+
 } // namespace Hoshino

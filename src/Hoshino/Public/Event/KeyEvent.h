@@ -2,10 +2,9 @@
 #pragma once
 
 #include "Event/Event.h"
-#include "HoshinoCore.h"
-#include "KeyCode.h"
+#include "Enum/KeyCode.h"
 #include <sstream>
-#include <string>
+
 namespace Hoshino
 {
 	class HOSHINO_API KeyEvent : public Event
@@ -28,8 +27,7 @@ namespace Hoshino
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyPressedEvent: " << " (" << (int)m_KeyCode
-			   << "), Repeat Count: " << m_RepeatCount;
+			ss << "KeyPressedEvent: " << " (" << (int)m_KeyCode << "), Repeat Count: " << m_RepeatCount;
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(KeyPress)

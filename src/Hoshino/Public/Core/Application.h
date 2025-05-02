@@ -1,5 +1,6 @@
 #pragma once
-#include "HoshinoCore.h"
+#include "Core/HoshinoCore.h"
+
 namespace Hoshino
 {
 	class HOSHINO_API Application
