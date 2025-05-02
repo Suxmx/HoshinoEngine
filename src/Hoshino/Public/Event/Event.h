@@ -1,6 +1,5 @@
 #pragma once
 #include "Core/Log.h"
-#include "Core/Macro.h"
 #include "Core/HoshinoPch.h"
 
 #define EVENT_CLASS_TYPE(type)                                   \

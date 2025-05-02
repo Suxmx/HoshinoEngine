@@ -1,4 +1,6 @@
 #pragma once
+#include "Core/Macro.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
