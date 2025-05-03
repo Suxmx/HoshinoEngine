@@ -34,7 +34,7 @@ AllowShortBlocksOnASingleLine: Never
 # 允许短的case标签放在同一行
 AllowShortCaseLabelsOnASingleLine: false
 # 允许短的函数放在同一行
-AllowShortFunctionsOnASingleLine: All
+AllowShortFunctionsOnASingleLine: Empty
 # 允许短的匿名函数放在同一行
 AllowShortLambdasOnASingleLine: All
 # 允许短的if语句保持在同一行

@@ -1,9 +1,10 @@
 #include "Core/Application.h"
+#include <memory>
 
 namespace Hoshino {
     Application::Application()
     {
-
+        m_Window = std::unique_ptr<Window>(Window::Create());
     }
     Application::~Application()
     {
@@ -13,7 +14,7 @@ namespace Hoshino {
     {
         while (true)
         {
-            // Main loop code here
+            m_Window->OnUpdate();
         }
     }
     Application* CreateApplication()
