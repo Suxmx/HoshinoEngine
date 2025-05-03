@@ -5,16 +5,22 @@
 
 namespace Hoshino
 {
-	class HOSHINO_API MouseMoveEvent : public Event
+	class HOSHINO_API MouseMovedEvent : public Event
 	{
 	public:
-		MouseMoveEvent(int x, int y) : m_PosX(x), m_PoxY(y) {}
+		MouseMovedEvent(float x, float y) : m_PosX(x), m_PoxY(y) {}
 		EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryMouse)
 		EVENT_CLASS_TYPE(MouseMove)
 
-		inline int GetX() { return m_PosX; }
+		inline float GetX()
+		{
+			return m_PosX;
+		}
 
-		inline int GetY() { return m_PoxY; }
+		inline float GetY()
+		{
+			return m_PoxY;
+		}
 
 		std::string ToString() const override
 		{
@@ -24,7 +30,35 @@ namespace Hoshino
 		}
 
 	private:
-		int m_PosX,m_PoxY;
+		float m_PosX, m_PoxY;
+	};
+
+	class HOSHINO_API MouseScrolledEvent : public Event
+	{
+	public:
+		MouseScrolledEvent(float x, float y) : m_OffsetX(x), m_OffsetY(y) {}
+		EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryMouse)
+		EVENT_CLASS_TYPE(MouseScroll)
+
+		inline float GetOffsetX()
+		{
+			return m_OffsetX;
+		}
+
+		inline float GetOffsetY()
+		{
+			return m_OffsetY;
+		}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "MouseScrolledEvent : (" << m_OffsetX << ", " << m_OffsetY << ")";
+			return ss.str();
+		}
+
+	private:
+		float m_OffsetX, m_OffsetY;
 	};
 
 	class HOSHINO_API MouseButtonEvent : public Event

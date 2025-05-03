@@ -46,6 +46,7 @@ namespace Hoshino
 
 	class HOSHINO_API WindowFocusEvent : public Event
 	{
+	public:
 		WindowFocusEvent() {}
 		EVENT_CLASS_CATEGORY(EventCategoryWindow)
 		EVENT_CLASS_TYPE(WindowFocus)
@@ -53,14 +54,16 @@ namespace Hoshino
 
 	class HOSHINO_API WindowLostFocusEvent : public Event
 	{
+	public:
 		WindowLostFocusEvent() {}
 		EVENT_CLASS_CATEGORY(EventCategoryWindow)
 		EVENT_CLASS_TYPE(WindowLostFocus)
 	};
 
-	class HOSHINO_API WindowCloseEent : public Event
+	class HOSHINO_API WindowCloseEvent : public Event
 	{
-		WindowCloseEent() {}
+	public:
+		WindowCloseEvent() {}
 		EVENT_CLASS_CATEGORY(EventCategoryWindow)
 		EVENT_CLASS_TYPE(WindowClose)
 	};

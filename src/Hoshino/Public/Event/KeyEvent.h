@@ -27,7 +27,7 @@ namespace Hoshino
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyPressedEvent: " << " (" << (int)m_KeyCode << "), Repeat Count: " << m_RepeatCount;
+			ss << "KeyPressedEvent: " << " (" << ENUM_NAME(m_KeyCode) << "), Repeat Count: " << m_RepeatCount;
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(KeyPress)
@@ -42,7 +42,7 @@ namespace Hoshino
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyReleasedEvent: " << " (" << (int)m_KeyCode << ")";
+			ss << "KeyReleasedEvent: " << " (" << ENUM_NAME(m_KeyCode) << ")";
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(KeyRelease)

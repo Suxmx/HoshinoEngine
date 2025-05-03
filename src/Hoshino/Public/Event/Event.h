@@ -24,6 +24,7 @@ namespace Hoshino
 		MouseButtonPress,
 		MouseButtonRelease,
 		MouseMove,
+		MouseScroll,
 		// Window
 		WindowResized,
 		WindowClose,
@@ -76,6 +77,7 @@ namespace Hoshino
 		template <typename T>
 		bool Dispatch(EventFn<T> func)
 		{
+			if(m_Event.GetEventType() != T::GetStaticType())return false;
 			T* derivedEvent = dynamic_cast<T*>(&m_Event);
 			if (derivedEvent)
 			{

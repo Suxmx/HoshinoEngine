@@ -36,9 +36,9 @@ AllowShortCaseLabelsOnASingleLine: false
 # 允许短的函数放在同一行
 AllowShortFunctionsOnASingleLine: Empty
 # 允许短的匿名函数放在同一行
-AllowShortLambdasOnASingleLine: All
+AllowShortLambdasOnASingleLine: Empty
 # 允许短的if语句保持在同一行
-AllowShortIfStatementsOnASingleLine: Never
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse 
 # 允许短的循环保持在同一行
 AllowShortLoopsOnASingleLine: false
 # 总是在返回类型后换行
@@ -165,7 +165,7 @@ JavaScriptWrapImports: true
 # 保留在块开始处的空行
 KeepEmptyLinesAtTheStartOfBlocks: true
 # 相对于 lambda 签名对齐 lambda 主体
-LambdaBodyIndentation: Signature
+LambdaBodyIndentation: OuterScope 
 # 开始一个块的宏的正则表达式
 MacroBlockBegin: ''
 # 结束一个块的宏的正则表达式

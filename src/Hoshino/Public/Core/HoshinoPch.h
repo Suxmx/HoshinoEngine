@@ -17,6 +17,10 @@
 #include <set>
 #include <list>
 
+#define MAGIC_ENUM_RANGE_MIN -128
+#define MAGIC_ENUM_RANGE_MAX 350
+#include <magic_enum/magic_enum.hpp>
+
 #ifdef _WIN32
 #include <Windows.h>
 #endif

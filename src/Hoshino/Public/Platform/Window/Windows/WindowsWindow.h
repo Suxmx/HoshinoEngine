@@ -32,6 +32,7 @@ namespace Hoshino
 
 	private:
 		void Init(const WindowProps& props);
+		void InitGlfwCallbacks();
 		void Shutdown();
 
 		struct WindowData

@@ -10,3 +10,5 @@
 #endif
 //BIT
 #define BIT(x) (1 << x)
+//ENUM
+#define ENUM_NAME(x) magic_enum::enum_name(x)
