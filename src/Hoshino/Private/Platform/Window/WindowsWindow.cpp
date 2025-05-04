@@ -69,6 +69,9 @@ namespace Hoshino
 		          m_Data.Title);
 		m_GlfwWindow = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_GlfwWindow);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		CORE_ASSERT(status , "Glad Init Failed !");
+		CORE_INFO("Glad Init Success !");
 		glfwSetWindowUserPointer(m_GlfwWindow, &m_Data);
 		SetVSync(true);
 		CORE_INFO("Create Window Success !");

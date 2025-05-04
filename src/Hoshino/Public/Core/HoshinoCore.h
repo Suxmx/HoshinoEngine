@@ -4,8 +4,7 @@
 // std
 #include "Core/HoshinoPch.h"
 
-// 3rd
-#include <glad/glad.h>
+
 
 #include "Core/Macro.h"
 #include "Core/Assert.h"

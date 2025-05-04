@@ -1,5 +1,6 @@
 #pragma once
 #include "Platform/Window/Window.h"
+#include <glad/glad.h>
 #include "GLFW/glfw3.h"
 namespace Hoshino
 {
