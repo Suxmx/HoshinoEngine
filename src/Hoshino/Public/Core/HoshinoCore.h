@@ -2,7 +2,7 @@
 #define MAGIC_ENUM_RANGE_MIN -1
 #define MAGIC_ENUM_RANGE_MAX 349
 // std
-#include "Core/HoshinoPch.h"
+#include "HoshinoPch.h"
 
 
 

@@ -8,4 +8,4 @@ target("HoshinoEngine")
         add_defines("GLFW_INCLUDE_NONE")  -- 仅Windows添加此定义
     end
     
-    set_pcxxheader("Public/Core/HoshinoPch.h")
+    set_pcxxheader("Public/HoshinoPch.h")

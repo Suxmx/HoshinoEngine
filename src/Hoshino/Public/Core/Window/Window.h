@@ -1,6 +1,6 @@
-#include "Core/HoshinoPch.h"
-#include "Platform/Window/WindowProps.h"
-#include "Event/Event.h"
+#include "HoshinoPch.h"
+#include "Core/Window/WindowProps.h"
+#include "Core/Event/Event.h"
 
 namespace Hoshino
 {

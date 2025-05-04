@@ -1,7 +1,7 @@
 #include "Core/Application.h"
-#include "Event/Event.h"
+#include "Core/Event/Event.h"
 #include "Core/Log.h"
-#include "Event/WindowEvent.h"
+#include "Core/Event/WindowEvent.h"
 
 #define BIND_APP_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 

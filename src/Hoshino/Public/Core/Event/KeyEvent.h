@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include "Event/Event.h"
+#include "Core/Event/Event.h"
 #include "Enum/KeyCode.h"
-#include "Core/HoshinoPch.h"
+#include "HoshinoPch.h"
 #ifdef MAGIC_ENUM
 #include <magic_enum/magic_enum.hpp>
 #endif

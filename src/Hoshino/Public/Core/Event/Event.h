@@ -1,6 +1,6 @@
 #pragma once
 #include "Core/Log.h"
-#include "Core/HoshinoPch.h"
+#include "HoshinoPch.h"
 
 #define EVENT_CLASS_TYPE(type)                                   \
 	static EventType GetStaticType() { return EventType::type; } \

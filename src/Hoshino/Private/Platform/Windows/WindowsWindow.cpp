@@ -1,12 +1,11 @@
 #include "Core/Assert.h"
 #include "Core/Log.h"
-#include "Event/MouseEvent.h"
 #include "GLFW/glfw3.h"
-#include "Platform/Window/Windows/WindowsWindow.h"
+#include "Platform/Windows/WindowsWindow.h"
 // Events
-#include "Event/WindowEvent.h"
-#include "Event/KeyEvent.h"
-#include "Event/MouseEvent.h"
+#include "Core/Event/WindowEvent.h"
+#include "Core/Event/KeyEvent.h"
+#include "Core/Event/MouseEvent.h"
 
 namespace Hoshino
 {

@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/HoshinoCore.h"
-#include "Platform/Window/Window.h"
-#include "Layer/LayerStack.h"
+#include "Core/Window/Window.h"
+#include "Core/Layer/LayerStack.h"
 
 namespace Hoshino
 {

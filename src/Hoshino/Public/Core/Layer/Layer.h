@@ -1,7 +1,7 @@
 #pragma once
-#include "Core/HoshinoPch.h"
+#include "HoshinoPch.h"
 #include "Core/Macro.h"
-#include "Event/Event.h"
+#include "Core/Event/Event.h"
 
 namespace Hoshino
 {
@@ -12,6 +12,8 @@ namespace Hoshino
 		virtual ~Layer() = default;
 		virtual void OnEvent(Event& event) = 0;
 		virtual void OnUpdate() = 0;
+		virtual void OnAttach() {}
+		virtual void OnDetach() {}
 		std::string GetName()
 		{
 			return m_Name;

@@ -1,6 +1,4 @@
-#include "Layer/LayerStack.h"
-#include <algorithm>
-
+#include "Core/Layer/LayerStack.h"
 namespace Hoshino
 {
 	LayerStack::LayerStack()

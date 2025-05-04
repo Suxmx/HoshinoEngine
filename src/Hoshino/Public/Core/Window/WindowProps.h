@@ -1,4 +1,6 @@
+#pragma once
 #include "Core/Macro.h"
+#include "HoshinoPch.h"
 namespace Hoshino
 {
 	struct WindowProps

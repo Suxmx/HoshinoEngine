@@ -1,7 +1,7 @@
 #pragma once
-#include "Core/HoshinoPch.h"
+#include "HoshinoPch.h"
 #include "Core/Macro.h"
-#include "Layer/Layer.h"
+#include "Core/Layer/Layer.h"
 #include <vector>
 
 namespace Hoshino

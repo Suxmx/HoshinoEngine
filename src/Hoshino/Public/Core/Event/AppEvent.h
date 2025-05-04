@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Event/Event.h"
-#include "Core/HoshinoPch.h"
+#include "Core/Event/Event.h"
+#include "HoshinoPch.h"
 namespace Hoshino
 {
     class HOSHINO_API AppTickEvent : public Event
