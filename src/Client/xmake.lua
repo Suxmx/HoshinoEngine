@@ -1,0 +1,8 @@
+target("Client")   
+    set_kind("binary")
+    add_files("**.cpp")
+    add_includedirs("Public")
+    add_packages("glfw", "glm","vulkansdk","imgui","glad","spdlog","magic_enum")
+    add_deps("HoshinoEngine")
+    add_links("HoshinoEngine")
+    add_defines("HOSHINO_ASSERT","MAGIC_ENUM")

@@ -1,8 +1,7 @@
 #pragma once
 #include "Core/HoshinoCore.h"
 #include "Platform/Window/Window.h"
-#include "Event/Event.h"
-#include "Event/WindowEvent.h"
+#include "Layer/LayerStack.h"
 
 namespace Hoshino
 {
@@ -12,12 +11,16 @@ namespace Hoshino
 		Application();
 		virtual ~Application();
 		void Run();
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
+		void PopLayer(Layer* layer);
+		void PopOverlay(Layer* overlay);
 
 	private:
 		std::unique_ptr<Window> m_Window;
+		LayerStack m_LayerStack;
 		bool m_Running;
 		void OnEvent(Event& event);
 		bool OnWindowClose(WindowCloseEvent& event);
 	};
-	Application* CreateApplication();
 } // namespace Hoshino

@@ -60,9 +60,10 @@ namespace Hoshino
 		{
 			return (GetCategoryFlags() & static_cast<int>(category)) != 0;
 		}
+		bool Handled = false;
 
 	protected:
-		bool m_Handled = false;
+		
 	};
 	inline std::ostream& operator<<(std::ostream& os, const Event& e) { return os << e.ToString(); }
 
@@ -81,7 +82,7 @@ namespace Hoshino
 			T* derivedEvent = dynamic_cast<T*>(&m_Event);
 			if (derivedEvent)
 			{
-				m_Event.m_Handled = func(*derivedEvent);
+				m_Event.Handled = func(*derivedEvent);
 				return true;
 			}
 			else

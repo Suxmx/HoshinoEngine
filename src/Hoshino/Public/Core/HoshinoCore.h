@@ -1,5 +1,6 @@
 #pragma once
-
+#define MAGIC_ENUM_RANGE_MIN -1
+#define MAGIC_ENUM_RANGE_MAX 349
 // std
 #include "Core/HoshinoPch.h"
 
@@ -7,8 +8,9 @@
 #include <glad/glad.h>
 
 #include "Core/Macro.h"
+#include "Core/Assert.h"
 #include "Core/Log.h"
-#include "Core/Application.h"
+#include "Layer/Layer.h"
 
 // Events
 #include "Event/Event.h"
@@ -16,3 +18,4 @@
 #include "Event/WindowEvent.h"
 #include "Event/MouseEvent.h"
 #include "Event/KeyEvent.h"
+
