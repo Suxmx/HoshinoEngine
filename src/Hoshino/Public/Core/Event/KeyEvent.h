@@ -13,20 +13,31 @@ namespace Hoshino
 	class HOSHINO_API KeyEvent : public Event
 	{
 	public:
-		KeyCode GetKeyCode() const { return m_KeyCode; }
+		inline KeyCode GetKeyCode() const
+		{
+			return m_KeyCode;
+		}
+		inline int GetMods() const
+		{
+			return m_Mods;
+		}
 		EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryKeyboard)
 	protected:
-		KeyEvent(KeyCode keycode) : m_KeyCode(keycode) {}
+		KeyEvent(KeyCode keycode, int mods) : m_KeyCode(keycode), m_Mods(mods) {}
 		KeyCode m_KeyCode;
+		int m_Mods;
 	};
 
 	class HOSHINO_API KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(KeyCode keycode, int repeatCount) :
-		    KeyEvent(keycode), m_RepeatCount(repeatCount)
+		KeyPressedEvent(KeyCode keycode, int mods, int repeatCount) :
+		    KeyEvent(keycode, mods), m_RepeatCount(repeatCount)
 		{}
-		int GetRepeatCount() const { return m_RepeatCount; }
+		int GetRepeatCount() const
+		{
+			return m_RepeatCount;
+		}
 		std::string ToString() const override
 		{
 			std::stringstream ss;
@@ -41,7 +52,7 @@ namespace Hoshino
 	class HOSHINO_API KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(KeyCode keycode) : KeyEvent(keycode) {}
+		KeyReleasedEvent(KeyCode keycode, int mods) : KeyEvent(keycode, mods) {}
 		std::string ToString() const override
 		{
 			std::stringstream ss;
@@ -49,5 +60,27 @@ namespace Hoshino
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(KeyRelease)
+	};
+
+	class HOSHINO_API KeyTypedEvent : public Event
+	{
+	public:
+		KeyTypedEvent(unsigned int character) : m_Character(character) {}
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "KeyTypedEvent: " << " (" << m_Character << ")";
+			return ss.str();
+		}
+		EVENT_CLASS_TYPE(KeyTyped)
+		EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryKeyboard)
+
+		unsigned int GetCharacter() const
+		{
+			return m_Character;
+		}
+
+	private:
+		unsigned int m_Character;
 	};
 } // namespace Hoshino

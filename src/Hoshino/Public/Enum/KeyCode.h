@@ -1,135 +1,141 @@
-#include <magic_enum/magic_enum.hpp>
+#pragma once
+#include <imgui.h>
+#include <GLFW/glfw3.h>
 namespace Hoshino
 {
 	enum class KeyCode
 	{
-		NONE = 0,
+		NONE, // 0
 		// Printable keys
-		Space = 32,
-		Apostrophe = 39, /* ' */
-		Comma = 44,      /* , */
-		Minus = 45,      /* - */
-		Period = 46,     /* . */
-		Slash = 47,      /* / */
-		Key0 = 48,
-		Key1 = 49,
-		Key2 = 50,
-		Key3 = 51,
-		Key4 = 52,
-		Key5 = 53,
-		Key6 = 54,
-		Key7 = 55,
-		Key8 = 56,
-		Key9 = 57,
-		Semicolon = 59, /* ; */
-		Equal = 61,     /* = */
-		A = 65,
-		B = 66,
-		C = 67,
-		D = 68,
-		E = 69,
-		F = 70,
-		G = 71,
-		H = 72,
-		I = 73,
-		J = 74,
-		K = 75,
-		L = 76,
-		M = 77,
-		N = 78,
-		O = 79,
-		P = 80,
-		Q = 81,
-		R = 82,
-		S = 83,
-		T = 84,
-		U = 85,
-		V = 86,
-		W = 87,
-		X = 88,
-		Y = 89,
-		Z = 90,
-		LeftBracket = 91,  /* [ */
-		Backslash = 92,    /* \ */
-		RightBracket = 93, /* ] */
-		GraveAccent = 96,  /* ` */
-		World1 = 161,      /* non-US #1 */
-		World2 = 162,      /* non-US #2 */
+		Space,        // 1
+		Apostrophe,   // 2
+		Comma,        // 3
+		Minus,        // 4
+		Period,       // 5
+		Slash,        // 6
+		Key0,         // 7
+		Key1,         // 8
+		Key2,         // 9
+		Key3,         // 10
+		Key4,         // 11
+		Key5,         // 12
+		Key6,         // 13
+		Key7,         // 14
+		Key8,         // 15
+		Key9,         // 16
+		Semicolon,    // 17
+		Equal,        // 18
+		A,            // 19
+		B,            // 20
+		C,            // 21
+		D,            // 22
+		E,            // 23
+		F,            // 24
+		G,            // 25
+		H,            // 26
+		I,            // 27
+		J,            // 28
+		K,            // 29
+		L,            // 30
+		M,            // 31
+		N,            // 32
+		O,            // 33
+		P,            // 34
+		Q,            // 35
+		R,            // 36
+		S,            // 37
+		T,            // 38
+		U,            // 39
+		V,            // 40
+		W,            // 41
+		X,            // 42
+		Y,            // 43
+		Z,            // 44
+		LeftBracket,  // 45
+		Backslash,    // 46
+		RightBracket, // 47
+		GraveAccent,  // 48
+		World1,       // 49
+		World2,       // 50
 
 		// Function keys
-		Escape = 256,
-		Enter = 257,
-		Tab = 258,
-		Backspace = 259,
-		Insert = 260,
-		Delete = 261,
-		Right = 262,
-		Left = 263,
-		Down = 264,
-		Up = 265,
-		PageUp = 266,
-		PageDown = 267,
-		Home = 268,
-		End = 269,
-		CapsLock = 280,
-		ScrollLock = 281,
-		NumLock = 282,
-		PrintScreen = 283,
-		Pause = 284,
-		F1 = 290,
-		F2 = 291,
-		F3 = 292,
-		F4 = 293,
-		F5 = 294,
-		F6 = 295,
-		F7 = 296,
-		F8 = 297,
-		F9 = 298,
-		F10 = 299,
-		F11 = 300,
-		F12 = 301,
-		F13 = 302,
-		F14 = 303,
-		F15 = 304,
-		F16 = 305,
-		F17 = 306,
-		F18 = 307,
-		F19 = 308,
-		F20 = 309,
-		F21 = 310,
-		F22 = 311,
-		F23 = 312,
-		F24 = 313,
-		F25 = 314,
+		Escape,      // 51
+		Enter,       // 52
+		Tab,         // 53
+		Backspace,   // 54
+		Insert,      // 55
+		Delete,      // 56
+		Right,       // 57
+		Left,        // 58
+		Down,        // 59
+		Up,          // 60
+		PageUp,      // 61
+		PageDown,    // 62
+		Home,        // 63
+		End,         // 64
+		CapsLock,    // 65
+		ScrollLock,  // 66
+		NumLock,     // 67
+		PrintScreen, // 68
+		Pause,       // 69
+		F1,          // 70
+		F2,          // 71
+		F3,          // 72
+		F4,          // 73
+		F5,          // 74
+		F6,          // 75
+		F7,          // 76
+		F8,          // 77
+		F9,          // 78
+		F10,         // 79
+		F11,         // 80
+		F12,         // 81
+		F13,         // 82
+		F14,         // 83
+		F15,         // 84
+		F16,         // 85
+		F17,         // 86
+		F18,         // 87
+		F19,         // 88
+		F20,         // 89
+		F21,         // 90
+		F22,         // 91
+		F23,         // 92
+		F24,         // 93
+		F25,         // 94
 
 		// Keypad keys
-		KP0 = 320,
-		KP1 = 321,
-		KP2 = 322,
-		KP3 = 323,
-		KP4 = 324,
-		KP5 = 325,
-		KP6 = 326,
-		KP7 = 327,
-		KP8 = 328,
-		KP9 = 329,
-		KPDecimal = 330,
-		KPDivide = 331,
-		KPMultiply = 332,
-		KPSubtract = 333,
-		KPAdd = 334,
-		KPEnter = 335,
-		KPEqual = 336,
+		KP0,        // 95
+		KP1,        // 96
+		KP2,        // 97
+		KP3,        // 98
+		KP4,        // 99
+		KP5,        // 100
+		KP6,        // 101
+		KP7,        // 102
+		KP8,        // 103
+		KP9,        // 104
+		KPDecimal,  // 105
+		KPDivide,   // 106
+		KPMultiply, // 107
+		KPSubtract, // 108
+		KPAdd,      // 109
+		KPEnter,    // 110
+		KPEqual,    // 111
 
 		// Modifier keys
-		LeftShift = 340,
-		LeftControl = 341,
-		LeftAlt = 342,
-		LeftSuper = 343,
-		RightShift = 344,
-		RightControl = 345,
-		RightAlt = 346,
-		RightSuper = 347,
-		Menu = 348
+		LeftShift,    // 112
+		LeftControl,  // 113
+		LeftAlt,      // 114
+		LeftSuper,    // 115
+		RightShift,   // 116
+		RightControl, // 117
+		RightAlt,     // 118
+		RightSuper,   // 119
+		Menu          // 120
 	};
-}
+
+	ImGuiKey HoshinoKeyToImGuiKey(KeyCode keycode);
+
+	KeyCode GlfwKeyToKeyCode(int glfwKeyCode);
+} // namespace Hoshino

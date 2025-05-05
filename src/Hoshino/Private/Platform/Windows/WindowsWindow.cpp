@@ -1,5 +1,6 @@
 #include "Core/Assert.h"
 #include "Core/Log.h"
+#include "Enum/KeyCode.h"
 #include "GLFW/glfw3.h"
 #include "Platform/Windows/WindowsWindow.h"
 // Events
@@ -27,9 +28,6 @@ namespace Hoshino
 	{
 		glfwPollEvents();
 		glfwSwapBuffers(m_GlfwWindow);
-		if (glfwWindowShouldClose(m_GlfwWindow))
-		{
-		}
 	}
 	bool WindowsWindow::IsVSync()
 	{
@@ -69,7 +67,7 @@ namespace Hoshino
 		m_GlfwWindow = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_GlfwWindow);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		CORE_ASSERT(status , "Glad Init Failed !");
+		CORE_ASSERT(status, "Glad Init Failed !");
 		CORE_INFO("Glad Init Success !");
 		glfwSetWindowUserPointer(m_GlfwWindow, &m_Data);
 		SetVSync(true);
@@ -97,24 +95,24 @@ namespace Hoshino
 		glfwSetKeyCallback(m_GlfwWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-			KeyCode keyCode = static_cast<KeyCode>(key);
+			KeyCode keyCode = GlfwKeyToKeyCode(key);
 			switch (action)
 			{
 			case GLFW_PRESS:
 			{
-				KeyPressedEvent pressEvent(keyCode, 0);
+				KeyPressedEvent pressEvent(keyCode, mods, 0);
 				if (data.EventCallback) data.EventCallback(pressEvent);
 				break;
 			}
 			case GLFW_REPEAT:
 			{
-				KeyPressedEvent pressEvent(keyCode, 1);
+				KeyPressedEvent pressEvent(keyCode, mods, 1);
 				if (data.EventCallback) data.EventCallback(pressEvent);
 				break;
 			}
 			case GLFW_RELEASE:
 			{
-				KeyReleasedEvent pressEvent(keyCode);
+				KeyReleasedEvent pressEvent(keyCode, mods);
 				if (data.EventCallback) data.EventCallback(pressEvent);
 				break;
 			}
@@ -152,6 +150,12 @@ namespace Hoshino
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 			MouseMovedEvent event((float)xPos, (float)yPos);
+			data.EventCallback(event);
+		});
+		glfwSetCharCallback(m_GlfwWindow, [](GLFWwindow* window, unsigned int key)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			KeyTypedEvent event(key);
 			data.EventCallback(event);
 		});
 	}

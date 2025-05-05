@@ -15,11 +15,17 @@ namespace Hoshino
 		void PushOverlay(Layer* overlay);
 		void PopLayer(Layer* layer);
 		void PopOverlay(Layer* overlay);
+		inline static Application& Instance()
+		{
+			return *s_Instance;
+		}
+		inline Window& GetWindow();
 
 	private:
 		std::unique_ptr<Window> m_Window;
 		LayerStack m_LayerStack;
 		bool m_Running;
+		static Application* s_Instance;
 		void OnEvent(Event& event);
 		bool OnWindowClose(WindowCloseEvent& event);
 	};

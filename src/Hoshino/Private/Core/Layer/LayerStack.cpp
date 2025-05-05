@@ -3,7 +3,7 @@ namespace Hoshino
 {
 	LayerStack::LayerStack()
 	{
-		m_NormalLayerTopIt = m_Layers.begin();
+		m_LayerInsert = m_Layers.begin();
 	}
 	LayerStack::~LayerStack()
 	{
@@ -14,7 +14,7 @@ namespace Hoshino
 	}
 	void LayerStack::PushLayer(Layer* layer)
 	{
-		m_Layers.emplace(m_NormalLayerTopIt, layer);
+		m_LayerInsert  = m_Layers.emplace(m_LayerInsert, layer);
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay)
@@ -28,7 +28,7 @@ namespace Hoshino
 		if (it != m_Layers.end())
 		{
 			m_Layers.erase(it);
-			m_NormalLayerTopIt--;
+			m_LayerInsert--;
 		}
 	}
 

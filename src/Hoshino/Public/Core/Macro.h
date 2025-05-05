@@ -17,3 +17,5 @@
 #else
 #define ENUM_NAME(x) ""
 #endif
+
+#define BIND_CLASS_FN(x) std::bind(&x,this,std::placeholders::_1)

@@ -20,6 +20,7 @@ namespace Hoshino
 		// Key
 		KeyPress,
 		KeyRelease,
+		KeyTyped,
 		// Mouse
 		MouseButtonPress,
 		MouseButtonRelease,

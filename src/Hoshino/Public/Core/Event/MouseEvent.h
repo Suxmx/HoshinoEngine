@@ -65,6 +65,11 @@ namespace Hoshino
 	{
 	public:
 		EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryMouse)
+		inline int GetButtonCode() const
+		{
+			return m_ButtonCode;
+		}
+
 	protected:
 		MouseButtonEvent(int buttonCode) : m_ButtonCode(buttonCode) {}
 		int m_ButtonCode;
