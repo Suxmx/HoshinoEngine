@@ -9,7 +9,6 @@ namespace Akane
 	Hoshino::Application* CreateApp()
 	{
 		auto app = new Akane::SandboxApplication();
-		app->PushLayer(new Hoshino::ImGuiLayer());
 
 		return app;
 	}

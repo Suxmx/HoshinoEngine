@@ -27,6 +27,6 @@ namespace Hoshino
 
 	private:
 		std::vector<Layer*> m_Layers;
-		std::vector<Layer*>::iterator m_LayerInsert; // 常规Layer的顶层
+		unsigned int m_LayerInsertIndex = 0;
 	};
 } // namespace Hoshino

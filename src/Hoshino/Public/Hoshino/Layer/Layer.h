@@ -10,10 +10,11 @@ namespace Hoshino
 	public:
 		Layer(const std::string& name) : m_Name(name) {}
 		virtual ~Layer() = default;
-		virtual void OnEvent(Event& event) = 0;
-		virtual void OnUpdate() = 0;
+		virtual void OnEvent(Event& event){}
+		virtual void OnUpdate() {}
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
+		virtual void OnImGuiRender() {}
 		std::string GetName()
 		{
 			return m_Name;

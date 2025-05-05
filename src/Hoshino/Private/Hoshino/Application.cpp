@@ -2,6 +2,7 @@
 #include "Hoshino/Event/Event.h"
 #include "Hoshino/HoshinoCore.h"
 #include "Hoshino/KeyCode.h"
+#include "Hoshino/Layer/ImGuiLayer.h"
 #include "Hoshino/Log.h"
 #include "Hoshino/Event/WindowEvent.h"
 #include "glad/glad.h"
@@ -19,6 +20,9 @@ namespace Hoshino
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallbackFn(BIND_APP_EVENT_FN(OnEvent));
 		m_Running = true;
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 	}
 
 	Application::~Application() {}
@@ -37,6 +41,12 @@ namespace Hoshino
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+
+			m_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack)
+				layer->OnImGuiRender();
+			m_ImGuiLayer->End();
+
 			m_Window->OnUpdate();
 		}
 	}

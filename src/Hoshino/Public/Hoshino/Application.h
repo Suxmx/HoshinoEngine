@@ -1,5 +1,6 @@
 #pragma once
 #include "Hoshino/HoshinoCore.h"
+#include "Hoshino/Layer/ImGuiLayer.h"
 #include "Hoshino/Window/Window.h"
 #include "Hoshino/Layer/LayerStack.h"
 
@@ -23,6 +24,7 @@ namespace Hoshino
 
 	private:
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
 		bool m_Running;
 		static Application* s_Instance;
