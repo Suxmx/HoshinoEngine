@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/Macro.h"
+#include "Hoshino/Macro.h"
 #include "HoshinoPch.h"
 namespace Hoshino
 {

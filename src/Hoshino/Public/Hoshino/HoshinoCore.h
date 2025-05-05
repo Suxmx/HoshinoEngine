@@ -6,9 +6,9 @@
 
 
 
-#include "Core/Macro.h"
-#include "Core/Assert.h"
-#include "Core/Log.h"
+#include "Hoshino/Macro.h"
+#include "Hoshino/Assert.h"
+#include "Hoshino/Log.h"
 #include "Layer/Layer.h"
 
 // Events

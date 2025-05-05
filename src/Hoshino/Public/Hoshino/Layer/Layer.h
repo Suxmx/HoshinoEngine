@@ -1,7 +1,7 @@
 #pragma once
 #include "HoshinoPch.h"
-#include "Core/Macro.h"
-#include "Core/Event/Event.h"
+#include "Hoshino/Macro.h"
+#include "Hoshino/Event/Event.h"
 
 namespace Hoshino
 {

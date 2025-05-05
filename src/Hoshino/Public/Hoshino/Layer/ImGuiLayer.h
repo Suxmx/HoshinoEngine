@@ -1,7 +1,7 @@
 #pragma once
-#include "Core/Layer/Layer.h"
+#include "Hoshino/Layer/Layer.h"
 #include "HoshinoPch.h"
-#include "Core/Application.h"
+#include "Hoshino/Application.h"
 
 namespace Hoshino
 {

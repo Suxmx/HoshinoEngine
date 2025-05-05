@@ -1,8 +1,9 @@
-#include "Core/Log.h"
-#include "Core/Macro.h"
-#include "Core/Layer/ImGuiLayer.h"
-#include "Core/Event/Event.h"
-#include "Enum/KeyCode.h"
+#include "Hoshino/Application.h"
+#include "Hoshino/Log.h"
+#include "Hoshino/Macro.h"
+#include "Hoshino/Layer/ImGuiLayer.h"
+#include "Hoshino/Event/Event.h"
+#include "Hoshino/KeyCode.h"
 #include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
 #include "imgui.h"
 #include "GLFW/glfw3.h"
@@ -48,7 +49,6 @@ namespace Hoshino
 
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);
-
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}

@@ -1,6 +1,6 @@
 #pragma once
-#include "Core/HoshinoCore.h"
-#include "Core/Application.h"
+#include "Hoshino/HoshinoCore.h"
+#include "Hoshino/Application.h"
 
 namespace Akane
 {

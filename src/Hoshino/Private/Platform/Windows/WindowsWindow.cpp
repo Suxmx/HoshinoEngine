@@ -1,12 +1,15 @@
-#include "Core/Assert.h"
-#include "Core/Log.h"
-#include "Enum/KeyCode.h"
-#include "GLFW/glfw3.h"
+#include "Hoshino/Assert.h"
+#include "Hoshino/Log.h"
+#include "Hoshino/KeyCode.h"
+//Platform
 #include "Platform/Windows/WindowsWindow.h"
+#include "Platform/Windows/WindowsKeyCodeWrapper.h"
 // Events
-#include "Core/Event/WindowEvent.h"
-#include "Core/Event/KeyEvent.h"
-#include "Core/Event/MouseEvent.h"
+#include "Hoshino/Event/WindowEvent.h"
+#include "Hoshino/Event/KeyEvent.h"
+#include "Hoshino/Event/MouseEvent.h"
+
+#include <GLFW/glfw3.h>
 
 namespace Hoshino
 {

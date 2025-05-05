@@ -1,6 +1,6 @@
 #include "HoshinoPch.h"
-#include "Core/Window/WindowProps.h"
-#include "Core/Event/Event.h"
+#include "Hoshino/Window/WindowProps.h"
+#include "Hoshino/Event/Event.h"
 
 namespace Hoshino
 {
@@ -18,6 +18,7 @@ namespace Hoshino
 		virtual void SetEventCallbackFn(const EventCallbackFn& fn) = 0;
 		virtual void SetVSync(bool enable) = 0;
 		virtual bool IsVSync() = 0;
+		virtual void* GetNativeWindow() const = 0;
 		// Create
 		static Window* Create(const WindowProps& props = WindowProps());
 	};

@@ -1,7 +1,7 @@
-#include "Core/HoshinoCore.h"
-#include "Core/Application.h"
-#include "Core/Entry.h"
-#include "Core/Layer/ImGuiLayer.h"
+#include "Hoshino/HoshinoCore.h"
+#include "Hoshino/Application.h"
+#include "Hoshino/Entry.h"
+#include "Hoshino/Layer/ImGuiLayer.h"
 // Akane
 #include "Akane/SandboxApplication.h"
 #include "Akane/Layer/TestLayer.h"

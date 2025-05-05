@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/HoshinoCore.h"
+#include "Hoshino/HoshinoCore.h"
 #include "Application.h"
 
 namespace Hoshino

@@ -137,5 +137,4 @@ namespace Hoshino
 
 	ImGuiKey HoshinoKeyToImGuiKey(KeyCode keycode);
 
-	KeyCode GlfwKeyToKeyCode(int glfwKeyCode);
 } // namespace Hoshino

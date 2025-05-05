@@ -1,4 +1,4 @@
-#include "Core/Entry.h"
+#include "Hoshino/Entry.h"
 
 using namespace std;
 namespace Hoshino {

@@ -1,8 +1,8 @@
-#include "Core/Application.h"
-#include "Core/Event/Event.h"
-#include "Core/HoshinoCore.h"
-#include "Core/Log.h"
-#include "Core/Event/WindowEvent.h"
+#include "Hoshino/Application.h"
+#include "Hoshino/Event/Event.h"
+#include "Hoshino/HoshinoCore.h"
+#include "Hoshino/Log.h"
+#include "Hoshino/Event/WindowEvent.h"
 #include "glad/glad.h"
 
 #define BIND_APP_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)

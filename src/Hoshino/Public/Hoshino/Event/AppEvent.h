@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Event/Event.h"
+#include "Hoshino/Event/Event.h"
 #include "HoshinoPch.h"
 namespace Hoshino
 {

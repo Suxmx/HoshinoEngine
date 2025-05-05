@@ -1,4 +1,4 @@
-#include "Core/Log.h"
+#include "Hoshino/Log.h"
 #ifdef HOSHINO_ASSERT
 #define CORE_ASSERT(x, ...)          \
 	{                                \
