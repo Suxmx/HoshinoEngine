@@ -1,6 +1,7 @@
 #include "Hoshino/Application.h"
 #include "Hoshino/Event/Event.h"
 #include "Hoshino/HoshinoCore.h"
+#include "Hoshino/KeyCode.h"
 #include "Hoshino/Log.h"
 #include "Hoshino/Event/WindowEvent.h"
 #include "glad/glad.h"

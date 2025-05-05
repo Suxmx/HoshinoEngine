@@ -135,6 +135,18 @@ namespace Hoshino
 		Menu          // 120
 	};
 
+	enum class MouseButtonCode
+	{
+		LeftButton = 0,
+		RightButton = 1,
+		MiddleButton = 2,
+		Button4,
+		Button5,
+		Button6,
+		Button7,
+		Button8,
+	};
+
 	ImGuiKey HoshinoKeyToImGuiKey(KeyCode keycode);
 
 } // namespace Hoshino

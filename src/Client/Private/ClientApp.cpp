@@ -4,13 +4,11 @@
 #include "Hoshino/Layer/ImGuiLayer.h"
 // Akane
 #include "Akane/SandboxApplication.h"
-#include "Akane/Layer/TestLayer.h"
 namespace Akane
 {
 	Hoshino::Application* CreateApp()
 	{
 		auto app = new Akane::SandboxApplication();
-		app->PushLayer(new TestLayer("TestLayer"));
 		app->PushLayer(new Hoshino::ImGuiLayer());
 
 		return app;

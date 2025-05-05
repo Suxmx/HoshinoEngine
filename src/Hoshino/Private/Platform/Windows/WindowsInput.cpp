@@ -15,10 +15,10 @@ namespace Hoshino
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
-	bool WindowsInput::IsMouseButtonPressedImpl(int button)
+	bool WindowsInput::IsMouseButtonPressedImpl(MouseButtonCode button)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Instance().GetWindow().GetNativeWindow());
-		auto state = glfwGetMouseButton(window, button);
+		auto state = glfwGetMouseButton(window, MouseButtonCodeToGlfwMouseButton(button));
 		return state == GLFW_PRESS;
 	}
 

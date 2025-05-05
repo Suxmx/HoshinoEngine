@@ -268,4 +268,38 @@ namespace Hoshino
 		auto it = glfwKeyMap.find(keyCode);
 		return (it != glfwKeyMap.end()) ? it->second : GLFW_KEY_UNKNOWN;
 	}
+	MouseButtonCode GlfwMouseButtonToMouseButtonCode(int glfwMouseButton)
+	{
+		static const std::unordered_map<int, MouseButtonCode> buttonMap = {
+		    {GLFW_MOUSE_BUTTON_1, MouseButtonCode::LeftButton},
+		    {GLFW_MOUSE_BUTTON_2, MouseButtonCode::RightButton},
+		    {GLFW_MOUSE_BUTTON_3, MouseButtonCode::MiddleButton},
+		    {GLFW_MOUSE_BUTTON_4, MouseButtonCode::Button4},
+		    {GLFW_MOUSE_BUTTON_5, MouseButtonCode::Button5},
+		    {GLFW_MOUSE_BUTTON_6, MouseButtonCode::Button6},
+		    {GLFW_MOUSE_BUTTON_7, MouseButtonCode::Button7},
+		    {GLFW_MOUSE_BUTTON_8, MouseButtonCode::Button8},
+		};
+
+		auto it = buttonMap.find(glfwMouseButton);
+		return (it != buttonMap.end()) ? it->second : MouseButtonCode::LeftButton; // 默认返回左键
+	}
+
+	int MouseButtonCodeToGlfwMouseButton(MouseButtonCode mouseButtonCode)
+	{
+		static const std::unordered_map<MouseButtonCode, int> glfwButtonMap = {
+		    {MouseButtonCode::LeftButton, GLFW_MOUSE_BUTTON_1},
+		    {MouseButtonCode::RightButton, GLFW_MOUSE_BUTTON_2},
+		    {MouseButtonCode::MiddleButton, GLFW_MOUSE_BUTTON_3},
+		    {MouseButtonCode::Button4, GLFW_MOUSE_BUTTON_4},
+		    {MouseButtonCode::Button5, GLFW_MOUSE_BUTTON_5},
+		    {MouseButtonCode::Button6, GLFW_MOUSE_BUTTON_6},
+		    {MouseButtonCode::Button7, GLFW_MOUSE_BUTTON_7},
+		    {MouseButtonCode::Button8, GLFW_MOUSE_BUTTON_8}, // 映射到最大值
+		};
+
+		auto it = glfwButtonMap.find(mouseButtonCode);
+		return (it != glfwButtonMap.end()) ? it->second : GLFW_MOUSE_BUTTON_1; // 默认返回左键
+	}
+
 } // namespace Hoshino
