@@ -31,6 +31,10 @@ namespace Hoshino
 		LayerStack m_LayerStack;
 		bool m_Running;
 		static Application* s_Instance;
+
+		unsigned int m_VertexArray,m_VertextBuffer,m_IndexBuffer;
+
+	private:
 		void OnEvent(Event& event);
 		bool OnWindowClose(WindowCloseEvent& event);
 	};

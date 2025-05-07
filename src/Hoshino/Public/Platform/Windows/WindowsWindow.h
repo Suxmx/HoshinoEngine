@@ -1,7 +1,8 @@
 #pragma once
 #include "Hoshino/Window/Window.h"
-#include <glad/glad.h>
-#include "GLFW/glfw3.h"
+#include "Hoshino/Graphics/GraphicsContext.h"
+
+#include <GLFW/glfw3.h>
 namespace Hoshino
 {
 	class HOSHINO_API WindowsWindow : public Window
@@ -13,7 +14,10 @@ namespace Hoshino
 		{
 			Init(windowProps);
 		}
-		virtual ~WindowsWindow() {}
+		virtual ~WindowsWindow()
+		{
+			delete m_Context;
+		}
 
 		void OnUpdate() override;
 		bool IsVSync() override;

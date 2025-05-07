@@ -1,15 +1,8 @@
-#include "Hoshino/Assert.h"
-#include "Hoshino/Log.h"
-#include "Hoshino/KeyCode.h"
+#include "Hoshino/HoshinoCore.h"
 //Platform
 #include "Platform/Windows/WindowsWindow.h"
+#include "Platform/OpenGL/OpenGLGraphicsContext.h"
 #include "Platform/Windows/WindowsKeyCodeWrapper.h"
-// Events
-#include "Hoshino/Event/WindowEvent.h"
-#include "Hoshino/Event/KeyEvent.h"
-#include "Hoshino/Event/MouseEvent.h"
-
-#include <GLFW/glfw3.h>
 
 namespace Hoshino
 {
@@ -30,7 +23,7 @@ namespace Hoshino
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_GlfwWindow);
+		m_Context->SwapBuffer();
 	}
 	bool WindowsWindow::IsVSync()
 	{
@@ -63,18 +56,15 @@ namespace Hoshino
 			CORE_ASSERT(success == GLFW_TRUE, "Glfw Init Failed !");
 			s_GlfwInitialized = true;
 			glfwSetErrorCallback(GLFWErrorCallback);
-			CORE_INFO("Glfw Init Success !");
+			CORE_DEBUG("Glfw Init Success !");
 		}
-		CORE_INFO("Create Window : Width {0}, Height: {1}, Title: {2}", m_Data.Width, m_Data.Height,
-		          m_Data.Title);
+		CORE_DEBUG("Create Window : Width {0}, Height: {1}, Title: {2}", m_Data.Width, m_Data.Height,
+		           m_Data.Title);
 		m_GlfwWindow = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_GlfwWindow);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		CORE_ASSERT(status, "Glad Init Failed !");
-		CORE_INFO("Glad Init Success !");
+		CORE_DEBUG("Create Window Success !");
+		m_Context = new OpenGLGraphicsContext(m_GlfwWindow);
 		glfwSetWindowUserPointer(m_GlfwWindow, &m_Data);
 		SetVSync(true);
-		CORE_INFO("Create Window Success !");
 		InitGlfwCallbacks();
 	}
 

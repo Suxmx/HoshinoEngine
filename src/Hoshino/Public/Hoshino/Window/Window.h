@@ -1,3 +1,4 @@
+#include "Hoshino/Graphics/GraphicsContext.h"
 #include "HoshinoPch.h"
 #include "Hoshino/Window/WindowProps.h"
 #include "Hoshino/Event/Event.h"
@@ -21,5 +22,8 @@ namespace Hoshino
 		virtual void* GetNativeWindow() const = 0;
 		// Create
 		static Window* Create(const WindowProps& props = WindowProps());
+
+	protected:
+		GraphicsContext* m_Context;
 	};
 } // namespace Hoshino

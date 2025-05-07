@@ -30,9 +30,19 @@ namespace Hoshino
 #define CORE_INFO(...)  ::Hoshino::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define CORE_TRACE(...) ::Hoshino::Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define CORE_FATAL(...) ::Hoshino::Log::GetCoreLogger()->fatal(__VA_ARGS__)
+#ifdef HOSHINO_DEBUG_LOG
+	#define CORE_DEBUG(...) ::Hoshino::Log::GetCoreLogger()->trace(__VA_ARGS__)
+#else
+	#define CORE_DEBUG(...)
+#endif
 
 #define APP_ERROR(...)  ::Hoshino::Log::GetClientLogger()->error(__VA_ARGS__)
 #define APP_WARN(...)   ::Hoshino::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define APP_INFO(...)   ::Hoshino::Log::GetClientLogger()->info(__VA_ARGS__)
 #define APP_TRACE(...)  ::Hoshino::Log::GetClientLogger()->trace(__VA_ARGS__)
 #define APP_FATAL(...)  ::Hoshino::Log::GetClientLogger()->fatal(__VA_ARGS__)
+#ifdef HOSHINO_DEBUG_LOG
+	#define APP_DEBUG(...) ::Hoshino::Log::GetClientLogger()->trace(__VA_ARGS__)
+#else
+	#define APP_DEBUG(...)
+#endif
