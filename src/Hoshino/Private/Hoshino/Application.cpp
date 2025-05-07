@@ -27,11 +27,6 @@ namespace Hoshino
 
 	Application::~Application() {}
 
-	Window& Application::GetWindow()
-	{
-		return *m_Window;
-	}
-
 	void Application::Run()
 	{
 		while (m_Running)

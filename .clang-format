@@ -147,7 +147,7 @@ IndentCaseBlocks: false
 # 缩进goto标签。
 IndentGotoLabels: false
 # 缩进预处理器指令
-IndentPPDirectives: None
+IndentPPDirectives: BeforeHash
 # 向后兼容缩进外部块
 IndentExternBlock: AfterExternBlock
 # 缩进模板中的requires子句

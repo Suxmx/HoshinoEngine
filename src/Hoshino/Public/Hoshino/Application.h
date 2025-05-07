@@ -20,7 +20,10 @@ namespace Hoshino
 		{
 			return *s_Instance;
 		}
-		inline Window& GetWindow();
+		inline Window& GetWindow()
+		{
+			return *m_Window;
+		}
 
 	private:
 		std::unique_ptr<Window> m_Window;

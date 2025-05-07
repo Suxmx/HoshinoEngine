@@ -4,9 +4,6 @@
 #include "Hoshino/Event/Event.h"
 #include "Hoshino/KeyCode.h"
 #include "HoshinoPch.h"
-#ifdef MAGIC_ENUM
-#include <magic_enum/magic_enum.hpp>
-#endif
 
 namespace Hoshino
 {
@@ -41,7 +38,7 @@ namespace Hoshino
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyPressedEvent: " << " (" << ENUM_NAME(m_KeyCode) << "), Repeat Count: " << m_RepeatCount;
+			ss << "KeyPressedEvent: " << " (" << (int)m_KeyCode << "), Repeat Count: " << m_RepeatCount;
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(KeyPress)
@@ -56,7 +53,7 @@ namespace Hoshino
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "KeyReleasedEvent: " << " (" << ENUM_NAME(m_KeyCode) << ")";
+			ss << "KeyReleasedEvent: " << " (" << (int)m_KeyCode << ")";
 			return ss.str();
 		}
 		EVENT_CLASS_TYPE(KeyRelease)

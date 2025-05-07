@@ -1,6 +1,4 @@
 #pragma once
-#define MAGIC_ENUM_RANGE_MIN -1
-#define MAGIC_ENUM_RANGE_MAX 150
 // std
 #include "HoshinoPch.h"
 
