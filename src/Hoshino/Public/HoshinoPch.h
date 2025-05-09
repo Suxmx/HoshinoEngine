@@ -1,6 +1,7 @@
 #pragma once
 #include "Hoshino/Macro.h"
 
+#include <cstdint>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -16,6 +17,8 @@
 #include <vector>
 #include <set>
 #include <list>
+
+#include <glm/glm.hpp>
 
 #ifdef _WIN32
 #include <Windows.h>
