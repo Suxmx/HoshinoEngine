@@ -17,6 +17,7 @@
 #include <vector>
 #include <set>
 #include <list>
+#include <initializer_list>
 
 #include <glm/glm.hpp>
 

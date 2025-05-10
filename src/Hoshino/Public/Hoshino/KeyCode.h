@@ -1,6 +1,5 @@
 #pragma once
 #include <imgui.h>
-#include <GLFW/glfw3.h>
 namespace Hoshino
 {
 	enum class KeyCode

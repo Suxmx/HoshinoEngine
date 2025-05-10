@@ -5,7 +5,7 @@
 
 namespace Hoshino
 {
-	// ---------------VertexShader---------------
+#pragma region VertexBuffer
 
 	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
 	{
@@ -26,8 +26,9 @@ namespace Hoshino
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
+#pragma endregion VertexBuffer
 
-	// ---------------IndexShader---------------
+#pragma region IndexBuffer
 
 	IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t size)
 	{
@@ -48,5 +49,5 @@ namespace Hoshino
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
-
+#pragma endregion IndexBuffer
 } // namespace Hoshino

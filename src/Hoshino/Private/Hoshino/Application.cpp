@@ -1,6 +1,7 @@
 #include "Hoshino/Application.h"
 #include "Hoshino/Graphics/Buffer.h"
 #include "Hoshino/Log.h"
+#include "Hoshino/Graphics/VertexArray.h"
 
 #include <glad/glad.h>
 
@@ -22,20 +23,20 @@ namespace Hoshino
 		PushOverlay(m_ImGuiLayer);
 		// draw triangle
 		//VAO
-		glGenVertexArrays(1,&m_VertexArray);
-		glBindVertexArray(m_VertexArray);
+		m_VertexArray = VertexArray::Create();
 		//VBO
 		float vertices[3 * 3] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 		m_VertexBuffer->Bind();
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(float),nullptr);
+		BufferLayout layout = BufferLayout({{"a_Position", ShaderDataType::Float3}});
+		m_VertexBuffer->SetLayout(layout);
+		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 
 		// EBO
 		unsigned int indices[3] = {0, 1, 2};
 		m_IndexBuffer .reset(IndexBuffer::Create(indices,sizeof(indices)));
 		m_IndexBuffer->Bind();
-		glBindVertexArray(0);
+		m_VertexArray->AddIndexBuffer(m_IndexBuffer);
 	}
 
 	Application::~Application() {}
@@ -46,7 +47,7 @@ namespace Hoshino
 		{
 			glClearColor(0.1f, 0.1f, 0.1f, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
-			glBindVertexArray(m_VertexArray);
+			m_VertexArray ->Bind();
 			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : m_LayerStack)

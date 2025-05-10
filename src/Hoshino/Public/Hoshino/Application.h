@@ -1,11 +1,12 @@
 #pragma once
-#include "Hoshino/Graphics/Buffer.h"
 #include "Hoshino/HoshinoCore.h"
-#include "Hoshino/Layer/ImGuiLayer.h"
+#include "Hoshino/Graphics/Buffer.h"
+#include "Hoshino/Graphics/VertexArray.h"
+
+
 #include "Hoshino/Window/Window.h"
 #include "Hoshino/Layer/LayerStack.h"
-#include <memory>
-
+#include "Hoshino/Layer/ImGuiLayer.h"
 namespace Hoshino
 {
 	class HOSHINO_API Application
@@ -34,9 +35,9 @@ namespace Hoshino
 		bool m_Running;
 		static Application* s_Instance;
 
-		unsigned int m_VertexArray;
-		std::unique_ptr<VertexBuffer> m_VertexBuffer;
-		std::unique_ptr<IndexBuffer> m_IndexBuffer;
+		std::shared_ptr<VertexArray> m_VertexArray;
+		std::shared_ptr<VertexBuffer> m_VertexBuffer;
+		std::shared_ptr<IndexBuffer> m_IndexBuffer;
 
 	private:
 		void OnEvent(Event& event);

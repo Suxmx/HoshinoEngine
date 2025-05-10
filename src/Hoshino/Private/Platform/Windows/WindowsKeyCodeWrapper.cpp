@@ -1,5 +1,6 @@
 
 #include "Platform/Windows/WindowsKeyCodeWrapper.h"
+#include <GLFW/glfw3.h>
 namespace Hoshino
 {
 	KeyCode GlfwKeyToKeyCode(int glfwKeyCode)
