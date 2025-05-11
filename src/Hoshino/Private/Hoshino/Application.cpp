@@ -1,9 +1,8 @@
 #include "Hoshino/Application.h"
 #include "Hoshino/Graphics/Buffer.h"
 #include "Hoshino/Log.h"
-#include "Hoshino/Graphics/VertexArray.h"
-
-#include <glad/glad.h>
+#include "Hoshino/Graphics/Renderer.h"
+#include "Hoshino/Graphics/RenderCommand.h"
 
 #define BIND_APP_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
@@ -13,6 +12,45 @@ namespace Hoshino
 
 	Application::Application()
 	{
+		std::string vertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+
+			out vec3 v_Position;
+
+			void main()
+			{
+				v_Position = a_Position;
+				gl_Position = vec4(a_Position, 1.0);	
+			}
+		)";
+
+		std::string fragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+
+			in vec3 v_Position;
+
+			void main()
+			{
+				color = vec4(v_Position * 0.5 + 0.5, 1.0);
+			}
+		)";
+		std::string blueFragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+
+			in vec3 v_Position;
+
+			void main()
+			{
+				color = vec4(0, 0,1,1);
+			}
+		)";
+
 		CORE_ASSERT(!s_Instance, "Application already exists!")
 		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
@@ -21,22 +59,37 @@ namespace Hoshino
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
-		// draw triangle
+		m_Shader = Shader::Create(vertexSrc, fragmentSrc);
+		m_BlueShader = Shader::Create(vertexSrc, blueFragmentSrc);
 		//VAO
-		m_VertexArray = VertexArray::Create();
+		m_SquareVa = VertexArray::Create();
+		m_TriangleVa = VertexArray::Create();
 		//VBO
-		float vertices[3 * 3] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-		m_VertexBuffer->Bind();
-		BufferLayout layout = BufferLayout({{"a_Position", ShaderDataType::Float3}});
-		m_VertexBuffer->SetLayout(layout);
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
+		float triangleVertices[3 * 3] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
+		auto triangleVb = VertexBuffer::Create(triangleVertices, sizeof(triangleVertices));
+		triangleVb->Bind();
+		BufferLayout layout = {{"a_Position", ShaderDataType::Float3}};
+		triangleVb->SetLayout(layout);
+		m_TriangleVa->AddVertexBuffer(triangleVb);
 
 		// EBO
-		unsigned int indices[3] = {0, 1, 2};
-		m_IndexBuffer .reset(IndexBuffer::Create(indices,sizeof(indices)));
-		m_IndexBuffer->Bind();
-		m_VertexArray->AddIndexBuffer(m_IndexBuffer);
+		unsigned int triangleIndices[3] = {0, 1, 2};
+		auto triangleEb=IndexBuffer::Create(triangleIndices,sizeof(triangleIndices)/sizeof(uint32_t));
+		triangleEb->Bind();
+		m_TriangleVa->AddIndexBuffer(triangleEb);
+
+		// VBO
+		float squareVertices[3 * 4] = {-0.5f, -0.5f, 0, 0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, 0.5, 0};
+		auto squareVb = VertexBuffer::Create(squareVertices, sizeof(squareVertices));
+		squareVb->Bind();
+		squareVb->SetLayout(layout);
+		m_SquareVa->AddVertexBuffer(squareVb);
+
+		// EBO
+		unsigned int squareIndices[6] = {0, 1, 2,2,3,0};
+		auto squareEb = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
+		squareEb->Bind();
+		m_SquareVa->AddIndexBuffer(squareEb);
 	}
 
 	Application::~Application() {}
@@ -45,10 +98,15 @@ namespace Hoshino
 	{
 		while (m_Running)
 		{
-			glClearColor(0.1f, 0.1f, 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
-			m_VertexArray ->Bind();
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
+			RenderCommand::Clear();
+			Renderer::BeginScene();
+			m_BlueShader->Bind();
+			Renderer::Submit(m_SquareVa);
+
+			m_Shader->Bind();
+			Renderer::Submit(m_TriangleVa);
+			Renderer::EndScene();
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();

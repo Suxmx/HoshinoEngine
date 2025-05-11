@@ -13,7 +13,8 @@ namespace Hoshino
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
-        static Shader* Create(const std::string& vertexShaderSrc, const std::string& fragmentShaderSrc);
+		static std::shared_ptr<Shader> Create(const std::string& vertexShaderSrc,
+		                                      const std::string& fragmentShaderSrc);
 
 	protected:
 		std::string m_VertexShaderSrc;

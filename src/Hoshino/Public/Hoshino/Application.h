@@ -2,7 +2,7 @@
 #include "Hoshino/HoshinoCore.h"
 #include "Hoshino/Graphics/Buffer.h"
 #include "Hoshino/Graphics/VertexArray.h"
-
+#include "Hoshino/Graphics/Shader.h"
 
 #include "Hoshino/Window/Window.h"
 #include "Hoshino/Layer/LayerStack.h"
@@ -35,9 +35,10 @@ namespace Hoshino
 		bool m_Running;
 		static Application* s_Instance;
 
-		std::shared_ptr<VertexArray> m_VertexArray;
-		std::shared_ptr<VertexBuffer> m_VertexBuffer;
-		std::shared_ptr<IndexBuffer> m_IndexBuffer;
+		std::shared_ptr<VertexArray> m_TriangleVa;
+		std::shared_ptr<VertexArray> m_SquareVa;
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<Shader> m_BlueShader;
 
 	private:
 		void OnEvent(Event& event);

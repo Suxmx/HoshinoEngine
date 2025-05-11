@@ -24,6 +24,7 @@ namespace Hoshino
 		~OpenGLIndexBuffer() = default;
 		void Bind() override;
 		void Unbind() override;
+		uint32_t GetCount() override;
 
 	private:
 		uint32_t m_BufferId;

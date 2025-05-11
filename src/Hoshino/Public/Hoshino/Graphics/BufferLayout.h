@@ -103,9 +103,10 @@ namespace Hoshino
 			for (auto& element : m_BufferElements)
 			{
 				element.Offset = offset;
-				m_Stride += ShaderDataTypeSize(element.DataType);
+				stride += ShaderDataTypeSize(element.DataType);
 				offset += ShaderDataTypeSize(element.DataType);
 			}
+			m_Stride = stride;
 		}
 
 		inline uint32_t GetStride() const

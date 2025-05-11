@@ -10,9 +10,10 @@
 namespace Hoshino
 {
 
-	Shader* Shader::Create(const std::string& vertexShaderSrc, const std::string& fragmentShaderSrc)
+	std::shared_ptr<Shader> Shader::Create(const std::string& vertexShaderSrc,
+	                                       const std::string& fragmentShaderSrc)
 	{
-		return new OpenGLShader(vertexShaderSrc, fragmentShaderSrc);
+		return std::make_shared<OpenGLShader>(vertexShaderSrc, fragmentShaderSrc);
 	}
 	OpenGLShader::OpenGLShader(const std::string vertexShaderSrc, const std::string fragmentShaderSrc) :
 	    Shader(vertexShaderSrc, fragmentShaderSrc)

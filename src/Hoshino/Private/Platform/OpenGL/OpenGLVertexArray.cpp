@@ -56,12 +56,13 @@ namespace Hoshino
 
 	void OpenGLVertexArray::AddIndexBuffer(std::shared_ptr<IndexBuffer> eb)
 	{
+		m_IndexBuffer = eb;
 		glBindVertexArray(m_VertexArrayId);
-
 	}
 
 	void OpenGLVertexArray::AddVertexBuffer(std::shared_ptr<VertexBuffer> vb)
 	{
+		m_VertexBuffer = vb;
 		glBindVertexArray(m_VertexArrayId);
 		const auto& layout = (vb->GetLayout());
 		for (const auto& element : layout)
