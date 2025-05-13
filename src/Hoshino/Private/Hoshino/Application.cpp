@@ -16,13 +16,14 @@ namespace Hoshino
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
+			uniform mat4 u_ViewProjection;
 
 			out vec3 v_Position;
 
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = vec4(a_Position, 1.0);	
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);	
 			}
 		)";
 
@@ -90,6 +91,9 @@ namespace Hoshino
 		auto squareEb = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		squareEb->Bind();
 		m_SquareVa->AddIndexBuffer(squareEb);
+		m_Camera = std::make_shared<OrthographicCamera>(1.5f, -1.0f, 1.0f);
+		m_Camera->SetRotationEuler(0,0,45);
+		m_Camera->SetPosition(0.2f, 0.1f, 0);
 	}
 
 	Application::~Application() {}
@@ -100,12 +104,10 @@ namespace Hoshino
 		{
 			RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
 			RenderCommand::Clear();
-			Renderer::BeginScene();
-			m_BlueShader->Bind();
-			Renderer::Submit(m_SquareVa);
+			Renderer::BeginScene(m_Camera);
+			Renderer::Submit(m_SquareVa,m_BlueShader);
 
-			m_Shader->Bind();
-			Renderer::Submit(m_TriangleVa);
+			Renderer::Submit(m_TriangleVa,m_Shader);
 			Renderer::EndScene();
 
 			for (Layer* layer : m_LayerStack)

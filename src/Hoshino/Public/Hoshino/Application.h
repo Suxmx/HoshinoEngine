@@ -3,6 +3,7 @@
 #include "Hoshino/Graphics/Buffer.h"
 #include "Hoshino/Graphics/VertexArray.h"
 #include "Hoshino/Graphics/Shader.h"
+#include "Hoshino/Graphics/Camera.h"
 
 #include "Hoshino/Window/Window.h"
 #include "Hoshino/Layer/LayerStack.h"
@@ -39,6 +40,7 @@ namespace Hoshino
 		std::shared_ptr<VertexArray> m_SquareVa;
 		std::shared_ptr<Shader> m_Shader;
 		std::shared_ptr<Shader> m_BlueShader;
+		std::shared_ptr<Camera> m_Camera;
 
 	private:
 		void OnEvent(Event& event);
