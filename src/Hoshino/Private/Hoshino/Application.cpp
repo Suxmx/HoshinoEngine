@@ -1,8 +1,13 @@
 #include "Hoshino/Application.h"
-#include "Hoshino/Graphics/Buffer.h"
+
 #include "Hoshino/Log.h"
+
+#include "Hoshino/Graphics/Buffer.h"
 #include "Hoshino/Graphics/Renderer.h"
 #include "Hoshino/Graphics/RenderCommand.h"
+
+#include "Hoshino/TimeStep.h"
+#include <GLFW/glfw3.h>
 
 #define BIND_APP_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
@@ -12,46 +17,6 @@ namespace Hoshino
 
 	Application::Application()
 	{
-		std::string vertexSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-			uniform mat4 u_ViewProjection;
-
-			out vec3 v_Position;
-
-			void main()
-			{
-				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);	
-			}
-		)";
-
-		std::string fragmentSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-
-			in vec3 v_Position;
-
-			void main()
-			{
-				color = vec4(v_Position * 0.5 + 0.5, 1.0);
-			}
-		)";
-		std::string blueFragmentSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-
-			in vec3 v_Position;
-
-			void main()
-			{
-				color = vec4(0, 0,1,1);
-			}
-		)";
-
 		CORE_ASSERT(!s_Instance, "Application already exists!")
 		s_Instance = this;
 		m_Window = Window::Create();
@@ -60,40 +25,6 @@ namespace Hoshino
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
-		m_Shader = Shader::Create(vertexSrc, fragmentSrc);
-		m_BlueShader = Shader::Create(vertexSrc, blueFragmentSrc);
-		//VAO
-		m_SquareVa = VertexArray::Create();
-		m_TriangleVa = VertexArray::Create();
-		//VBO
-		float triangleVertices[3 * 3] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
-		auto triangleVb = VertexBuffer::Create(triangleVertices, sizeof(triangleVertices));
-		triangleVb->Bind();
-		BufferLayout layout = {{"a_Position", ShaderDataType::Float3}};
-		triangleVb->SetLayout(layout);
-		m_TriangleVa->AddVertexBuffer(triangleVb);
-
-		// EBO
-		unsigned int triangleIndices[3] = {0, 1, 2};
-		auto triangleEb=IndexBuffer::Create(triangleIndices,sizeof(triangleIndices)/sizeof(uint32_t));
-		triangleEb->Bind();
-		m_TriangleVa->AddIndexBuffer(triangleEb);
-
-		// VBO
-		float squareVertices[3 * 4] = {-0.5f, -0.5f, 0, 0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, 0.5, 0};
-		auto squareVb = VertexBuffer::Create(squareVertices, sizeof(squareVertices));
-		squareVb->Bind();
-		squareVb->SetLayout(layout);
-		m_SquareVa->AddVertexBuffer(squareVb);
-
-		// EBO
-		unsigned int squareIndices[6] = {0, 1, 2,2,3,0};
-		auto squareEb = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
-		squareEb->Bind();
-		m_SquareVa->AddIndexBuffer(squareEb);
-		m_Camera = std::make_shared<OrthographicCamera>(1.5f, -1.0f, 1.0f);
-		m_Camera->SetRotationEuler(0,0,45);
-		m_Camera->SetPosition(0.2f, 0.1f, 0);
 	}
 
 	Application::~Application() {}
@@ -102,16 +33,12 @@ namespace Hoshino
 	{
 		while (m_Running)
 		{
-			RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
-			RenderCommand::Clear();
-			Renderer::BeginScene(m_Camera);
-			Renderer::Submit(m_SquareVa,m_BlueShader);
-
-			Renderer::Submit(m_TriangleVa,m_Shader);
-			Renderer::EndScene();
+			float time = (float)glfwGetTime();
+			Timestep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
 
 			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate();
+				layer->OnUpdate(time);
 
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)

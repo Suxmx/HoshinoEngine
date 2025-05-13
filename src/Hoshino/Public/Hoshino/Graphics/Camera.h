@@ -27,6 +27,14 @@ namespace Hoshino
 		{
 			return m_Rotation;
 		}
+		inline const glm::vec3 GetRotationEuler() const
+		{
+			return glm::degrees(glm::eulerAngles(m_Rotation));
+		}
+		inline const glm::vec3& GetPosition() const
+		{
+			return m_Position;
+		}
 
 #pragma endregion Getter
 
@@ -41,6 +49,19 @@ namespace Hoshino
 		// 设置欧拉角旋转（角度制）
 		void SetRotationEuler(float pitch, float yaw, float roll)
 		{
+			pitch = glm::radians(pitch);
+			yaw = glm::radians(yaw);
+			roll = glm::radians(roll);
+			m_Rotation = glm::quat(glm::vec3(pitch, yaw, roll));
+			RecalculateVpMatrix();
+		}
+
+		void SetRotationEuler(glm::vec3 euler)
+		{
+			float pitch = euler.x;
+			float yaw = euler.y;
+			float roll = euler.z;
+
 			pitch = glm::radians(pitch);
 			yaw = glm::radians(yaw);
 			roll = glm::radians(roll);

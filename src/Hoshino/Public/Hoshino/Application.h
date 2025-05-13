@@ -28,18 +28,20 @@ namespace Hoshino
 		{
 			return *m_Window;
 		}
+		inline Ref<Camera>& GetCamera()
+		{
+			return m_Camera;
+		}
 
 	private:
 		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
 		bool m_Running;
+		float m_LastFrameTime = 0.0f;
 		static Application* s_Instance;
 
-		Ref<VertexArray> m_TriangleVa;
-		Ref<VertexArray> m_SquareVa;
-		Ref<Shader> m_Shader;
-		Ref<Shader> m_BlueShader;
+	protected:
 		Ref<Camera> m_Camera;
 
 	private:

@@ -2,6 +2,7 @@
 #include "HoshinoPch.h"
 #include "Hoshino/Macro.h"
 #include "Hoshino/Event/Event.h"
+#include "Hoshino/TimeStep.h"
 
 namespace Hoshino
 {
@@ -11,7 +12,7 @@ namespace Hoshino
 		Layer(const std::string& name) : m_Name(name) {}
 		virtual ~Layer() = default;
 		virtual void OnEvent(Event& event){}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 		virtual void OnImGuiRender() {}
