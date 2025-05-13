@@ -1,7 +1,7 @@
 #pragma once
 
+#include "HoshinoMin.h"
 #include "Hoshino/KeyCode.h"
-#include "HoshinoPch.h"
 namespace Hoshino
 {
 	class HOSHINO_API Input
@@ -9,7 +9,6 @@ namespace Hoshino
 	public:
 		Input()
 		{
-			s_Instance = this;
 		}
 		virtual ~Input() = default;
 
@@ -45,6 +44,6 @@ namespace Hoshino
 		virtual std::pair<float, float> GetMousePositionImpl() = 0;
 
 	private:
-		static Input* s_Instance;
+		static Ref<Input> s_Instance;
 	};
 } // namespace Hoshino

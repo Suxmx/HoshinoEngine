@@ -6,7 +6,7 @@
 
 namespace Hoshino
 {
-	Input* Input::s_Instance = new WindowsInput();
+	Ref<Input> Input::s_Instance = Ref<Input> (new WindowsInput());
 
 	bool WindowsInput::IsKeyPressedImpl(KeyCode keycode)
 	{

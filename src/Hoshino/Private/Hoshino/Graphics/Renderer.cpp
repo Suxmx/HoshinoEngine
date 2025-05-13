@@ -3,15 +3,15 @@
 
 namespace Hoshino
 {
-	Renderer::SceneData* Renderer::s_SceneData = new Renderer::SceneData();
-	void Renderer::BeginScene(std::shared_ptr<Camera>& camera)
+	Ref<Renderer::SceneData> Renderer::s_SceneData = Ref<Renderer::SceneData>(new Renderer::SceneData());
+	void Renderer::BeginScene(Ref<Camera>& camera)
 	{
 		s_SceneData->ViewProjectionMatrix = camera->GetViewProjectionMatrix();
 	}
 
 	void Renderer::EndScene() {}
 
-	void Renderer::Submit(std::shared_ptr<VertexArray>& vertexArray, std::shared_ptr<Shader>& shader)
+	void Renderer::Submit(Ref<VertexArray>& vertexArray, Ref<Shader>& shader)
 	{
 		shader->Bind();
 		shader->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);

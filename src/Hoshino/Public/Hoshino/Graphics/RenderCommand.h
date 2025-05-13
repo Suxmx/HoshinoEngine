@@ -8,7 +8,7 @@ namespace Hoshino
 	class HOSHINO_API RenderCommand
 	{
 	public:
-		inline static RenderAPI* GetRenderAPI()
+		inline static Ref<RenderAPI> GetRenderAPI()
 		{
 			return s_RenderAPI;
 		}
@@ -21,12 +21,12 @@ namespace Hoshino
 		{
 			s_RenderAPI->Clear();
 		}
-		inline static void DrawIndexed(std::shared_ptr<VertexArray>& vertexArray)
+		inline static void DrawIndexed(Ref<VertexArray>& vertexArray)
 		{
 			s_RenderAPI->DrawIndexed(vertexArray);
 		}
 
 	protected:
-		static RenderAPI* s_RenderAPI;
+		static Ref<RenderAPI> s_RenderAPI;
 	};
 } // namespace Hoshino

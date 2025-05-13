@@ -4,7 +4,7 @@
 
 namespace Hoshino
 {
-	std::shared_ptr<VertexArray> VertexArray::Create()
+	Ref<VertexArray> VertexArray::Create()
 	{
 		return std::make_shared<OpenGLVertexArray>();
 	}
@@ -54,13 +54,13 @@ namespace Hoshino
 		glBindVertexArray(0);
 	}
 
-	void OpenGLVertexArray::AddIndexBuffer(std::shared_ptr<IndexBuffer> eb)
+	void OpenGLVertexArray::AddIndexBuffer(Ref<IndexBuffer> eb)
 	{
 		m_IndexBuffer = eb;
 		glBindVertexArray(m_VertexArrayId);
 	}
 
-	void OpenGLVertexArray::AddVertexBuffer(std::shared_ptr<VertexBuffer> vb)
+	void OpenGLVertexArray::AddVertexBuffer(Ref<VertexBuffer> vb)
 	{
 		m_VertexBuffer = vb;
 		glBindVertexArray(m_VertexArrayId);

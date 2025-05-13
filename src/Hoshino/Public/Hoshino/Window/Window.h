@@ -1,5 +1,5 @@
+#include "HoshinoMin.h"
 #include "Hoshino/Graphics/GraphicsContext.h"
-#include "HoshinoPch.h"
 #include "Hoshino/Window/WindowProps.h"
 #include "Hoshino/Event/Event.h"
 
@@ -21,9 +21,9 @@ namespace Hoshino
 		virtual bool IsVSync() = 0;
 		virtual void* GetNativeWindow() const = 0;
 		// Create
-		static Window* Create(const WindowProps& props = WindowProps());
+		static Scope<Window> Create(const WindowProps& props = WindowProps());
 
 	protected:
-		GraphicsContext* m_Context;
+		Ref<GraphicsContext> m_Context;
 	};
 } // namespace Hoshino

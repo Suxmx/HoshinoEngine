@@ -7,7 +7,7 @@ namespace Hoshino
 {
 #pragma region VertexBuffer
 
-	std::shared_ptr<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
 	{
 		return std::make_shared<OpenGLVertexBuffer>(vertices, size);
 	}
@@ -30,7 +30,7 @@ namespace Hoshino
 
 #pragma region IndexBuffer
 
-	std::shared_ptr<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
 	{
 		return std::make_shared<OpenGLIndexBuffer>(indices, count);
 	}

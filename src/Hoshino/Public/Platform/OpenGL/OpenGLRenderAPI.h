@@ -8,6 +8,6 @@ namespace Hoshino
 	public:
 		void SetClearColor(glm::vec4 color) override;
 		void Clear() override;
-		void DrawIndexed(std::shared_ptr<VertexArray>& vertexArray) override;
+		void DrawIndexed(Ref<VertexArray>& vertexArray) override;
 	};
 } // namespace Hoshino

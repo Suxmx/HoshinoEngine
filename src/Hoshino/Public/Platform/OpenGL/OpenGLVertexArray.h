@@ -15,8 +15,8 @@ namespace Hoshino
 		void Bind() override;
 		void Unbind() override;
         
-		void AddVertexBuffer(std::shared_ptr<VertexBuffer> vb) override;
-		void AddIndexBuffer(std::shared_ptr<IndexBuffer> eb) override;
+		void AddVertexBuffer(Ref<VertexBuffer> vb) override;
+		void AddIndexBuffer(Ref<IndexBuffer> eb) override;
 		
 
     private:

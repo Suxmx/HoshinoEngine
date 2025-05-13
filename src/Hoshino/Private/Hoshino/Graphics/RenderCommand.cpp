@@ -3,5 +3,5 @@
 #include "Platform/OpenGL/OpenGLRenderAPI.h"
 namespace Hoshino
 {
-	RenderAPI* RenderCommand::s_RenderAPI = new OpenGLRenderAPI;
+	Ref<RenderAPI> RenderCommand::s_RenderAPI = Ref<RenderAPI>(new OpenGLRenderAPI());
 }

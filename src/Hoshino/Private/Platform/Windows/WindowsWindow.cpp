@@ -14,9 +14,9 @@ namespace Hoshino
 
 	using EventCallbackFn = std::function<void(Event&)>;
 
-	Window* Window::Create(const WindowProps& props)
+	Scope<Window> Window::Create(const WindowProps& props)
 	{
-		return new WindowsWindow(props);
+		return Scope<Window>(new WindowsWindow(props));
 	}
 
 	// public
@@ -62,7 +62,7 @@ namespace Hoshino
 		           m_Data.Title);
 		m_GlfwWindow = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		CORE_DEBUG("Create Window Success !");
-		m_Context = new OpenGLGraphicsContext(m_GlfwWindow);
+		m_Context = Ref<GraphicsContext>(new OpenGLGraphicsContext(m_GlfwWindow));
 		glfwSetWindowUserPointer(m_GlfwWindow, &m_Data);
 		SetVSync(true);
 		InitGlfwCallbacks();

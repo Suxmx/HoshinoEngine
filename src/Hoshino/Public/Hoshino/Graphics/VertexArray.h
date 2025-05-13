@@ -14,21 +14,21 @@ namespace Hoshino
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
 
-		virtual void AddVertexBuffer(std::shared_ptr<VertexBuffer> vb) = 0;
-		virtual void AddIndexBuffer(std::shared_ptr<IndexBuffer> eb) = 0;
+		virtual void AddVertexBuffer(Ref<VertexBuffer> vb) = 0;
+		virtual void AddIndexBuffer(Ref<IndexBuffer> eb) = 0;
 
-		inline std::shared_ptr<VertexBuffer> GetVertexBuffer()
+		inline Ref<VertexBuffer> GetVertexBuffer()
 		{
 			return m_VertexBuffer;
 		}
-		inline std::shared_ptr<IndexBuffer> GetIndexBuffer()
+		inline Ref<IndexBuffer> GetIndexBuffer()
 		{
 			return m_IndexBuffer;
 		}
-		static std::shared_ptr<VertexArray> Create();
+		static Ref<VertexArray> Create();
 
 	protected:
-		std::shared_ptr<VertexBuffer> m_VertexBuffer;
-		std::shared_ptr<IndexBuffer> m_IndexBuffer;
+		Ref<VertexBuffer> m_VertexBuffer;
+		Ref<IndexBuffer> m_IndexBuffer;
 	};
 } // namespace Hoshino

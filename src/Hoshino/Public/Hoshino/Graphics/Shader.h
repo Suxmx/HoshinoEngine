@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include "HoshinoMin.h"
 
 namespace Hoshino
 {
@@ -22,7 +22,7 @@ namespace Hoshino
 
 		virtual void UploadUniformMat3(const std::string& name, const glm::mat3& matrix) = 0;
 		virtual void UploadUniformMat4(const std::string& name, const glm::mat4& matrix) = 0;
-		static std::shared_ptr<Shader> Create(const std::string& vertexShaderSrc,
+		static Ref<Shader> Create(const std::string& vertexShaderSrc,
 		                                      const std::string& fragmentShaderSrc);
 
 	protected:

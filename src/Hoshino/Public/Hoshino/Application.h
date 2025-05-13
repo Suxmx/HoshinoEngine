@@ -30,17 +30,17 @@ namespace Hoshino
 		}
 
 	private:
-		std::unique_ptr<Window> m_Window;
+		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
 		bool m_Running;
 		static Application* s_Instance;
 
-		std::shared_ptr<VertexArray> m_TriangleVa;
-		std::shared_ptr<VertexArray> m_SquareVa;
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<Shader> m_BlueShader;
-		std::shared_ptr<Camera> m_Camera;
+		Ref<VertexArray> m_TriangleVa;
+		Ref<VertexArray> m_SquareVa;
+		Ref<Shader> m_Shader;
+		Ref<Shader> m_BlueShader;
+		Ref<Camera> m_Camera;
 
 	private:
 		void OnEvent(Event& event);

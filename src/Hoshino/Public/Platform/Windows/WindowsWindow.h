@@ -16,7 +16,6 @@ namespace Hoshino
 		}
 		virtual ~WindowsWindow()
 		{
-			delete m_Context;
 		}
 
 		void OnUpdate() override;

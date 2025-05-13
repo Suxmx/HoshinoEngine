@@ -9,21 +9,21 @@ namespace Hoshino
 	class HOSHINO_API Renderer
 	{
 	public:
-		static void BeginScene(std::shared_ptr<Camera>& camera);
+		static void BeginScene(Ref<Camera>& camera);
 
 		static void EndScene();
 
-		static void Submit(std::shared_ptr<VertexArray>& vertexArray, std::shared_ptr<Shader>& shader);
+		static void Submit(Ref<VertexArray>& vertexArray, Ref<Shader>& shader);
 		struct SceneData
 		{
 			glm::mat4 ViewProjectionMatrix;
 		};
-		inline static SceneData* GetSceneData()
+		inline static Ref<SceneData> GetSceneData()
 		{
 			return s_SceneData;
 		}
 
 	private:
-		static SceneData* s_SceneData;
+		static Ref<SceneData> s_SceneData;
 	};
 } // namespace Hoshino

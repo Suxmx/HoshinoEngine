@@ -19,7 +19,7 @@ namespace Hoshino
 			m_Layout = layout;
 		}
 
-		static std::shared_ptr<VertexBuffer> Create(float* vertices, uint32_t size);
+		static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
 
 	protected:
 		BufferLayout m_Layout;
@@ -33,7 +33,7 @@ namespace Hoshino
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
 		virtual uint32_t GetCount() = 0;
-		static std::shared_ptr<IndexBuffer> Create(uint32_t* indices, uint32_t count);
+		static Ref<IndexBuffer> Create(uint32_t* indices, uint32_t count);
 
 	protected:
 		uint32_t m_Count;	
