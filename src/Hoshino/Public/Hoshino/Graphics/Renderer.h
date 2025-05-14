@@ -3,6 +3,7 @@
 #include "Hoshino/Graphics/Camera.h"
 #include "Hoshino/Graphics/VertexArray.h"
 #include "Hoshino/Graphics/Shader.h"
+#include "Hoshino/Transform.h"
 
 namespace Hoshino
 {
@@ -13,7 +14,8 @@ namespace Hoshino
 
 		static void EndScene();
 
-		static void Submit(Ref<VertexArray>& vertexArray, Ref<Shader>& shader);
+		static void Submit(Ref<VertexArray>& vertexArray, Ref<Shader>& shader,
+		                   Transform transform = Transform());
 		struct SceneData
 		{
 			glm::mat4 ViewProjectionMatrix;

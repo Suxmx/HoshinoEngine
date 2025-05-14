@@ -1,4 +1,5 @@
 #include "Akane/Layer/RenderLayer.h"
+#include "Akane/SandboxApplication.h"
 #include "Hoshino/Application.h"
 using namespace Hoshino;
 
@@ -12,13 +13,14 @@ namespace Akane
 			
 			layout(location = 0) in vec3 a_Position;
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);	
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
 			}
 		)";
 
@@ -84,12 +86,13 @@ namespace Akane
 
 	void RenderLayer::OnUpdate(Hoshino::Timestep ts)
 	{
+		SandboxApplication& app = static_cast<SandboxApplication&>(Hoshino::Application::Instance());
 		RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
 		RenderCommand::Clear();
 		Renderer::BeginScene(Hoshino::Application::Instance().GetCamera());
-		Renderer::Submit(m_SquareVa, m_BlueShader);
+		Renderer::Submit(m_SquareVa, m_BlueShader,app.SqrTransform);
 
-		Renderer::Submit(m_TriangleVa, m_Shader);
+		Renderer::Submit(m_TriangleVa, m_Shader,app.TriTransform);
 		Renderer::EndScene();
 	}
 

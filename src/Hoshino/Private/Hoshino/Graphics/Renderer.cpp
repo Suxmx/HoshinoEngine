@@ -11,10 +11,11 @@ namespace Hoshino
 
 	void Renderer::EndScene() {}
 
-	void Renderer::Submit(Ref<VertexArray>& vertexArray, Ref<Shader>& shader)
+	void Renderer::Submit(Ref<VertexArray>& vertexArray, Ref<Shader>& shader,Transform transform)
 	{
 		shader->Bind();
 		shader->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+		shader->UploadUniformMat4("u_Transform", transform.GetTransformMatrix());
 		vertexArray->Bind();
         RenderCommand::DrawIndexed(vertexArray);
 	}

@@ -35,7 +35,7 @@ namespace Hoshino
 			return s_Instance->GetMousePositionImpl();
 		}
 
-	public:
+	protected:
 		// Virtual Impls
 		virtual bool IsKeyPressedImpl(KeyCode keycode) = 0;
 		virtual bool IsMouseButtonPressedImpl(MouseButtonCode button) = 0;

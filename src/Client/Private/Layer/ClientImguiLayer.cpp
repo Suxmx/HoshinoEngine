@@ -1,5 +1,8 @@
 #include "Akane/Layer/ClientImguiLayer.h"
+#include "Akane/SandboxApplication.h"
 #include "Hoshino/Application.h"
+#include "Hoshino/Transform.h"
+#include <memory>
 
 namespace Akane
 {
@@ -25,6 +28,50 @@ namespace Akane
         ImGui::SliderFloat("Yaw", &rot.y, -180.0f, 180.0f);
         ImGui::SliderFloat("Roll", &rot.z, -180.0f, 180.0f);
         Hoshino::Application::Instance().GetCamera()->SetRotationEuler(rot);
+
+		ImGui::End();
+
+        Akane::SandboxApplication& app = static_cast<Akane::SandboxApplication&>(Hoshino::Application::Instance());
+        ImGui::Begin("Mesh");
+        
+        ImGui::Text("Position");
+        Hoshino::Transform& triTransform = app.TriTransform;
+        pos=triTransform.GetPosition();
+        ImGui::SliderFloat("X##1", &pos.x, -3.0f, 3.0f);
+        ImGui::SliderFloat("Y##1", &pos.y, -3.0f, 3.0f);
+        ImGui::SliderFloat("Z##1", &pos.z, -3.0f, 3.0f);
+        triTransform.SetPosition(pos);
+        ImGui::Text("Rotation");
+        rot = triTransform.GetRotation();
+        ImGui::SliderFloat("Pitch##1", &rot.x, -180.0f, 180.0f);
+        ImGui::SliderFloat("Yaw##1", &rot.y, -180.0f, 180.0f);
+        ImGui::SliderFloat("Roll##1", &rot.z, -180.0f, 180.0f);
+        triTransform.SetRotation(rot);
+        ImGui::Text("Scale");
+        auto scale = triTransform.GetScale();
+        ImGui::SliderFloat("X##3", &scale.x, 0.0f, 3.0f);
+        ImGui::SliderFloat("Y##3", &scale.y, 0.0f, 3.0f);
+        ImGui::SliderFloat("Z##3", &scale.z, 0.0f, 3.0f);
+        triTransform.SetScale(scale);
+        ImGui::Text("Square");
+        Hoshino::Transform& sqrTransform = app.SqrTransform;
+        pos=sqrTransform.GetPosition();
+        ImGui::SliderFloat("X##2", &pos.x, -3.0f, 3.0f);
+        ImGui::SliderFloat("Y##2", &pos.y, -3.0f, 3.0f);
+        ImGui::SliderFloat("Z##2", &pos.z, -3.0f, 3.0f);
+        sqrTransform.SetPosition(pos);
+        ImGui::Text("Rotation");
+        rot = sqrTransform.GetRotation();
+        ImGui::SliderFloat("Pitch##2", &rot.x, -180.0f, 180.0f);
+        ImGui::SliderFloat("Yaw##2", &rot.y, -180.0f, 180.0f);
+        ImGui::SliderFloat("Roll##2", &rot.z, -180.0f, 180.0f);
+        sqrTransform.SetRotation(rot);
+        ImGui::Text("Scale");
+        scale = sqrTransform.GetScale();
+        ImGui::SliderFloat("X##4", &scale.x, 0.0f, 3.0f);
+        ImGui::SliderFloat("Y##4", &scale.y, 0.0f, 3.0f);
+        ImGui::SliderFloat("Z##4", &scale.z, 0.0f, 3.0f);
+        sqrTransform.SetScale(scale);
 
 		ImGui::End();
 	}

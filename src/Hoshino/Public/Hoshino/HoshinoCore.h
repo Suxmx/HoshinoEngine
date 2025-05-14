@@ -15,7 +15,9 @@
 #include "Event/MouseEvent.h"
 #include "Event/KeyEvent.h"
 
-#include "TimeStep.h"
+#include "Hoshino/TimeStep.h"
+#include "Hoshino/Transform.h"
+
 #include "Hoshino/Graphics/Camera.h"
 #include "Hoshino/Graphics/Renderer.h"
 #include "Hoshino/Graphics/Buffer.h"
