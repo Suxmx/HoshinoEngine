@@ -72,6 +72,7 @@ namespace Hoshino
 			                      ShaderDataTypeToOpenGLBaseType(element.DataType),
 			                      element.Normalized ? GL_TRUE : GL_FALSE, layout.GetStride(),
 			                      (const void*)element.Offset);
+			m_AttriPointerIndex++;
 		}
 	}
 

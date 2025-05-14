@@ -26,11 +26,14 @@ namespace Akane
 		triangleEb->Bind();
 		m_TriangleVa->AddIndexBuffer(triangleEb);
 
+		BufferLayout sqrLayout = {{"a_Position", ShaderDataType::Float3},
+		                          {"a_Texcoord", ShaderDataType::Float2}};
 		// VBO
-		float squareVertices[3 * 4] = {-0.5f, -0.5f, 0, 0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, 0.5, 0};
+		float squareVertices[5 * 4] = {-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.5f,  -0.5f, 0.0f, 1.0f, 0.0f,
+		                               0.5f,  0.5f,  0.0f, 1.0f, 1.0f, -0.5f, 0.5f,  0.0f, 0.0f, 1.0f};
 		auto squareVb = VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 		squareVb->Bind();
-		squareVb->SetLayout(layout);
+		squareVb->SetLayout(sqrLayout);
 		m_SquareVa->AddVertexBuffer(squareVb);
 
 		// EBO
@@ -38,6 +41,9 @@ namespace Akane
 		auto squareEb = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		squareEb->Bind();
 		m_SquareVa->AddIndexBuffer(squareEb);
+
+		//Texture
+		m_Texture = Texture::Create("Res/Texture/test.png");
 	}
 
 	void RenderLayer::OnDetach() {}
@@ -48,6 +54,9 @@ namespace Akane
 		RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
 		RenderCommand::Clear();
 		Renderer::BeginScene(Hoshino::Application::Instance().GetCamera());
+		m_BlueShader->Bind();
+		m_Texture->Bind(0);
+		m_BlueShader->UploadUniformInt("ourTexture", 0);
 		Renderer::Submit(m_SquareVa, m_BlueShader,app.SqrTransform);
 
 		Renderer::Submit(m_TriangleVa, m_Shader,app.TriTransform);

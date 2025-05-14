@@ -25,6 +25,10 @@ namespace Hoshino
 		{
 			s_RenderAPI->DrawIndexed(vertexArray);
 		}
+		inline static void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
+		{
+			s_RenderAPI->SetViewport(x, y, width, height);
+		}
 
 	protected:
 		static Ref<RenderAPI> s_RenderAPI;

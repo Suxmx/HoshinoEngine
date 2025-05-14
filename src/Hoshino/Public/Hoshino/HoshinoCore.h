@@ -23,3 +23,4 @@
 #include "Hoshino/Graphics/Buffer.h"
 #include "Hoshino/Graphics/Shader.h"
 #include "Hoshino/Graphics/RenderCommand.h"
+#include "Hoshino/Graphics/Texture.h"

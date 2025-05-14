@@ -9,7 +9,7 @@
 
 namespace Hoshino
 {
-	const std::string SHADER_FILE_PATH = "Shader/";
+	const std::string SHADER_FILE_PATH = "Res/Shader/";
 	Ref<Shader> Shader::Create(const std::string& vertexShaderSrc,
 	                                       const std::string& fragmentShaderSrc)
 	{

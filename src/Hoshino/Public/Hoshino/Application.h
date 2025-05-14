@@ -48,5 +48,6 @@ namespace Hoshino
 	private:
 		
 		bool OnWindowClose(WindowCloseEvent& event);
+		bool OnWindowResize(WindowResizedEvent& event);
 	};
 } // namespace Hoshino

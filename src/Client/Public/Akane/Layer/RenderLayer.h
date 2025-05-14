@@ -2,6 +2,8 @@
 
 #include "Hoshino/HoshinoCore.h"
 
+template <typename T>
+using Ref = Hoshino::Ref<T>;
 
 namespace Akane {
     class RenderLayer : public Hoshino::Layer {
@@ -16,10 +18,12 @@ namespace Akane {
         void OnEvent(Hoshino::Event& event) override;
 
 	private:
-		Hoshino::Ref<Hoshino::VertexArray> m_TriangleVa;
-		Hoshino::Ref<Hoshino::VertexArray> m_SquareVa;
-		Hoshino::Ref<Hoshino::Shader> m_Shader;
-		Hoshino::Ref<Hoshino::Shader> m_BlueShader;
+		Ref<Hoshino::VertexArray> m_TriangleVa;
+		Ref<Hoshino::VertexArray> m_SquareVa;
+		Ref<Hoshino::Shader> m_Shader;
+		Ref<Hoshino::Shader> m_BlueShader;
+        Ref<Hoshino::Texture> m_Texture;
+        
 	};
     
     

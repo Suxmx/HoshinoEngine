@@ -54,6 +54,7 @@ namespace Hoshino
 	{
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_APP_EVENT_FN(OnWindowClose));
+		dispatcher.Dispatch<WindowResizedEvent>(BIND_APP_EVENT_FN(OnWindowResize));
 
 		if (event.Handled) return;
 
@@ -67,6 +68,12 @@ namespace Hoshino
 	bool Application::OnWindowClose(WindowCloseEvent& event)
 	{
 		m_Running = false;
+		return true;
+	}
+	
+	bool Application::OnWindowResize(WindowResizedEvent& event)
+	{
+		RenderCommand::SetViewport(0, 0, event.GetWidth(), event.GetHeight());
 		return true;
 	}
 
