@@ -32,6 +32,7 @@ namespace Hoshino
 		{
 			return m_Camera;
 		}
+		void OnEvent(Event& event);
 
 	private:
 		Scope<Window> m_Window;
@@ -45,7 +46,7 @@ namespace Hoshino
 		Ref<Camera> m_Camera;
 
 	private:
-		void OnEvent(Event& event);
+		
 		bool OnWindowClose(WindowCloseEvent& event);
 	};
 } // namespace Hoshino

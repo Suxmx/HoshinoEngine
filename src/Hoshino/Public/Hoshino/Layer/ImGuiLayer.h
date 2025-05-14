@@ -16,8 +16,14 @@ namespace Hoshino
 		virtual void Begin();
 		virtual void End();
 
+		void BeginDockSpace();
+		void EndDockSpace();
+
 	private:
 		float m_Time = 0;
+		bool m_BlockEvents = true;
+		bool m_DockSpaceOpen = true;
+		bool m_FullscreenDockSpace = true;
 	};
 	
 } // namespace Hoshino
