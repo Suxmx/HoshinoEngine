@@ -9,11 +9,56 @@
 
 namespace Hoshino
 {
-
+	const std::string SHADER_FILE_PATH = "Shader/";
 	Ref<Shader> Shader::Create(const std::string& vertexShaderSrc,
 	                                       const std::string& fragmentShaderSrc)
 	{
 		return std::make_shared<OpenGLShader>(vertexShaderSrc, fragmentShaderSrc);
+	}
+
+	static std::string EnsureGlslExtension(const std::string& filename)
+	{
+		// if (filename.size() < 5 || filename.substr(filename.size() - 5) != ".glsl")
+		// 	return filename + ".glsl";
+		return filename;
+	}
+
+	Ref<Shader> Shader::CreateFromFile(const std::string& vertexFile, const std::string& fragmentFile)
+	{
+		std::string realVertexPath = SHADER_FILE_PATH + EnsureGlslExtension(vertexFile);
+		std::string realFragPath = SHADER_FILE_PATH + EnsureGlslExtension(fragmentFile);
+		// Read vertex shader file
+		std::string vertexShaderSrc;
+		std::ifstream vertexShaderFile(realVertexPath);
+
+		if (vertexShaderFile.is_open())
+		{
+			std::stringstream vertexStream;
+			vertexStream << vertexShaderFile.rdbuf();
+			vertexShaderFile.close();
+			vertexShaderSrc = vertexStream.str();
+		}
+		else
+		{
+			CORE_ASSERT(false, "Failed to read vertex shader file {0}!",realVertexPath);
+		}
+
+		// Read fragment shader file
+		std::string fragmentShaderSrc;
+		std::ifstream fragmentShaderFile(realFragPath);
+
+		if (fragmentShaderFile.is_open())
+		{
+			std::stringstream fragmentStream;
+			fragmentStream << fragmentShaderFile.rdbuf();
+			fragmentShaderFile.close();
+			fragmentShaderSrc = fragmentStream.str();
+		}
+		else
+		{
+			CORE_ASSERT(false, "Failed to read fragment shader file {0}!",realFragPath);
+		}
+		return Create(vertexShaderSrc, fragmentShaderSrc);
 	}
 	OpenGLShader::OpenGLShader(const std::string vertexShaderSrc, const std::string fragmentShaderSrc) :
 	    Shader(vertexShaderSrc, fragmentShaderSrc)

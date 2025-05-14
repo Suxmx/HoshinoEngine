@@ -9,6 +9,9 @@ namespace Hoshino
 		Shader(const std::string vertexShaderSrc, const std::string fragmentShaderSrc) :
 		    m_VertexShaderSrc(vertexShaderSrc), m_FragmentShaderSrc(fragmentShaderSrc)
 		{}
+		Shader(const std::string& filePath) : m_FilePath(filePath)
+		{
+		}
 		virtual ~Shader() = default;
 
 		virtual void Bind() const = 0;
@@ -24,9 +27,11 @@ namespace Hoshino
 		virtual void UploadUniformMat4(const std::string& name, const glm::mat4& matrix) = 0;
 		static Ref<Shader> Create(const std::string& vertexShaderSrc,
 		                                      const std::string& fragmentShaderSrc);
+		static Ref<Shader> CreateFromFile(const std::string& vertexFile,const std::string& fragmentFile);
 
 	protected:
 		std::string m_VertexShaderSrc;
 		std::string m_FragmentShaderSrc;
+		std::string m_FilePath;
 	};
 } // namespace Hoshino

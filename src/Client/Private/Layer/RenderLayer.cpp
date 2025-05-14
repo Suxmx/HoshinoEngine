@@ -7,50 +7,8 @@ namespace Akane
 {
 	void RenderLayer::OnAttach()
 	{
-
-		std::string vertexSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-
-			out vec3 v_Position;
-
-			void main()
-			{
-				v_Position = a_Position;
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
-			}
-		)";
-
-		std::string fragmentSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-
-			in vec3 v_Position;
-
-			void main()
-			{
-				color = vec4(v_Position * 0.5 + 0.5, 1.0);
-			}
-		)";
-		std::string blueFragmentSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-
-			in vec3 v_Position;
-
-			void main()
-			{
-				color = vec4(0, 0,1,1);
-			}
-		)";
-
-		m_Shader = Shader::Create(vertexSrc, fragmentSrc);
-		m_BlueShader = Shader::Create(vertexSrc, blueFragmentSrc);
+		m_Shader = Shader::CreateFromFile("Vert/Vertex.vert", "Frag/Normal.glsl");
+		m_BlueShader = Shader::CreateFromFile("Vert/Vertex.vert", "Frag/Blue.glsl");
 		// VAO
 		m_SquareVa = VertexArray::Create();
 		m_TriangleVa = VertexArray::Create();
