@@ -28,5 +28,8 @@ namespace Hoshino
 		uint32_t m_RendererID = 0;
 		std::vector<uint32_t> m_ColorAttachments;
 		uint32_t m_DepthAttachment = 0;
+		uint32_t m_AttachTextureIndex = -1;
+		FrameBufferTextureSpec m_DepthAttachmentSpec;
+		std::vector<FrameBufferTextureSpec> m_ColorAttachmentSpecifications;
 	};
 } // namespace Hoshino

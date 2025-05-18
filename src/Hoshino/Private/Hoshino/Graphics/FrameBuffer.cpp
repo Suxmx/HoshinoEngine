@@ -12,5 +12,7 @@ namespace Hoshino
 		case RenderAPI::API::OpenGL:
 			return CreateRef<OpenGLFrameBuffer>(spec);
 		}
+		CORE_ASSERT(false, "Unknown RenderAPI");
+		return nullptr;
 	}
 } // namespace Hoshino
