@@ -23,6 +23,9 @@ namespace Hoshino
 		}
 		CORE_ASSERT(false, "Unknown FrameBufferTextureFormat");
         return GL_NONE; // Just to avoid compiler warning
+
+
+        
 	}
 
 	static GLenum GetGLDataFormat(FrameBufferTextureFormat format)
