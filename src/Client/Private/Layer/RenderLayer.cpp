@@ -7,8 +7,8 @@ namespace Akane
 {
 	void RenderLayer::OnAttach()
 	{
-		m_Shader = Shader::CreateFromFile("Vert/Vertex.vert", "Frag/Normal.glsl");
-		m_BlueShader = Shader::CreateFromFile("Vert/Vertex.vert", "Frag/Blue.glsl");
+		m_Shader = Shader::CreateFromFile("Res/Shader/Vert/Vertex.vert", "Res/Shader/Frag/Normal.glsl");
+		m_BlueShader = Shader::CreateFromFile("Res/Shader/Vert/Vertex.vert", "Res/Shader/Frag/Blue.glsl");
 		m_MeshSource = Hoshino::AssetImporter::ImportMesh("Res/Model/CornellBox-Original.obj");
 	}
 

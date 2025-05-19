@@ -19,16 +19,18 @@ namespace Hoshino
 		                   Transform transform = Transform());
 		static void RenderStaticMesh(Ref<MeshSource> meshSource, Ref<Shader>& shader,
 		                             Transform transform = Transform());
-		struct SceneData
+		static Ref<Shader> GetDefaultShader();
+		struct RenderData
 		{
 			glm::mat4 ViewProjectionMatrix;
+			Ref<Shader> DefaultShader = nullptr; // 默认着色器
 		};
-		inline static Ref<SceneData> GetSceneData()
+		inline static Ref<RenderData> GetRenderData()
 		{
-			return s_SceneData;
+			return s_RenderData;
 		}
 
 	private:
-		static Ref<SceneData> s_SceneData;
+		static Ref<RenderData> s_RenderData;
 	};
 } // namespace Hoshino

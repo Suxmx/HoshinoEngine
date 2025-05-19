@@ -9,9 +9,7 @@
 
 namespace Hoshino
 {
-	const std::string SHADER_FILE_PATH = "Res/Shader/";
-	Ref<Shader> Shader::Create(const std::string& vertexShaderSrc,
-	                                       const std::string& fragmentShaderSrc)
+	Ref<Shader> Shader::Create(const std::string& vertexShaderSrc, const std::string& fragmentShaderSrc)
 	{
 		return std::make_shared<OpenGLShader>(vertexShaderSrc, fragmentShaderSrc);
 	}
@@ -25,8 +23,8 @@ namespace Hoshino
 
 	Ref<Shader> Shader::CreateFromFile(const std::string& vertexFile, const std::string& fragmentFile)
 	{
-		std::string realVertexPath = SHADER_FILE_PATH + EnsureGlslExtension(vertexFile);
-		std::string realFragPath = SHADER_FILE_PATH + EnsureGlslExtension(fragmentFile);
+		std::string realVertexPath = EnsureGlslExtension(vertexFile);
+		std::string realFragPath = EnsureGlslExtension(fragmentFile);
 		// Read vertex shader file
 		std::string vertexShaderSrc;
 		std::ifstream vertexShaderFile(realVertexPath);
@@ -40,7 +38,7 @@ namespace Hoshino
 		}
 		else
 		{
-			CORE_ASSERT(false, "Failed to read vertex shader file {0}!",realVertexPath);
+			CORE_ASSERT(false, "Failed to read vertex shader file {0}!", realVertexPath);
 		}
 
 		// Read fragment shader file
@@ -56,7 +54,7 @@ namespace Hoshino
 		}
 		else
 		{
-			CORE_ASSERT(false, "Failed to read fragment shader file {0}!",realFragPath);
+			CORE_ASSERT(false, "Failed to read fragment shader file {0}!", realFragPath);
 		}
 		return Create(vertexShaderSrc, fragmentShaderSrc);
 	}
