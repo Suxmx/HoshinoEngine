@@ -155,13 +155,14 @@ namespace Hoshino
 		{
 			meshSource->m_VertexBuffer = VertexBuffer::Create(
 			    meshSource->m_Vertices.data(), (uint32_t)(meshSource->m_Vertices.size() * sizeof(Vertex)));
-			meshSource->m_VertexArray->AddVertexBuffer(meshSource->m_VertexBuffer);
+			meshSource->m_VertexBuffer->Bind();
 			BufferLayout layout = {
 			    {"a_Position", ShaderDataType::Float3}, {"a_Normal", ShaderDataType::Float3},
 			    {"a_Tangent", ShaderDataType::Float3},  {"a_Binormal", ShaderDataType::Float3},
 			    {"a_Texcoord", ShaderDataType::Float2},
 			};
 			meshSource->m_VertexBuffer->SetLayout(layout);
+			meshSource->m_VertexArray->AddVertexBuffer(meshSource->m_VertexBuffer);
 		}
 
 		if (meshSource->m_Indices.size())
@@ -170,6 +171,7 @@ namespace Hoshino
 			    meshSource->m_Indices.data(), (uint32_t)(meshSource->m_Indices.size() * sizeof(Index)));
 			meshSource->m_VertexArray->AddIndexBuffer(meshSource->m_IndexBuffer);
 		}
+		meshSource->m_IndexBuffer->Bind();
 		meshSource->m_VertexArray->Unbind();
 
 		return meshSource;

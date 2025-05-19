@@ -34,10 +34,6 @@ namespace Hoshino
 		{
 			s_RenderAPI->SetViewport(x, y, width, height);
 		}
-		inline static void RenderStaticMesh(Ref<MeshSource> meshSource)
-		{
-			s_RenderAPI->RenderStaticMesh(meshSource);
-		}
 
 	protected:
 		static Ref<RenderAPI> s_RenderAPI;

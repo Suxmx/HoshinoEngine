@@ -7,6 +7,7 @@
 
 namespace Hoshino
 {
+	class MeshSource;
 	class HOSHINO_API Renderer
 	{
 	public:
@@ -16,6 +17,8 @@ namespace Hoshino
 
 		static void Submit(Ref<VertexArray>& vertexArray, Ref<Shader>& shader,
 		                   Transform transform = Transform());
+		static void RenderStaticMesh(Ref<MeshSource> meshSource, Ref<Shader>& shader,
+		                             Transform transform = Transform());
 		struct SceneData
 		{
 			glm::mat4 ViewProjectionMatrix;

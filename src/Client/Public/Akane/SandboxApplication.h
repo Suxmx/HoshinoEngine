@@ -10,7 +10,7 @@ namespace Akane
 	public:
 		SandboxApplication()
 		{
-			m_Camera = std::make_shared<Hoshino::OrthographicCamera>(1.5f, -1.0f, 1.0f);
+			m_Camera = std::make_shared<Hoshino::OrthographicCamera>(1.5f, -10.0f, 1.0f);
 			m_Camera->SetRotationEuler(0, 0, 0);
 			m_Camera->SetPosition(0.2f, 0.1f, 0);
 		}

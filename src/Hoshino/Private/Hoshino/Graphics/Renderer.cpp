@@ -19,4 +19,18 @@ namespace Hoshino
 		vertexArray->Bind();
         RenderCommand::DrawIndexed(vertexArray);
 	}
+	
+	void Renderer::RenderStaticMesh(Ref<MeshSource> meshSource, Ref<Shader>& shader,
+										 Transform transform)
+	{
+		shader->Bind();
+		shader->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+		shader->UploadUniformMat4("u_Transform", transform.GetTransformMatrix());
+		meshSource->GetVertexArray()->Bind();
+		for (int i = 0; i < meshSource->m_Submeshes.size(); i++)
+		{
+			auto& submesh = meshSource->m_Submeshes[i];
+			RenderCommand::DrawIndexed(meshSource->m_VertexArray, meshSource, i);
+		}
+	}
 } // namespace Hoshino

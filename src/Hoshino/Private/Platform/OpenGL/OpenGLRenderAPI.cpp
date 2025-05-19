@@ -23,16 +23,7 @@ namespace Hoshino
 	void OpenGLRenderAPI::DrawIndexed(Ref<VertexArray>& vertexArray, Ref<MeshSource> meshSource, uint32_t submeshIndex)
 	{
 		auto& submesh = meshSource->m_Submeshes[submeshIndex];
-		glDrawElements(GL_TRIANGLES, submesh.VertexCount, GL_UNSIGNED_INT, (const void*)(submesh.BaseIndex * sizeof(uint32_t)));
-	}
-	
-	void OpenGLRenderAPI::RenderStaticMesh(Ref<MeshSource> meshSource)
-	{
-		for (int i = 0; i < meshSource->m_Submeshes.size(); i++)
-		{
-			auto& submesh = meshSource->m_Submeshes[i];
-			DrawIndexed(meshSource->m_VertexArray, meshSource, i);
-		}
+		glDrawElements(GL_TRIANGLES, submesh.IndexCount, GL_UNSIGNED_INT, (void*)(submesh.BaseIndex * sizeof(uint32_t)));
 	}
 	
 	void OpenGLRenderAPI::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)

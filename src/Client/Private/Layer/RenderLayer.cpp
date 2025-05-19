@@ -20,7 +20,9 @@ namespace Akane
 		RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
 		RenderCommand::Clear();
 		Renderer::BeginScene(Hoshino::Application::Instance().GetCamera());
-
+		m_Shader->Bind();
+		
+		Renderer::RenderStaticMesh(m_MeshSource, m_Shader,app.SqrTransform);
 		Renderer::EndScene();
 	}
 

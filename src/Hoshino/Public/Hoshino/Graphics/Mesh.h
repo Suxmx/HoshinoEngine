@@ -6,6 +6,7 @@
 #include "VertexArray.h"
 namespace Hoshino
 {
+	class Renderer;
 #pragma region MeshNode
 	struct MeshNode
 	{
@@ -143,6 +144,7 @@ namespace Hoshino
 
         friend class AssetImporter;
 		friend class OpenGLRenderAPI;
+		friend class Renderer;
 	};
 
 #pragma endregion MeshSource
