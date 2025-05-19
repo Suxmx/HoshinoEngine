@@ -156,4 +156,70 @@ namespace Hoshino
 		float m_AspectRatio = 16.0f / 9.0f; // 16:9
 	};
 
+	class HOSHINO_API PerspectiveCamera : public Camera
+	{
+	public:
+		PerspectiveCamera(float fov, float nearClip, float farClip, float aspectRatio = 16.0f / 9.0f) :
+			m_VerticalFOV(fov), m_NearClip(nearClip), m_FarClip(farClip), m_AspectRatio(aspectRatio)
+		{
+			RecalculateVpMatrix();
+		}
+
+		void RecalculateVpMatrix() override;
+
+#pragma region Getter
+		inline float GetVerticalFOV() const
+		{
+			return m_VerticalFOV;
+		}
+
+		inline float GetNearClip() const
+		{
+			return m_NearClip;
+		}
+
+		inline float GetFarClip() const
+		{
+			return m_FarClip;
+		}
+
+		inline float GetAspectRatio() const
+		{
+			return m_AspectRatio;
+		}
+#pragma endregion Getter
+
+#pragma region Setter
+		inline void SetVerticalFOV(float fov)
+		{
+			m_VerticalFOV = fov;
+			RecalculateVpMatrix();
+		}
+
+		inline void SetNearClip(float nearClip)
+		{
+			m_NearClip = nearClip;
+			RecalculateVpMatrix();
+		}
+
+		inline void SetFarClip(float farClip)
+		{
+			m_FarClip = farClip;
+			RecalculateVpMatrix();
+		}
+
+		inline void SetAspectRatio(float aspectRatio)
+		{
+			m_AspectRatio = aspectRatio;
+			RecalculateVpMatrix();
+		}
+#pragma endregion Setter
+
+	private:
+		float m_VerticalFOV = 45.0f;    // 默认45度视野角度
+		float m_NearClip = 0.1f;        // 近裁剪面
+		float m_FarClip = 1000.0f;      // 远裁剪面
+		float m_AspectRatio = 16.0f / 9.0f; // 16:9
+	};
+
 } // namespace Hoshino
