@@ -24,3 +24,6 @@
 #include "Hoshino/Graphics/Shader.h"
 #include "Hoshino/Graphics/RenderCommand.h"
 #include "Hoshino/Graphics/Texture.h"
+#include "Hoshino/Graphics/Mesh.h"
+
+#include "Hoshino/Asset/AssetImporter.h"

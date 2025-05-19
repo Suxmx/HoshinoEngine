@@ -8,7 +8,7 @@ namespace Hoshino
 	class HOSHINO_API OpenGLVertexBuffer : public VertexBuffer
 	{
 	public:
-		OpenGLVertexBuffer(float* vertices, uint32_t size);
+		OpenGLVertexBuffer(void* data, uint32_t size);
 		~OpenGLVertexBuffer() = default;
 		void Bind() override;
 		void Unbind() override;
@@ -20,7 +20,7 @@ namespace Hoshino
 	class HOSHINO_API OpenGLIndexBuffer : public IndexBuffer
 	{
 	public:
-		OpenGLIndexBuffer(uint32_t* vertices, uint32_t size);
+		OpenGLIndexBuffer(void* data, uint32_t size);
 		~OpenGLIndexBuffer() = default;
 		void Bind() override;
 		void Unbind() override;

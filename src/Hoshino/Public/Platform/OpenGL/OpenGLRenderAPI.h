@@ -1,5 +1,6 @@
 #pragma once
 #include "Hoshino/Graphics/RenderAPI.h"
+#include "Hoshino/Graphics/Mesh.h"
 
 namespace Hoshino
 {
@@ -9,6 +10,8 @@ namespace Hoshino
 		void SetClearColor(glm::vec4 color) override;
 		void Clear() override;
 		void DrawIndexed(Ref<VertexArray>& vertexArray) override;
+		void DrawIndexed(Ref<VertexArray>& vertexArray, Ref<MeshSource> meshSource, uint32_t submeshIndex) override;
+		void RenderStaticMesh(Ref<MeshSource> meshSource) override;
 		void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
 	};
 } // namespace Hoshino

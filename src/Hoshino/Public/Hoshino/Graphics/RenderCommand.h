@@ -2,6 +2,7 @@
 
 #include "HoshinoMin.h"
 #include "Hoshino/Graphics/RenderAPI.h"
+#include "Mesh.h"
 
 namespace Hoshino
 {
@@ -25,9 +26,17 @@ namespace Hoshino
 		{
 			s_RenderAPI->DrawIndexed(vertexArray);
 		}
+		inline static void DrawIndexed(Ref<VertexArray>& vertexArray,Ref<MeshSource> meshSource,uint32_t submeshIndex)
+		{
+			s_RenderAPI->DrawIndexed(vertexArray,meshSource, submeshIndex);
+		}
 		inline static void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
 		{
 			s_RenderAPI->SetViewport(x, y, width, height);
+		}
+		inline static void RenderStaticMesh(Ref<MeshSource> meshSource)
+		{
+			s_RenderAPI->RenderStaticMesh(meshSource);
 		}
 
 	protected:

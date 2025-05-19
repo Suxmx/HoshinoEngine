@@ -18,8 +18,7 @@ namespace Akane {
         void OnEvent(Hoshino::Event& event) override;
 
 	private:
-		Ref<Hoshino::VertexArray> m_TriangleVa;
-		Ref<Hoshino::VertexArray> m_SquareVa;
+		Ref<Hoshino::MeshSource> m_MeshSource;
 		Ref<Hoshino::Shader> m_Shader;
 		Ref<Hoshino::Shader> m_BlueShader;
         Ref<Hoshino::Texture> m_Texture;

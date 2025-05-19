@@ -7,14 +7,14 @@ namespace Hoshino
 {
 #pragma region VertexBuffer
 
-	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(void* data, uint32_t size)
 	{
-		return std::make_shared<OpenGLVertexBuffer>(vertices, size);
+		return std::make_shared<OpenGLVertexBuffer>(data, size);
 	}
-	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size) : VertexBuffer(vertices, size)
+	OpenGLVertexBuffer::OpenGLVertexBuffer(void* data, uint32_t size) : VertexBuffer(data, size)
 	{
 		glCreateBuffers(1, &m_BufferId);
-		glNamedBufferData(m_BufferId, size, vertices, GL_STATIC_DRAW);
+		glNamedBufferData(m_BufferId, size, data, GL_STATIC_DRAW);
 	}
 
 	void OpenGLVertexBuffer::Bind()
@@ -30,14 +30,14 @@ namespace Hoshino
 
 #pragma region IndexBuffer
 
-	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
+	Ref<IndexBuffer> IndexBuffer::Create(void* data, uint32_t size)
 	{
-		return std::make_shared<OpenGLIndexBuffer>(indices, count);
+		return std::make_shared<OpenGLIndexBuffer>(data, size);
 	}
-	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count) : IndexBuffer(indices, count)
+	OpenGLIndexBuffer::OpenGLIndexBuffer(void* data, uint32_t size) : IndexBuffer(data, size)
 	{
 		glCreateBuffers(1, &m_BufferId);
-		glNamedBufferData(m_BufferId, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+		glNamedBufferData(m_BufferId, size, data, GL_STATIC_DRAW);
 	}
 
 	void OpenGLIndexBuffer::Bind()

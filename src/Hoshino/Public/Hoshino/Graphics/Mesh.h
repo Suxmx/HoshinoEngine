@@ -2,6 +2,8 @@
 #include "HoshinoMin.h"
 
 #include "Hoshino/Graphics/Buffer.h"
+#include "Platform/OpenGL/OpenGLRenderAPI.h"
+#include "VertexArray.h"
 namespace Hoshino
 {
 #pragma region MeshNode
@@ -70,7 +72,7 @@ namespace Hoshino
 		           const glm::mat4& transform);
 		MeshSource(const std::vector<Vertex>& vertices, const std::vector<Index>& indices,
 		           const std::vector<Submesh>& submeshes);
-		virtual ~MeshSource();
+		virtual ~MeshSource(){}
 
 		void DumpVertexBuffer();
 
@@ -101,13 +103,14 @@ namespace Hoshino
 			return m_TriangleCache.at(index);
 		}
 
+		
+		Ref<VertexArray> GetVertexArray()
+		{
+			return m_VertexArray;
+		}
 		Ref<VertexBuffer> GetVertexBuffer()
 		{
 			return m_VertexBuffer;
-		}
-		Ref<VertexBuffer> GetBoneInfluenceBuffer()
-		{
-			return m_BoneInfluenceBuffer;
 		}
 		Ref<IndexBuffer> GetIndexBuffer()
 		{
@@ -127,8 +130,8 @@ namespace Hoshino
 		std::vector<Submesh> m_Submeshes;
 
 		Ref<VertexBuffer> m_VertexBuffer;
-		Ref<VertexBuffer> m_BoneInfluenceBuffer;
 		Ref<IndexBuffer> m_IndexBuffer;
+		Ref<VertexArray> m_VertexArray;
 
 		std::vector<Vertex> m_Vertices;
 		std::vector<Index> m_Indices;
@@ -139,6 +142,7 @@ namespace Hoshino
 		std::string m_FilePath;
 
         friend class AssetImporter;
+		friend class OpenGLRenderAPI;
 	};
 
 #pragma endregion MeshSource

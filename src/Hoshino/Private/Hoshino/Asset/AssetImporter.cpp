@@ -1,4 +1,6 @@
+// From Hazel
 #include "Hoshino/Asset/AssetImporter.h"
+#include "Hoshino/Graphics/BufferLayout.h"
 
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -48,7 +50,7 @@ namespace Hoshino
 	Ref<MeshSource> AssetImporter::ImportMesh(const std::string& path)
 	{
 		auto meshSource = CreateRef<MeshSource>();
-		CORE_INFO("Mesh", "Loading mesh: {0}", path);
+		CORE_INFO("Loading mesh: {0}", path);
 
 		Assimp::Importer importer;
 		importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
@@ -140,12 +142,36 @@ namespace Hoshino
 
 #if MESH_DEBUG_LOG
 			CORE_INFO("Mesh", "Traversing nodes for scene '{0}'", m_Path);
-			Utils::PrintNode(scene->mRootNode, 0);
+			// Utils::PrintNode(scene->mRootNode, 0);
 #endif
 
 			MeshNode& rootNode = meshSource->m_Nodes.emplace_back();
 			TraverseNodes(meshSource, scene->mRootNode, 0);
 		}
+		meshSource->m_VertexArray = VertexArray::Create();
+		meshSource->m_VertexArray->Bind();
+
+		if (meshSource->m_Vertices.size())
+		{
+			meshSource->m_VertexBuffer = VertexBuffer::Create(
+			    meshSource->m_Vertices.data(), (uint32_t)(meshSource->m_Vertices.size() * sizeof(Vertex)));
+			meshSource->m_VertexArray->AddVertexBuffer(meshSource->m_VertexBuffer);
+			BufferLayout layout = {
+			    {"a_Position", ShaderDataType::Float3}, {"a_Normal", ShaderDataType::Float3},
+			    {"a_Tangent", ShaderDataType::Float3},  {"a_Binormal", ShaderDataType::Float3},
+			    {"a_Texcoord", ShaderDataType::Float2},
+			};
+			meshSource->m_VertexBuffer->SetLayout(layout);
+		}
+
+		if (meshSource->m_Indices.size())
+		{
+			meshSource->m_IndexBuffer = IndexBuffer::Create(
+			    meshSource->m_Indices.data(), (uint32_t)(meshSource->m_Indices.size() * sizeof(Index)));
+			meshSource->m_VertexArray->AddIndexBuffer(meshSource->m_IndexBuffer);
+		}
+		meshSource->m_VertexArray->Unbind();
+
 		return meshSource;
 	}
 
