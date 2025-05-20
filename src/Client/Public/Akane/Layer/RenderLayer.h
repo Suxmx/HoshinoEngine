@@ -22,7 +22,7 @@ namespace Akane {
 		Ref<Hoshino::Shader> m_Shader;
 		Ref<Hoshino::Shader> m_BlueShader;
         Ref<Hoshino::Texture> m_Texture;
-        
+        Ref<Hoshino::Scene> m_Scene;
 	};
     
     

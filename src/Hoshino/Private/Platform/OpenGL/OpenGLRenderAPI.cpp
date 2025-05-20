@@ -19,13 +19,20 @@ namespace Hoshino
 	{
 		glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
-	
-	void OpenGLRenderAPI::DrawIndexed(Ref<VertexArray>& vertexArray, Ref<MeshSource> meshSource, uint32_t submeshIndex)
+
+	void OpenGLRenderAPI::DrawIndexed(Ref<VertexArray>& vertexArray, Ref<MeshSource> meshSource,
+	                                  uint32_t submeshIndex)
 	{
 		auto& submesh = meshSource->m_Submeshes[submeshIndex];
-		glDrawElements(GL_TRIANGLES, submesh.IndexCount, GL_UNSIGNED_INT, (void*)(submesh.BaseIndex * sizeof(uint32_t)));
+		glDrawElements(GL_TRIANGLES, submesh.IndexCount, GL_UNSIGNED_INT,
+		               (void*)(submesh.BaseIndex * sizeof(uint32_t)));
 	}
-	
+	void OpenGLRenderAPI::DrawIndexed(Ref<MeshSource> meshSource)
+	{
+
+		glDrawElements(GL_TRIANGLES, meshSource->m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+	}
+
 	void OpenGLRenderAPI::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
 	{
 		glViewport(x, y, width, height);

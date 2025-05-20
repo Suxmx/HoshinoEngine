@@ -1,15 +1,19 @@
 #include "Akane/Layer/RenderLayer.h"
 #include "Akane/SandboxApplication.h"
 #include "Hoshino/Application.h"
+#include "Hoshino/Graphics/MeshRenderObject.h"
 using namespace Hoshino;
 
 namespace Akane
 {
 	void RenderLayer::OnAttach()
 	{
+		SandboxApplication& app = static_cast<SandboxApplication&>(Hoshino::Application::Instance());
+		app.m_Scene = CreateRef<Scene>();
 		m_Shader = Shader::CreateFromFile("Res/Shader/Vert/Vertex.vert", "Res/Shader/Frag/Normal.glsl");
-		m_BlueShader = Shader::CreateFromFile("Res/Shader/Vert/Vertex.vert", "Res/Shader/Frag/Blue.glsl");
-		m_MeshSource = Hoshino::AssetImporter::ImportMesh("Res/Model/CornellBox-Original.obj");
+		m_MeshSource = Hoshino::AssetImporter::ImportMesh("Res/Model/backpack.obj");
+		auto meshRo = CreateRef<MeshRenderObject>(m_MeshSource);
+		app.m_Scene->PushRenderObject(meshRo);
 	}
 
 	void RenderLayer::OnDetach() {}
@@ -20,9 +24,7 @@ namespace Akane
 		RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
 		RenderCommand::Clear();
 		Renderer::BeginScene(Hoshino::Application::Instance().GetCamera());
-		m_Shader->Bind();
-		
-		Renderer::RenderStaticMesh(m_MeshSource, m_Shader,app.SqrTransform);
+		app.m_Scene->Render();
 		Renderer::EndScene();
 	}
 

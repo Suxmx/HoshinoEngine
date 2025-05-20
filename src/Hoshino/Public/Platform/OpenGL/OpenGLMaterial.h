@@ -8,8 +8,8 @@ namespace Hoshino
     {
     public:
 		OpenGLMaterial(){}
-        OpenGLMaterial(const Ref<Shader>& shader) : m_Shader(shader) {}
-        virtual ~OpenGLMaterial() = default;
+		OpenGLMaterial(const Ref<Shader>& shader) : Material(shader) {}
+		virtual ~OpenGLMaterial() = default;
 
         virtual void Set(const std::string& name, float value) override;
         virtual void Set(const std::string& name, int value) override;
@@ -25,8 +25,6 @@ namespace Hoshino
         virtual void Apply() override;
 
     private:
-        Ref<Shader> m_Shader;
-
         // 存储各种类型的uniform值
         std::unordered_map<std::string, float> m_FloatValues;
         std::unordered_map<std::string, int> m_IntValues;

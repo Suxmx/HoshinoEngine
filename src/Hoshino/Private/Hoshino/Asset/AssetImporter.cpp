@@ -1,6 +1,7 @@
 // From Hazel
 #include "Hoshino/Asset/AssetImporter.h"
 #include "Hoshino/Graphics/BufferLayout.h"
+#include "Hoshino/Graphics/Material.h"
 
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -63,6 +64,7 @@ namespace Hoshino
 			return nullptr;
 		}
 
+#pragma region Mesh
 		// If no meshes in the scene, there's nothing more for us to do
 		if (scene->HasMeshes())
 		{
@@ -110,7 +112,6 @@ namespace Hoshino
 					vertex.Position = {mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z};
 					vertex.Normal = {mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z};
 
-
 					if (mesh->HasTangentsAndBitangents())
 					{
 						vertex.Tangent = {mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z};
@@ -148,6 +149,70 @@ namespace Hoshino
 			MeshNode& rootNode = meshSource->m_Nodes.emplace_back();
 			TraverseNodes(meshSource, scene->mRootNode, 0);
 		}
+#pragma endregion Mesh
+
+#pragma region Material
+		if (scene->HasMaterials())
+		{
+			CORE_INFO("---- Materials - {0} ----", path);
+
+			meshSource->m_Materials.resize(scene->mNumMaterials);
+
+			for (uint32_t i = 0; i < scene->mNumMaterials; i++)
+			{
+				auto aiMaterial = scene->mMaterials[i];
+				auto aiMaterialName = aiMaterial->GetName();
+				Ref<Material> material = Material::Create();
+
+				CORE_INFO("  {0} (Index = {1})", aiMaterialName.data, i);
+
+				glm::vec3 albedoColor(0.8f);
+				float emission = 0.0f;
+				aiColor3D aiColor, aiEmission;
+				if (aiMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, aiColor) == AI_SUCCESS)
+					albedoColor = {aiColor.r, aiColor.g, aiColor.b};
+
+				if (aiMaterial->Get(AI_MATKEY_COLOR_EMISSIVE, aiEmission) == AI_SUCCESS)
+					emission = aiEmission.r;
+
+				material->Set("u_AlbedoColor", albedoColor);
+				material->Set("u_Emission", emission);
+
+				float roughness, metalness;
+				if (aiMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, roughness) != aiReturn_SUCCESS)
+					roughness = 0.4f; // Default value
+
+				if (aiMaterial->Get(AI_MATKEY_REFLECTIVITY, metalness) != aiReturn_SUCCESS) metalness = 0.0f;
+
+				// Physically realistic materials are either metal (1.0) or not (0.0)
+				// Some models seem to come in with 0.5 which seems wrong - materials are either metal or they
+				// are not. (maybe these are specular workflow, and what we're seeing is specular = 0.5 in
+				// AI_MATKEY_REFLECTIVITY (?))
+				if (metalness < 0.9f) metalness = 0.0f;
+				else metalness = 1.0f;
+
+				material->Set("u_Roughness", roughness);
+				material->Set("u_Metalness", metalness);
+
+				CORE_TRACE("    COLOR = {0}, {1}, {2}", aiColor.r, aiColor.g, aiColor.b);
+				CORE_TRACE("    EMISSION = {0}", emission);
+				CORE_TRACE("    ROUGHNESS = {0}", roughness);
+				CORE_TRACE("    METALNESS = {0}", metalness);
+
+				bool metalnessTextureFound = false;
+				// CORE_INFO("Material Property:");
+				for (uint32_t p = 0; p < aiMaterial->mNumProperties; p++)
+				{
+					auto prop = aiMaterial->mProperties[p];
+
+					float data = *(float*)prop->mData;
+					// CORE_INFO("   Name = {0}, Value = {1}", prop->mKey.data, data);
+				}
+				meshSource->m_Materials[i] = material;
+			}
+			CORE_INFO("------------------------"); 
+		}
+#pragma endregion Material
 		meshSource->m_VertexArray = VertexArray::Create();
 		meshSource->m_VertexArray->Bind();
 
@@ -198,7 +263,7 @@ namespace Hoshino
 			node.Submeshes.push_back(submeshIndex);
 		}
 
-		// HZ_MESH_LOG("{0} {1}", LevelToSpaces(level), node->mName.C_Str());
+		// CORE_INFO("{0} {1}", LevelToSpaces(level), node->mName.C_Str());
 
 		uint32_t parentNodeIndex = (uint32_t)meshSource->m_Nodes.size() - 1;
 		node.Children.resize(aNode->mNumChildren);

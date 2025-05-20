@@ -10,12 +10,15 @@ namespace Akane
 
 	void ClientImguiLayer::OnDetach() {}
 
-	void ClientImguiLayer::OnUpdate(Hoshino::Timestep ts) {}
+	void ClientImguiLayer::OnUpdate(Hoshino::Timestep ts) {
+        m_Time = ts;
+    }
 
 	void ClientImguiLayer::OnImGuiRender()
 	{
 		ImGui::Begin("Settings");
-        
+        ImGui::Text("Time: %.3f", m_Time);
+        ImGui::Text("FPS: %.1f", 1.0f / m_Time);
         ImGui::Text("Camera Position");
         auto pos = Hoshino::Application::Instance().GetCamera()->GetPosition();
         ImGui::SliderFloat("X", &pos.x, -3.0f, 3.0f);
@@ -54,24 +57,24 @@ namespace Akane
         // ImGui::SliderFloat("Z##3", &scale.z, 0.0f, 3.0f);
         // triTransform.SetScale(scale);
         ImGui::Text("Square");
-        Hoshino::Transform& sqrTransform = app.SqrTransform;
-        pos=sqrTransform.GetPosition();
+		auto sqrTransform = app.m_Scene->GetRenderObjects()[0]->TransformRef;
+		pos=sqrTransform->GetPosition();
         ImGui::SliderFloat("X##2", &pos.x, -3.0f, 3.0f);
         ImGui::SliderFloat("Y##2", &pos.y, -3.0f, 3.0f);
         ImGui::SliderFloat("Z##2", &pos.z, -3.0f, 3.0f);
-        sqrTransform.SetPosition(pos);
+        sqrTransform->SetPosition(pos);
         ImGui::Text("Rotation");
-        rot = sqrTransform.GetRotation();
+        rot = sqrTransform->GetRotation();
         ImGui::SliderFloat("Pitch##2", &rot.x, -180.0f, 180.0f);
         ImGui::SliderFloat("Yaw##2", &rot.y, -180.0f, 180.0f);
         ImGui::SliderFloat("Roll##2", &rot.z, -180.0f, 180.0f);
-        sqrTransform.SetRotation(rot);
+        sqrTransform->SetRotation(rot);
         ImGui::Text("Scale");
-        glm::vec3 scale = sqrTransform.GetScale();
+        glm::vec3 scale = sqrTransform->GetScale();
         ImGui::SliderFloat("X##4", &scale.x, 0.0f, 3.0f);
         ImGui::SliderFloat("Y##4", &scale.y, 0.0f, 3.0f);
         ImGui::SliderFloat("Z##4", &scale.z, 0.0f, 3.0f);
-        sqrTransform.SetScale(scale);
+        sqrTransform->SetScale(scale);
 
 		ImGui::End();
 	}

@@ -28,6 +28,10 @@ namespace Hoshino
 
         // 新增统一上传函数
         virtual void Apply() = 0;
+        Ref<Shader>& GetShader()
+        {
+            return m_Shader;
+        }
 
     public:
         static Ref<Material> Create(const Ref<Shader>& shader);

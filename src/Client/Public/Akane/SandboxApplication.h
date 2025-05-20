@@ -17,7 +17,6 @@ namespace Akane
 		~SandboxApplication() override = default;
 
 		public:
-		    Hoshino::Transform TriTransform;
-			Hoshino::Transform SqrTransform;
+		   	Hoshino::Ref<Hoshino::Scene> m_Scene;
 	};
 } // namespace Akane

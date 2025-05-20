@@ -7,6 +7,7 @@
 namespace Hoshino
 {
 	class Renderer;
+	class Material;
 #pragma region MeshNode
 	struct MeshNode
 	{
@@ -129,6 +130,7 @@ namespace Hoshino
 
 	private:
 		std::vector<Submesh> m_Submeshes;
+		std::vector<Ref<Material>> m_Materials;
 
 		Ref<VertexBuffer> m_VertexBuffer;
 		Ref<IndexBuffer> m_IndexBuffer;
@@ -145,6 +147,7 @@ namespace Hoshino
         friend class AssetImporter;
 		friend class OpenGLRenderAPI;
 		friend class Renderer;
+		friend class MeshRenderObject;
 	};
 
 #pragma endregion MeshSource

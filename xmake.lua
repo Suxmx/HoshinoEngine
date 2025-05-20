@@ -1,7 +1,7 @@
 set_project("HoshinoEngine")
 
 add_cxflags("/utf-8")
-add_rules("mode.debug", "mode.releasedbg", "mode.release", "mode.minsizerel")
+add_rules("mode.debug", "mode.releasedbg", "mode.release", "mode.minsizerel","mode.profile")
 set_arch("x64")
 -- add_cxxflags("-Wall")
 set_languages("c++20")

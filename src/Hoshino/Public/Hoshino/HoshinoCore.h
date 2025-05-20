@@ -27,3 +27,4 @@
 #include "Hoshino/Graphics/Mesh.h"
 
 #include "Hoshino/Asset/AssetImporter.h"
+#include "Hoshino/Scene.h"

@@ -6,7 +6,7 @@ namespace Akane
 	class ClientImguiLayer : public Hoshino::Layer
 	{
 	public:
-		ClientImguiLayer(): Hoshino::Layer("ClientImguiLayer") {}
+		ClientImguiLayer() : Hoshino::Layer("ClientImguiLayer") {}
 		~ClientImguiLayer() override = default;
 
 		void OnAttach() override;
@@ -15,5 +15,7 @@ namespace Akane
 		void OnImGuiRender() override;
 		void OnEvent(Hoshino::Event& event) override;
 
+	private:
+		float m_Time;
 	};
 } // namespace Akane
