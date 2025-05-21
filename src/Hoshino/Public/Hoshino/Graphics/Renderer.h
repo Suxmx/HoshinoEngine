@@ -11,6 +11,8 @@ namespace Hoshino
 	class HOSHINO_API Renderer
 	{
 	public:
+
+		static void Init();
 		static void BeginScene(Ref<Camera>& camera);
 
 		static void EndScene();

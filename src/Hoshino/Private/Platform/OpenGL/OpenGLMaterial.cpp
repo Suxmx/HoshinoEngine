@@ -49,31 +49,31 @@ namespace Hoshino
 
     void OpenGLMaterial::Apply()
     {
-        // m_Shader->Bind();
+        m_Shader->Bind();
 
-        // // 上传所有存储的uniform值
-        // for (const auto& [name, value] : m_FloatValues)
-        //     m_Shader->UploadUniformFloat(name, value);
+        // 上传所有存储的uniform值
+        for (const auto& [name, value] : m_FloatValues)
+            m_Shader->UploadUniformFloat(name, value);
 
-        // for (const auto& [name, value] : m_IntValues)
-        //     m_Shader->UploadUniformInt(name, value);
+        for (const auto& [name, value] : m_IntValues)
+            m_Shader->UploadUniformInt(name, value);
 
-        // for (const auto& [name, value] : m_BoolValues)
-        //     m_Shader->UploadUniformInt(name, value ? 1 : 0);
+        for (const auto& [name, value] : m_BoolValues)
+            m_Shader->UploadUniformInt(name, value ? 1 : 0);
 
-        // for (const auto& [name, value] : m_Vec2Values)
-        //     m_Shader->UploadUniformFloat2(name, value);
+        for (const auto& [name, value] : m_Vec2Values)
+            m_Shader->UploadUniformFloat2(name, value);
 
-        // for (const auto& [name, value] : m_Vec3Values)
-        //     m_Shader->UploadUniformFloat3(name, value);
+        for (const auto& [name, value] : m_Vec3Values)
+            m_Shader->UploadUniformFloat3(name, value);
 
-        // for (const auto& [name, value] : m_Vec4Values)
-        //     m_Shader->UploadUniformFloat4(name, value);
+        for (const auto& [name, value] : m_Vec4Values)
+            m_Shader->UploadUniformFloat4(name, value);
 
-        // for (const auto& [name, value] : m_Mat3Values)
-        //     m_Shader->UploadUniformMat3(name, value);
+        for (const auto& [name, value] : m_Mat3Values)
+            m_Shader->UploadUniformMat3(name, value);
 
-        // for (const auto& [name, value] : m_Mat4Values)
-        //     m_Shader->UploadUniformMat4(name, value);
+        for (const auto& [name, value] : m_Mat4Values)
+            m_Shader->UploadUniformMat4(name, value);
     }
 } // namespace Hoshino

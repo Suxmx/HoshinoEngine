@@ -2,6 +2,7 @@
 #include "Akane/SandboxApplication.h"
 #include "Hoshino/Application.h"
 #include "Hoshino/Graphics/MeshRenderObject.h"
+#include "glm/fwd.hpp"
 using namespace Hoshino;
 
 namespace Akane
@@ -11,8 +12,11 @@ namespace Akane
 		SandboxApplication& app = static_cast<SandboxApplication&>(Hoshino::Application::Instance());
 		app.m_Scene = CreateRef<Scene>();
 		m_Shader = Shader::CreateFromFile("Res/Shader/Vert/Vertex.vert", "Res/Shader/Frag/Normal.glsl");
+		// m_MeshSource = Hoshino::AssetImporter::ImportMesh("Res/Model/CornellBox-Original.obj");
 		m_MeshSource = Hoshino::AssetImporter::ImportMesh("Res/Model/backpack.obj");
 		auto meshRo = CreateRef<MeshRenderObject>(m_MeshSource);
+		meshRo->TransformRef->SetScale(glm::vec3(0.1f,0.1f,0.1f));
+		meshRo->TransformRef->SetRotation(glm::vec3(0, 90, 0));
 		app.m_Scene->PushRenderObject(meshRo);
 	}
 

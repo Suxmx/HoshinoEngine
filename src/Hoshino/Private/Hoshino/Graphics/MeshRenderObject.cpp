@@ -20,9 +20,10 @@ namespace Hoshino
 				shader->Bind();
 				shader->UploadUniformMat4("u_ViewProjection",
 				                          Renderer::GetRenderData()->ViewProjectionMatrix);
-				shader->UploadUniformMat4("u_Transform", TransformRef->GetTransformMatrix());
+				shader->UploadUniformMat4("u_Transform", submesh.LocalTransform * TransformRef->GetTransformMatrix());
 
 				auto vao = m_MeshSource->GetVertexArray();
+				vao->Bind();
 				RenderCommand::DrawIndexed(vao, m_MeshSource, i);
 			} 
 		}

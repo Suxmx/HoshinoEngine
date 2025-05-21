@@ -130,14 +130,15 @@ namespace Hoshino
 				{
 					// we're using aiProcess_Triangulate so this should always be true
 					CORE_ASSERT(mesh->mFaces[i].mNumIndices == 3, "Must have 3 indices.");
-					Index index = {mesh->mFaces[i].mIndices[0], mesh->mFaces[i].mIndices[1],
-					               mesh->mFaces[i].mIndices[2]};
+					Index index = {mesh->mFaces[i].mIndices[0] + submesh.BaseVertex,
+					               mesh->mFaces[i].mIndices[1] + submesh.BaseVertex,
+					               mesh->mFaces[i].mIndices[2] + submesh.BaseVertex};
 					meshSource->m_Indices.push_back(index);
 
 					meshSource->m_TriangleCache[m].emplace_back(
-					    meshSource->m_Vertices[index.V1 + submesh.BaseVertex],
-					    meshSource->m_Vertices[index.V2 + submesh.BaseVertex],
-					    meshSource->m_Vertices[index.V3 + submesh.BaseVertex]);
+					    meshSource->m_Vertices[index.V1],
+					    meshSource->m_Vertices[index.V2],
+					    meshSource->m_Vertices[index.V3]);
 				}
 			}
 
@@ -227,6 +228,7 @@ namespace Hoshino
 			    {"a_Texcoord", ShaderDataType::Float2},
 			};
 			meshSource->m_VertexBuffer->SetLayout(layout);
+			meshSource->m_VertexBuffer->Bind();
 			meshSource->m_VertexArray->AddVertexBuffer(meshSource->m_VertexBuffer);
 		}
 
@@ -234,6 +236,7 @@ namespace Hoshino
 		{
 			meshSource->m_IndexBuffer = IndexBuffer::Create(
 			    meshSource->m_Indices.data(), (uint32_t)(meshSource->m_Indices.size() * sizeof(Index)));
+			meshSource->m_IndexBuffer->Bind();
 			meshSource->m_VertexArray->AddIndexBuffer(meshSource->m_IndexBuffer);
 		}
 		meshSource->m_IndexBuffer->Bind();
