@@ -4,6 +4,11 @@
 namespace Hoshino
 {
 	Ref<Renderer::RenderData> Renderer::s_RenderData = Ref<Renderer::RenderData>(new Renderer::RenderData());
+	void Renderer::Init()
+	{
+		RenderCommand::Init();
+	}
+	
 	void Renderer::BeginScene(Ref<Camera>& camera)
 	{
 		s_RenderData->ViewProjectionMatrix = camera->GetViewProjectionMatrix();

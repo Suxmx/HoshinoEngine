@@ -26,6 +26,7 @@ namespace Hoshino
 				material->GetShader()->UploadUniformMat4("u_Transform", TransformRef->GetTransformMatrix());
 
 				auto vao = m_MeshSource->GetVertexArray();
+				vao->Bind();
 				RenderCommand::DrawIndexed(vao, m_MeshSource, i);
 				material->SetShader(meshShader);
 			} 

@@ -5,6 +5,11 @@
 
 namespace Hoshino
 {
+	void OpenGLRenderAPI::Init()
+	{
+		// glEnable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+	}
 	void OpenGLRenderAPI::SetClearColor(glm::vec4 color)
 	{
 		glClearColor(color.x, color.y, color.z, color.w);
@@ -12,7 +17,7 @@ namespace Hoshino
 
 	void OpenGLRenderAPI::Clear()
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void OpenGLRenderAPI::DrawIndexed(Ref<VertexArray>& vertexArray)

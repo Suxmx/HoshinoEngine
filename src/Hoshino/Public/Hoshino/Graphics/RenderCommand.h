@@ -9,6 +9,10 @@ namespace Hoshino
 	class HOSHINO_API RenderCommand
 	{
 	public:
+		inline static void Init()
+		{
+			s_RenderAPI->Init();
+		}
 		inline static Ref<RenderAPI> GetRenderAPI()
 		{
 			return s_RenderAPI;

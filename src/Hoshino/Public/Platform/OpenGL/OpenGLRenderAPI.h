@@ -7,6 +7,7 @@ namespace Hoshino
 	class HOSHINO_API OpenGLRenderAPI : public RenderAPI
 	{
 	public:
+		void Init() override;
 		void SetClearColor(glm::vec4 color) override;
 		void Clear() override;
 		void DrawIndexed(Ref<VertexArray>& vertexArray) override;
