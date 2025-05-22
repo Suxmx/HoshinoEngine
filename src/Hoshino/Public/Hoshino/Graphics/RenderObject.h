@@ -4,6 +4,7 @@
 
 namespace Hoshino
 {
+	class Shader;
 	class RenderObject
 	{
 	public:
@@ -12,7 +13,7 @@ namespace Hoshino
 		virtual ~RenderObject() = default;
 
 	public:
-		virtual void Render() = 0;
+		virtual void Render(Ref<Shader> shader=nullptr) = 0;
 
 	public:
 		Ref<Transform> TransformRef = CreateRef<Transform>();

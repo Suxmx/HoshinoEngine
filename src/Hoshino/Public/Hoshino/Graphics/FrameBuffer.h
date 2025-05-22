@@ -8,6 +8,7 @@ namespace Hoshino
 		None = 0,
 		RGBA = 1,
 		Depth24_Stencil8 = 2,
+		RGB = 3,
 		Depth = Depth24_Stencil8
 	};
 

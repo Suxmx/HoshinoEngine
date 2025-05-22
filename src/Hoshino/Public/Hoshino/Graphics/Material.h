@@ -32,6 +32,10 @@ namespace Hoshino
         {
             return m_Shader;
         }
+        void SetShader(const Ref<Shader>& shader)
+        {
+            m_Shader = shader;
+        }   
 
     public:
         static Ref<Material> Create(const Ref<Shader>& shader);

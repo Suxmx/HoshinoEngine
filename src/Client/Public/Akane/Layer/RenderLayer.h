@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Hoshino/HoshinoCore.h"
+#include "Hoshino/Graphics/FrameBuffer.h"
 
 template <typename T>
 using Ref = Hoshino::Ref<T>;
@@ -19,10 +20,9 @@ namespace Akane {
 
 	private:
 		Ref<Hoshino::MeshSource> m_MeshSource;
-		Ref<Hoshino::Shader> m_Shader;
-		Ref<Hoshino::Shader> m_BlueShader;
-        Ref<Hoshino::Texture> m_Texture;
-        Ref<Hoshino::Scene> m_Scene;
+        Ref<Hoshino::Framebuffer> m_Framebuffer;
+        Ref<Hoshino::Shader> m_GbufferShader;
+        Ref<Hoshino::Shader> m_LightingShader;
 	};
     
     

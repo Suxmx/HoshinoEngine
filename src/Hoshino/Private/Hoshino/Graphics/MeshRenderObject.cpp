@@ -5,7 +5,7 @@
 #include "Hoshino/Graphics/Shader.h"
 namespace Hoshino
 {
-	void MeshRenderObject::Render()
+	void MeshRenderObject::Render(Ref<Shader> shader)
 	{
 		if (m_MeshSource)
 		{
@@ -14,16 +14,20 @@ namespace Hoshino
 			{
 				auto& submesh = m_MeshSource->m_Submeshes[i];
 				Ref<Material>& material = m_MeshSource->m_Materials[submesh.MaterialIndex];
-				Ref<Shader>& shader = material->GetShader();
-
+				Ref<Shader>& meshShader = material->GetShader();
+				
+				if(shader != nullptr)
+				{
+					material->SetShader(shader);
+				}
 				material->Apply();
-				shader->Bind();
-				shader->UploadUniformMat4("u_ViewProjection",
-				                          Renderer::GetRenderData()->ViewProjectionMatrix);
-				shader->UploadUniformMat4("u_Transform", TransformRef->GetTransformMatrix());
+				material->GetShader()->UploadUniformMat4("u_ViewProjection",
+				                                         Renderer::GetRenderData()->ViewProjectionMatrix);
+				material->GetShader()->UploadUniformMat4("u_Transform", TransformRef->GetTransformMatrix());
 
 				auto vao = m_MeshSource->GetVertexArray();
 				RenderCommand::DrawIndexed(vao, m_MeshSource, i);
+				material->SetShader(meshShader);
 			} 
 		}
 	}

@@ -18,6 +18,8 @@ namespace Hoshino
 			return GL_NONE;
 		case FrameBufferTextureFormat::RGBA:
 			return GL_RGBA8;
+		case FrameBufferTextureFormat::RGB:
+			return GL_RGB8;
 		case FrameBufferTextureFormat::Depth24_Stencil8:
 			return GL_DEPTH24_STENCIL8;
 		}
@@ -36,6 +38,8 @@ namespace Hoshino
 			return GL_NONE;
 		case FrameBufferTextureFormat::RGBA:
 			return GL_RGBA;
+		case FrameBufferTextureFormat::RGB:
+			return GL_RGB;
 		case FrameBufferTextureFormat::Depth24_Stencil8:
 			return GL_DEPTH_STENCIL;
 		}
@@ -168,6 +172,18 @@ namespace Hoshino
                     m_ColorAttachmentSpecifications.push_back(texSpec);
 				}
 			}
+		}
+		if (m_ColorAttachments.size() > 1)
+		{
+			CORE_ASSERT(m_ColorAttachments.size() <= 4,
+			            "OpenGL only supports a maximum of {0} color attachments!", 4);
+			GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2,
+			                      GL_COLOR_ATTACHMENT3 };
+			glDrawBuffers(m_ColorAttachments.size(), buffers);
+		}
+		else if (m_ColorAttachments.empty())
+		{
+			glDrawBuffer(GL_NONE);
 		}
 
 		CORE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE,

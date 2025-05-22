@@ -4,12 +4,13 @@
 
 namespace Hoshino
 {
+	class Shder;
 	class HOSHINO_API MeshRenderObject : public RenderObject
 	{
 	public:
 		MeshRenderObject(Ref<MeshSource> meshSource) : m_MeshSource(meshSource) {}
 
-		void Render() override;
+		void Render(Ref<Shader> shader = nullptr) override;
 
 	private:
 		Ref<MeshSource> m_MeshSource;

@@ -10,10 +10,26 @@ namespace Akane
 	{
 		SandboxApplication& app = static_cast<SandboxApplication&>(Hoshino::Application::Instance());
 		app.m_Scene = CreateRef<Scene>();
-		m_Shader = Shader::CreateFromFile("Res/Shader/Vert/Vertex.vert", "Res/Shader/Frag/Normal.glsl");
 		m_MeshSource = Hoshino::AssetImporter::ImportMesh("Res/Model/backpack.obj");
 		auto meshRo = CreateRef<MeshRenderObject>(m_MeshSource);
 		app.m_Scene->PushRenderObject(meshRo);
+
+		Hoshino::FrameBufferSpec fboSpec = Hoshino::FrameBufferSpec{
+		    .Width = app.GetWindow().GetWidth(),
+		    .Height = app.GetWindow().GetHeight(),
+		    .AttachmentsSpc =
+		        Hoshino::FrameBufferAttachmentSpec{
+		            {Hoshino::FrameBufferTextureFormat::RGB, false},  // gPosition
+		            {Hoshino::FrameBufferTextureFormat::RGB, false},  // gNormal
+		            {Hoshino::FrameBufferTextureFormat::RGBA, false}, // gSpecular
+		            {Hoshino::FrameBufferTextureFormat::Depth, true}, // depth
+		        },
+		};
+		m_GbufferShader = Hoshino::Shader::Create("Res/Shader/Vert/vGbuffer.glsl","Res/Shader/Frag/fGbuffer.glsl");
+		// m_LightingShader =
+		//     Hoshino::Shader::Create("Res/Shader/Vert/vLighting.glsl", "Res/Shader/fLighting.glsl");
+		m_Framebuffer = Hoshino::Framebuffer::Create(fboSpec);
+		// m_Framebuffer=Framebuffer::Create()
 	}
 
 	void RenderLayer::OnDetach() {}
@@ -21,10 +37,16 @@ namespace Akane
 	void RenderLayer::OnUpdate(Hoshino::Timestep ts)
 	{
 		SandboxApplication& app = static_cast<SandboxApplication&>(Hoshino::Application::Instance());
+		Renderer::BeginScene(Hoshino::Application::Instance().GetCamera());
+		m_Framebuffer->Bind();
 		RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
 		RenderCommand::Clear();
-		Renderer::BeginScene(Hoshino::Application::Instance().GetCamera());
-		app.m_Scene->Render();
+		for(const auto& renderObject : app.m_Scene->GetRenderObjects())
+		{
+			renderObject->Render(m_GbufferShader);
+		}
+		m_Framebuffer->Unbind();
+
 		Renderer::EndScene();
 	}
 
