@@ -15,7 +15,7 @@ namespace Akane
 		m_MeshSource = Hoshino::AssetImporter::ImportMesh("Res/Model/backpack.obj");
 		auto meshRo = CreateRef<MeshRenderObject>(m_MeshSource);
 		meshRo->TransformRef->SetScale(glm::vec3(0.1f,0.1f,0.1f));
-		meshRo->TransformRef->SetRotation(glm::vec3(0, 90, 0));
+		meshRo->TransformRef->SetRotation(glm::vec3(0, 45, 0));
 		app.m_Scene->PushRenderObject(meshRo);
 
 		Hoshino::FrameBufferSpec fboSpec = Hoshino::FrameBufferSpec{
@@ -23,13 +23,13 @@ namespace Akane
 		    .Height = app.GetWindow().GetHeight(),
 		    .AttachmentsSpc =
 		        Hoshino::FrameBufferAttachmentSpec{
-		            {Hoshino::FrameBufferTextureFormat::RGB, false},  // gPosition
-		            {Hoshino::FrameBufferTextureFormat::RGB, false},  // gNormal
-		            {Hoshino::FrameBufferTextureFormat::RGBA, false}, // gSpecular
-		            {Hoshino::FrameBufferTextureFormat::Depth, true}, // depth
+		            {Hoshino::FrameBufferTextureFormat::RGB, false},   // gPosition
+		            {Hoshino::FrameBufferTextureFormat::RGB, false},   // gNormal
+		            {Hoshino::FrameBufferTextureFormat::RGBA, false},  // gSpecular
+		            {Hoshino::FrameBufferTextureFormat::Depth, false}, // depth
 		        },
 		};
-		m_GbufferShader = Hoshino::Shader::Create("Res/Shader/Vert/vGbuffer.glsl","Res/Shader/Frag/fGbuffer.glsl");
+		m_GbufferShader = Hoshino::Shader::CreateFromFile("Res/Shader/Vert/vGbuffer.glsl","Res/Shader/Frag/fGbuffer.glsl");
 		// m_LightingShader =
 		//     Hoshino::Shader::Create("Res/Shader/Vert/vLighting.glsl", "Res/Shader/fLighting.glsl");
 		m_Framebuffer = Hoshino::Framebuffer::Create(fboSpec);

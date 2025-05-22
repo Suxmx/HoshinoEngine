@@ -9,7 +9,7 @@ namespace Hoshino
 		RGBA = 1,
 		Depth24_Stencil8 = 2,
 		RGB = 3,
-		Depth = Depth24_Stencil8
+		Depth = 4
 	};
 
 	struct FrameBufferTextureSpec

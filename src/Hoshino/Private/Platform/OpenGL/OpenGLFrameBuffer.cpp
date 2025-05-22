@@ -7,7 +7,8 @@ namespace Hoshino
 
 	static bool IsDepthAttachment(const FrameBufferTextureSpec& spec)
 	{
-		return spec.Format == FrameBufferTextureFormat::Depth24_Stencil8;
+		return spec.Format == FrameBufferTextureFormat::Depth24_Stencil8 || spec.Format ==
+		       FrameBufferTextureFormat::Depth;
 	}
 
 	static GLenum GetGLInternalFoamat(FrameBufferTextureFormat format)
@@ -22,6 +23,8 @@ namespace Hoshino
 			return GL_RGB8;
 		case FrameBufferTextureFormat::Depth24_Stencil8:
 			return GL_DEPTH24_STENCIL8;
+		case FrameBufferTextureFormat::Depth:
+			return GL_DEPTH_COMPONENT24;
 		}
 		CORE_ASSERT(false, "Unknown FrameBufferTextureFormat");
         return GL_NONE; // Just to avoid compiler warning
@@ -42,6 +45,8 @@ namespace Hoshino
 			return GL_RGB;
 		case FrameBufferTextureFormat::Depth24_Stencil8:
 			return GL_DEPTH_STENCIL;
+		case FrameBufferTextureFormat::Depth:
+			return GL_DEPTH_COMPONENT;
 		}
 		CORE_ASSERT(false, "Unknown FrameBufferTextureFormat");
 		return GL_NONE; // Just to avoid compiler warning
@@ -66,11 +71,11 @@ namespace Hoshino
 			             GetGLDataFormat(spec.Format), GL_UNSIGNED_BYTE, nullptr);
 
 			// Temp 需要用spec里面的描述替代
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			/*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);*/
 			glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, id, 0);
 		}
 		return id;
@@ -141,6 +146,8 @@ namespace Hoshino
 		{
 			Delete();
 		}
+		m_Width = m_Spec.Width;
+		m_Height = m_Spec.Height;
 		glGenFramebuffers(1, &m_RendererID);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
 
@@ -158,19 +165,33 @@ namespace Hoshino
 			else
 			{
 				if (!texSpec.UseRenderBuffer) m_AttachTextureIndex++;
-				int attachment =
-				    isDepth ? GL_DEPTH_STENCIL_ATTACHMENT : m_AttachTextureIndex + GL_COLOR_ATTACHMENT0;
-				uint32_t attachmentId = GenAttachment(texSpec, attachment, m_Width, m_Height);
-				if (isDepth)
+			}
+			int attachment;
+			if (isDepth)
+			{
+				if (texSpec.Format == FrameBufferTextureFormat::Depth24_Stencil8)
 				{
-					m_DepthAttachment = attachmentId;
-                    m_DepthAttachmentSpec = texSpec;
+					attachment = GL_DEPTH_STENCIL_ATTACHMENT;
 				}
 				else
 				{
-					m_ColorAttachments.push_back(attachmentId);
-                    m_ColorAttachmentSpecifications.push_back(texSpec);
+					attachment = GL_DEPTH_ATTACHMENT;
 				}
+			}
+			else
+			{
+				attachment = m_AttachTextureIndex + GL_COLOR_ATTACHMENT0;
+			}
+			uint32_t attachmentId = GenAttachment(texSpec, attachment, m_Width, m_Height);
+			if (isDepth)
+			{
+				m_DepthAttachment = attachmentId;
+				m_DepthAttachmentSpec = texSpec;
+			}
+			else
+			{
+				m_ColorAttachments.push_back(attachmentId);
+				m_ColorAttachmentSpecifications.push_back(texSpec);
 			}
 		}
 		if (m_ColorAttachments.size() > 1)
