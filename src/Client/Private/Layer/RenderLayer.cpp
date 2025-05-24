@@ -47,25 +47,30 @@ namespace Akane
 		m_LightingShader =
 		    Hoshino::Shader::CreateFromFile("Res/Shader/Vert/vLighting.glsl", "Res/Shader/Frag/fLighting.glsl");
 		m_Framebuffer = Hoshino::Framebuffer::Create(fboSpec);
-		// m_Framebuffer=Framebuffer::Create()
-		// lighting info
-		// -------------
-		const unsigned int NR_LIGHTS = 32;
-		
+		m_ScreenMeshSource = Hoshino::MeshSource::CreateScreenQuad();
+		    // m_Framebuffer=Framebuffer::Create()
+		    // lighting info
+		    // -------------
+		    const unsigned int NR_LIGHTS = 3;
+
 		// 复用learn opengl 
 		srand(13);
-		for (unsigned int i = 0; i < NR_LIGHTS; i++)
-		{
-			float xPos = static_cast<float>(((rand() % 100) / 100.0) * 4 - 2);
-			float yPos = static_cast<float>(((rand() % 100) / 100.0) * 6.0 - 4.0);
-			float zPos = static_cast<float>(((rand() % 100) / 100.0) * 6.0 - 3.0);
-			m_LightPositions.push_back(glm::vec3(xPos, yPos, zPos));
+		m_LightPositions.push_back(glm::vec3(0, 0, 1.5));
+		m_LightPositions.push_back(glm::vec3(-1.5, 1, 1.5));
+		m_LightPositions.push_back(glm::vec3(1.5, -1, 1.5));
 
-			float rColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
-			float gColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
-			float bColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
-			m_LightColors.push_back(glm::vec3(rColor, gColor, bColor));
-		}
+		m_LightColors.push_back(glm::vec3(1.0, 0, 0)); 
+		m_LightColors.push_back(glm::vec3(0, 1, 0)); 
+		m_LightColors.push_back(glm::vec3(0, 0, 1)); 
+		// for (unsigned int i = 0; i < NR_LIGHTS; i++)
+		// {
+		// 	m_LightPositions.push_back(glm::vec3(-2.0+4.0/(NR_LIGHTS-1), 0, 1));
+
+		// 	float rColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
+		// 	float gColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
+		// 	float bColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
+		// 	m_LightColors.push_back(glm::vec3(rColor, gColor, bColor));
+		// }
 
 		m_LightingShader->Bind();
 		for (unsigned int i = 0; i < m_LightPositions.size(); i++)
@@ -101,34 +106,15 @@ namespace Akane
 		RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
 		RenderCommand::Clear();
 
-		for (const auto& renderObject : app.m_Scene->GetRenderObjects())
-		{
-			for (int i = 0; i < m_MeshSource->m_Submeshes.size(); i++)
-			{
-				auto& submesh = m_MeshSource->m_Submeshes[i];
-				Ref<Material>& material = m_MeshSource->m_Materials[submesh.MaterialIndex];
-				Ref<Shader>& meshShader = material->GetShader();
-
-				material->SetShader(m_LightingShader);
-				material->Apply();
-				material->GetShader()->UploadUniformMat4("u_ViewProjection",
-				                                         Renderer::GetRenderData()->ViewProjectionMatrix);
-				material->GetShader()->UploadUniformMat4("u_Transform",
-				                                         renderObject->TransformRef->GetTransformMatrix());
-				material->GetShader()->UploadUniformFloat3("u_ViewPos",
-				                                           Renderer::GetRenderData()->ViewPos);
-				m_Framebuffer->GetColorAttachmentTexture(0)->Bind(0);
-				m_Framebuffer->GetColorAttachmentTexture(1)->Bind(1);
-				m_Framebuffer->GetColorAttachmentTexture(2)->Bind(2);
-				
-
-				auto vao = m_MeshSource->GetVertexArray();
-				vao->Bind();
-				RenderCommand::DrawIndexed(vao, m_MeshSource, i);
-				material->SetShader(meshShader);
-			}
-			Renderer::EndScene();
-		}
+		m_LightingShader->Bind();
+		m_LightingShader->UploadUniformFloat3("u_ViewPos", Renderer::GetRenderData()->ViewPos);
+		m_Framebuffer->GetColorAttachmentTexture(0)->Bind(0);
+		m_Framebuffer->GetColorAttachmentTexture(1)->Bind(1);
+		m_Framebuffer->GetColorAttachmentTexture(2)->Bind(2);
+		m_ScreenMeshSource->GetVertexArray()->Bind();
+		auto vao = m_ScreenMeshSource->GetVertexArray();
+		RenderCommand::DrawIndexed(vao, m_ScreenMeshSource, 0);
+		Renderer::EndScene();
 	}
 
 	void RenderLayer::OnImGuiRender() {}

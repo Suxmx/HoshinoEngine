@@ -19,6 +19,7 @@ namespace Akane {
 
 	private:
 		Hoshino::Ref<Hoshino::MeshSource> m_MeshSource;
+		Hoshino::Ref<Hoshino::MeshSource> m_ScreenMeshSource;
 		Hoshino::Ref<Hoshino::Framebuffer> m_Framebuffer;
 		Hoshino::Ref<Hoshino::Shader> m_GbufferShader;
 		Hoshino::Ref<Hoshino::Shader> m_LightingShader;

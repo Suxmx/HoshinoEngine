@@ -14,7 +14,7 @@ struct Light {
     float Linear;
     float Quadratic;
 };
-const int NR_LIGHTS = 32;
+const int NR_LIGHTS = 3;
 uniform Light lights[NR_LIGHTS];
 uniform mat4 u_ViewProjection;
 uniform mat4 u_Transform;

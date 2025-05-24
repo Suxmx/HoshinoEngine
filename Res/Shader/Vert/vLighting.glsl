@@ -11,6 +11,6 @@ out vec2 TexCoords;
 
 void main()
 {
-    TexCoords = (u_ViewProjection * u_Transform * vec4(a_Position, 1.0)).xy/2+vec2(0.5, 0.5);
-    gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+    TexCoords = a_TexCoord;
+    gl_Position = vec4(a_Position, 1.0);
 }

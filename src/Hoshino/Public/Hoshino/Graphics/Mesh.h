@@ -71,9 +71,9 @@ namespace Hoshino
 	public:
 		MeshSource() = default;
 		MeshSource(const std::vector<Vertex>& vertices, const std::vector<Index>& indices,
-		           const glm::mat4& transform);
+		           const glm::mat4& transform): m_Vertices(vertices), m_Indices(indices){}
 		MeshSource(const std::vector<Vertex>& vertices, const std::vector<Index>& indices,
-		           const std::vector<Submesh>& submeshes);
+		           const std::vector<Submesh>& submeshes): m_Vertices(vertices), m_Indices(indices), m_Submeshes(submeshes){}
 		virtual ~MeshSource(){}
 
 		void DumpVertexBuffer();
@@ -127,13 +127,14 @@ namespace Hoshino
 		{
 			return m_Nodes;
 		}
+		static Ref<MeshSource> CreateScreenQuad();
+
+	public:
 		std::vector<Submesh> m_Submeshes;
 		std::vector<Ref<Material>> m_Materials;
 
 	private:
 		
-		
-
 		Ref<VertexBuffer> m_VertexBuffer;
 		Ref<IndexBuffer> m_IndexBuffer;
 		Ref<VertexArray> m_VertexArray;
