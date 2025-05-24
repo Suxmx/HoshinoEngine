@@ -2,9 +2,8 @@
 
 #include "Hoshino/HoshinoCore.h"
 #include "Hoshino/Graphics/FrameBuffer.h"
+#include "HoshinoMin.h"
 
-template <typename T>
-using Ref = Hoshino::Ref<T>;
 
 namespace Akane {
     class RenderLayer : public Hoshino::Layer {
@@ -19,10 +18,10 @@ namespace Akane {
         void OnEvent(Hoshino::Event& event) override;
 
 	private:
-		Ref<Hoshino::MeshSource> m_MeshSource;
-        Ref<Hoshino::Framebuffer> m_Framebuffer;
-        Ref<Hoshino::Shader> m_GbufferShader;
-        Ref<Hoshino::Shader> m_LightingShader;
+		Hoshino::Ref<Hoshino::MeshSource> m_MeshSource;
+		Hoshino::Ref<Hoshino::Framebuffer> m_Framebuffer;
+		Hoshino::Ref<Hoshino::Shader> m_GbufferShader;
+		Hoshino::Ref<Hoshino::Shader> m_LightingShader;
 	};
     
     

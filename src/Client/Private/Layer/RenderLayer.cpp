@@ -2,6 +2,7 @@
 #include "Akane/SandboxApplication.h"
 #include "Hoshino/Application.h"
 #include "Hoshino/Graphics/MeshRenderObject.h"
+#include "Hoshino/Graphics/Material.h"
 #include "glm/fwd.hpp"
 using namespace Hoshino;
 
@@ -32,8 +33,8 @@ namespace Akane
 		// Hoshino::Texture::Create(TextureSpec(Hoshino::TextureFormat::RGBA, 1, 1));
 		// Hoshino::Texture::Create(TextureSpec(Hoshino::TextureFormat::Depth, 1, 1));
 		m_GbufferShader = Hoshino::Shader::CreateFromFile("Res/Shader/Vert/vGbuffer.glsl","Res/Shader/Frag/fGbuffer.glsl");
-		// m_LightingShader =
-		//     Hoshino::Shader::Create("Res/Shader/Vert/vLighting.glsl", "Res/Shader/fLighting.glsl");
+		m_LightingShader =
+		    Hoshino::Shader::CreateFromFile("Res/Shader/Vert/vLighting.glsl", "Res/Shader/Frag/fLighting.glsl");
 		m_Framebuffer = Hoshino::Framebuffer::Create(fboSpec);
 		// m_Framebuffer=Framebuffer::Create()
 	}
@@ -47,13 +48,46 @@ namespace Akane
 		m_Framebuffer->Bind();
 		RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
 		RenderCommand::Clear();
-		for(const auto& renderObject : app.m_Scene->GetRenderObjects())
+		for (const auto& renderObject : app.m_Scene->GetRenderObjects())
 		{
 			renderObject->Render(m_GbufferShader);
 		}
 		m_Framebuffer->Unbind();
 
-		Renderer::EndScene();
+		RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
+		RenderCommand::Clear();
+
+		for (const auto& renderObject : app.m_Scene->GetRenderObjects())
+		{
+			for (int i = 0; i < m_MeshSource->m_Submeshes.size(); i++)
+			{
+				auto& submesh = m_MeshSource->m_Submeshes[i];
+				Ref<Material>& material = m_MeshSource->m_Materials[submesh.MaterialIndex];
+				Ref<Shader>& meshShader = material->GetShader();
+
+				material->SetShader(m_LightingShader);
+				material->Apply();
+				material->GetShader()->UploadUniformMat4("u_ViewProjection",
+				                                         Renderer::GetRenderData()->ViewProjectionMatrix);
+				material->GetShader()->UploadUniformMat4("u_Transform",
+				                                         renderObject->TransformRef->GetTransformMatrix());
+				m_Framebuffer->GetColorAttachmentTexture(0)->Bind(0);
+				m_Framebuffer->GetColorAttachmentTexture(1)->Bind(1);
+				m_Framebuffer->GetColorAttachmentTexture(2)->Bind(2);
+
+				material->GetShader()->UploadUniformInt(
+				    "gPosition", 0);
+				material->GetShader()->UploadUniformInt(
+				    "gNormal", 1);
+				material->GetShader()->UploadUniformInt(
+				    "gAlbedoSpec", 2);
+				auto vao = m_MeshSource->GetVertexArray();
+				vao->Bind();
+				RenderCommand::DrawIndexed(vao, m_MeshSource, i);
+				material->SetShader(meshShader);
+			}
+			Renderer::EndScene();
+		}
 	}
 
 	void RenderLayer::OnImGuiRender() {}

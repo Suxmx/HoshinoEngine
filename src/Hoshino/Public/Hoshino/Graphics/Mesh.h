@@ -127,10 +127,12 @@ namespace Hoshino
 		{
 			return m_Nodes;
 		}
-
-	private:
 		std::vector<Submesh> m_Submeshes;
 		std::vector<Ref<Material>> m_Materials;
+
+	private:
+		
+		
 
 		Ref<VertexBuffer> m_VertexBuffer;
 		Ref<IndexBuffer> m_IndexBuffer;
