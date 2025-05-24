@@ -7,16 +7,10 @@ namespace Hoshino
 	{
 	public:
 		OpenGLTexture(const std::string& path);
+		OpenGLTexture(const TextureSpec& spec);
 		~OpenGLTexture() override;
 		void Bind(uint32_t slot = 0) override;
 		void Unbind() override;
-		inline uint32_t GetRendererID() const
-		{
-			return m_RendererID;
-		}
-
-	protected:
-		uint32_t m_RendererID;
 	};
-    
+
 } // namespace Hoshino

@@ -23,12 +23,14 @@ namespace Akane
 		    .Height = app.GetWindow().GetHeight(),
 		    .AttachmentsSpc =
 		        Hoshino::FrameBufferAttachmentSpec{
-		            {Hoshino::FrameBufferTextureFormat::RGB, false},   // gPosition
-		            {Hoshino::FrameBufferTextureFormat::RGB, false},   // gNormal
-		            {Hoshino::FrameBufferTextureFormat::RGBA, false},  // gSpecular
-		            {Hoshino::FrameBufferTextureFormat::Depth, false}, // depth
+		            {Hoshino::TextureFormat::RGB, false},   // gPosition
+		            {Hoshino::TextureFormat::RGB, false},   // gNormal
+		            {Hoshino::TextureFormat::RGBA, false},  // gSpecular
+		            {Hoshino::TextureFormat::Depth, false}, // depth
 		        },
 		};
+		// Hoshino::Texture::Create(TextureSpec(Hoshino::TextureFormat::RGBA, 1, 1));
+		// Hoshino::Texture::Create(TextureSpec(Hoshino::TextureFormat::Depth, 1, 1));
 		m_GbufferShader = Hoshino::Shader::CreateFromFile("Res/Shader/Vert/vGbuffer.glsl","Res/Shader/Frag/fGbuffer.glsl");
 		// m_LightingShader =
 		//     Hoshino::Shader::Create("Res/Shader/Vert/vLighting.glsl", "Res/Shader/fLighting.glsl");

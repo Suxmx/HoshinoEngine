@@ -1,4 +1,6 @@
 #include "Platform/OpenGL/OpenGLFrameBuffer.h"
+#include "Platform/OpenGL/OpenGLTexture.h"
+#include "Platform/OpenGL/Utils.h"
 
 #include <glad/glad.h>
 
@@ -7,79 +9,30 @@ namespace Hoshino
 
 	static bool IsDepthAttachment(const FrameBufferTextureSpec& spec)
 	{
-		return spec.Format == FrameBufferTextureFormat::Depth24_Stencil8 || spec.Format ==
-		       FrameBufferTextureFormat::Depth;
+		return spec.Format == TextureFormat::Depth24_Stencil8 || spec.Format ==
+		       TextureFormat::Depth;
 	}
 
-	static GLenum GetGLInternalFoamat(FrameBufferTextureFormat format)
+	static Ref<Texture> GenTexture(const FrameBufferTextureSpec& spec, int attachment, float width,
+	                               float height)
 	{
-		switch (format)
-		{
-		case FrameBufferTextureFormat::None:
-			return GL_NONE;
-		case FrameBufferTextureFormat::RGBA:
-			return GL_RGBA8;
-		case FrameBufferTextureFormat::RGB:
-			return GL_RGB8;
-		case FrameBufferTextureFormat::Depth24_Stencil8:
-			return GL_DEPTH24_STENCIL8;
-		case FrameBufferTextureFormat::Depth:
-			return GL_DEPTH_COMPONENT24;
-		}
-		CORE_ASSERT(false, "Unknown FrameBufferTextureFormat");
-        return GL_NONE; // Just to avoid compiler warning
-
-
-        
+		TextureSpec textureSpec(spec.Format, width, height);
+		Ref<Texture> texture = Texture::Create(textureSpec);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, texture->GetRendererID(), 0);
+		return texture;
 	}
 
-	static GLenum GetGLDataFormat(FrameBufferTextureFormat format)
-	{
-		switch (format)
-		{
-		case FrameBufferTextureFormat::None:
-			return GL_NONE;
-		case FrameBufferTextureFormat::RGBA:
-			return GL_RGBA;
-		case FrameBufferTextureFormat::RGB:
-			return GL_RGB;
-		case FrameBufferTextureFormat::Depth24_Stencil8:
-			return GL_DEPTH_STENCIL;
-		case FrameBufferTextureFormat::Depth:
-			return GL_DEPTH_COMPONENT;
-		}
-		CORE_ASSERT(false, "Unknown FrameBufferTextureFormat");
-		return GL_NONE; // Just to avoid compiler warning
-	}
-
-	static uint32_t GenAttachment(const FrameBufferTextureSpec& spec, int attachment, float width,
-	                              float height)
-	{
-		uint32_t id = 0;
-		if (spec.UseRenderBuffer)
-		{
-			glGenRenderbuffers(1, &id);
-			glBindRenderbuffer(GL_RENDERBUFFER, id);
-			glRenderbufferStorage(GL_RENDERBUFFER, GetGLInternalFoamat(spec.Format), width, height);
-			glBindRenderbuffer(GL_RENDERBUFFER, id);
-		}
-		else
-		{
-			glGenTextures(1, &id);
-			glBindTexture(GL_TEXTURE_2D, id);
-			glTexImage2D(GL_TEXTURE_2D, 0, GetGLInternalFoamat(spec.Format), width, height, 0,
-			             GetGLDataFormat(spec.Format), GL_UNSIGNED_BYTE, nullptr);
-
-			// Temp 需要用spec里面的描述替代
-			/*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);*/
-			glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, id, 0);
-		}
-		return id;
-	}
+	// // 先不抽象缓冲区
+	// static uint32_t GenRenderBuffer(const FrameBufferTextureSpec& spec, int attachment, float width,
+	//                                 float height)
+	// {
+	// 	uint32_t id = 0;
+	// 	glGenRenderbuffers(1, &id);
+	// 	glBindRenderbuffer(GL_RENDERBUFFER, id);
+	// 	glRenderbufferStorage(GL_RENDERBUFFER, Utils::GetGLInternalFoamat(spec.Format), width, height);
+	// 	glBindRenderbuffer(GL_RENDERBUFFER, id);
+	// 	return id;
+	// }
 
 	OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpec& spec) : Framebuffer(spec) {
         Reinit();
@@ -108,7 +61,7 @@ namespace Hoshino
 		Reinit();
 	}
 
-	int OpenGLFrameBuffer::ReadPixel(uint32_t attachmentIndex, int x, int y)
+	int OpenGLFrameBuffer::ReadPixel(uint32_t attachmentIndex, int x,int y)
 	{
 		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
 		int pixelData;
@@ -122,7 +75,7 @@ namespace Hoshino
 		            m_ColorAttachments.size());
 
 		auto& spec = m_ColorAttachmentSpecifications[attachmentIndex];
-		glClearTexImage(m_ColorAttachments[attachmentIndex], 0, GetGLDataFormat(spec.Format),
+		glClearTexImage(m_ColorAttachments[attachmentIndex], 0, Utils::GetGLDataFormat(spec.Format),
                         GL_INT, &value);
 	}
 
@@ -138,7 +91,13 @@ namespace Hoshino
 	{
 		return m_Spec;
 	}
+	
+	Ref<Texture> OpenGLFrameBuffer::GetColorAttachmentTexture(uint32_t index) const 
+	{
+		return m_ColorAttachmentTextures[index];
+	}
 
+	//TODO: 临时代码 后续支持RBO
 	void OpenGLFrameBuffer::Reinit()
 	{
 		// 如果原先已经初始化过了就先清理
@@ -169,7 +128,7 @@ namespace Hoshino
 			int attachment;
 			if (isDepth)
 			{
-				if (texSpec.Format == FrameBufferTextureFormat::Depth24_Stencil8)
+				if (texSpec.Format == TextureFormat::Depth24_Stencil8)
 				{
 					attachment = GL_DEPTH_STENCIL_ATTACHMENT;
 				}
@@ -182,16 +141,29 @@ namespace Hoshino
 			{
 				attachment = m_AttachTextureIndex + GL_COLOR_ATTACHMENT0;
 			}
-			uint32_t attachmentId = GenAttachment(texSpec, attachment, m_Width, m_Height);
-			if (isDepth)
+			if(texSpec.UseRenderBuffer)
 			{
-				m_DepthAttachment = attachmentId;
-				m_DepthAttachmentSpec = texSpec;
+				CORE_ASSERT(false, "RenderBuffer not supported yet");
+				// uint32_t renderBuffer = GenRenderBuffer(texSpec, attachment, m_Width, m_Height);
+				// glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachment, GL_RENDERBUFFER, renderBuffer);
 			}
 			else
 			{
-				m_ColorAttachments.push_back(attachmentId);
-				m_ColorAttachmentSpecifications.push_back(texSpec);
+				Ref<Texture> texture  =
+				    GenTexture(texSpec, attachment, m_Width, m_Height);
+
+				if (isDepth)
+				{
+					m_DepthAttachmentTexture  = texture;
+					m_DepthAttachment = texture->GetRendererID();
+					m_DepthAttachmentSpec = texSpec;
+				}
+				else
+				{
+					m_ColorAttachments.push_back(texture->GetRendererID());
+					m_ColorAttachmentTextures.push_back(texture);
+					m_ColorAttachmentSpecifications.push_back(texSpec);
+				}
 			}
 		}
 		if (m_ColorAttachments.size() > 1)
@@ -218,6 +190,7 @@ namespace Hoshino
 		glDeleteTextures(1, &m_DepthAttachment);
 
 		m_ColorAttachments.clear();
+		m_ColorAttachmentTextures.clear();
 		m_DepthAttachment = 0;
         m_AttachTextureIndex = -1;
         m_ColorAttachmentSpecifications.clear();

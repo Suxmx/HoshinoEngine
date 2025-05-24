@@ -19,6 +19,7 @@ namespace Hoshino
 		uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override;
 
 		const FrameBufferSpec& GetSpecification() const override;
+		Ref<Texture> GetColorAttachmentTexture(uint32_t index = 0) const override;
 
 	private:
 		void Reinit();
@@ -27,6 +28,8 @@ namespace Hoshino
 	private:
 		uint32_t m_RendererID = 0;
 		std::vector<uint32_t> m_ColorAttachments;
+		std::vector<Ref<Texture>> m_ColorAttachmentTextures;
+		Ref<Texture> m_DepthAttachmentTexture;
 		uint32_t m_DepthAttachment = 0;
 		int m_AttachTextureIndex = -1;
 		FrameBufferTextureSpec m_DepthAttachmentSpec;

@@ -14,4 +14,14 @@ namespace Hoshino
 		CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
 	}
+	Ref<Texture> Texture::Create(const TextureSpec& spec)
+	{
+		switch (RenderAPI::GetAPI())
+		{
+		case RenderAPI::API::OpenGL:
+			return CreateRef<OpenGLTexture>(spec);
+		}
+		CORE_ASSERT(false, "Unknown RendererAPI!");
+		return nullptr;
+	}
 } // namespace Hoshino

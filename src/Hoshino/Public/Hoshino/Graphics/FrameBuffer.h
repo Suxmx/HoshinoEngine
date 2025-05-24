@@ -1,24 +1,16 @@
 #pragma once
 #include "HoshinoMin.h"
+#include "Hoshino/Graphics/Texture.h"
 
 namespace Hoshino
 {
-	enum class FrameBufferTextureFormat
-	{
-		None = 0,
-		RGBA = 1,
-		Depth24_Stencil8 = 2,
-		RGB = 3,
-		Depth = 4
-	};
-
 	struct FrameBufferTextureSpec
 	{
-		FrameBufferTextureSpec(FrameBufferTextureFormat format = FrameBufferTextureFormat::None,
+		FrameBufferTextureSpec(TextureFormat format = TextureFormat::None,
 		                       bool useRenderBuffer = false) :
 		    Format(format), UseRenderBuffer(useRenderBuffer)
 		{}
-		FrameBufferTextureFormat Format;
+		TextureFormat Format;
 		bool UseRenderBuffer;
 	};
 
@@ -51,6 +43,8 @@ namespace Hoshino
 		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const = 0;
 
 		virtual const FrameBufferSpec& GetSpecification() const = 0;
+
+		virtual Ref<Texture> GetColorAttachmentTexture(uint32_t index = 0) const = 0;
 
 		static Ref<Framebuffer> Create(const FrameBufferSpec& spec);
 
