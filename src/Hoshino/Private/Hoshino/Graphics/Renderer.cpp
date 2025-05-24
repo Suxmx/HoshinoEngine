@@ -12,6 +12,7 @@ namespace Hoshino
 	void Renderer::BeginScene(Ref<Camera>& camera)
 	{
 		s_RenderData->ViewProjectionMatrix = camera->GetViewProjectionMatrix();
+		s_RenderData->ViewPos = camera->GetPosition();
 	}
 
 	void Renderer::EndScene() {}

@@ -24,6 +24,7 @@ namespace Hoshino
 		static Ref<Shader> GetDefaultShader();
 		struct RenderData
 		{
+			glm::vec3 ViewPos;
 			glm::mat4 ViewProjectionMatrix;
 			Ref<Shader> DefaultShader = nullptr; // 默认着色器
 		};

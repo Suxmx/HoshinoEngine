@@ -14,10 +14,21 @@ namespace Akane
 		app.m_Scene = CreateRef<Scene>();
 		// m_MeshSource = Hoshino::AssetImporter::ImportMesh("Res/Model/CornellBox-Original.obj");
 		m_MeshSource = Hoshino::AssetImporter::ImportMesh("Res/Model/backpack.obj");
-		auto meshRo = CreateRef<MeshRenderObject>(m_MeshSource);
-		meshRo->TransformRef->SetScale(glm::vec3(0.1f,0.1f,0.1f));
-		meshRo->TransformRef->SetRotation(glm::vec3(0, 45, 0));
-		app.m_Scene->PushRenderObject(meshRo);
+		auto meshRo1 = CreateRef<MeshRenderObject>(m_MeshSource);
+		auto meshRo2 = CreateRef<MeshRenderObject>(m_MeshSource);
+		auto meshRo3 = CreateRef<MeshRenderObject>(m_MeshSource);
+		meshRo1->TransformRef->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+		meshRo1->TransformRef->SetRotation(glm::vec3(0, 45, 0));
+		meshRo1->TransformRef->SetPosition(glm::vec3(-0.6, 0, 0));
+		app.m_Scene->PushRenderObject(meshRo1);
+		meshRo2->TransformRef->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+		meshRo2->TransformRef->SetRotation(glm::vec3(0, 0, 0));
+		meshRo2->TransformRef->SetPosition(glm::vec3(0, 0, 0));
+		app.m_Scene->PushRenderObject(meshRo2);
+		meshRo3->TransformRef->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+		meshRo3->TransformRef->SetRotation(glm::vec3(0, -45, 0));
+		meshRo3->TransformRef->SetPosition(glm::vec3(0.6, 0, 0));
+		app.m_Scene->PushRenderObject(meshRo3);
 
 		Hoshino::FrameBufferSpec fboSpec = Hoshino::FrameBufferSpec{
 		    .Width = app.GetWindow().GetWidth(),
@@ -37,6 +48,39 @@ namespace Akane
 		    Hoshino::Shader::CreateFromFile("Res/Shader/Vert/vLighting.glsl", "Res/Shader/Frag/fLighting.glsl");
 		m_Framebuffer = Hoshino::Framebuffer::Create(fboSpec);
 		// m_Framebuffer=Framebuffer::Create()
+		// lighting info
+		// -------------
+		const unsigned int NR_LIGHTS = 32;
+		
+		// 复用learn opengl 
+		srand(13);
+		for (unsigned int i = 0; i < NR_LIGHTS; i++)
+		{
+			float xPos = static_cast<float>(((rand() % 100) / 100.0) * 4 - 2);
+			float yPos = static_cast<float>(((rand() % 100) / 100.0) * 6.0 - 4.0);
+			float zPos = static_cast<float>(((rand() % 100) / 100.0) * 6.0 - 3.0);
+			m_LightPositions.push_back(glm::vec3(xPos, yPos, zPos));
+
+			float rColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
+			float gColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
+			float bColor = static_cast<float>(((rand() % 100) / 200.0f) + 0.5); // between 0.5 and 1.0
+			m_LightColors.push_back(glm::vec3(rColor, gColor, bColor));
+		}
+
+		m_LightingShader->Bind();
+		for (unsigned int i = 0; i < m_LightPositions.size(); i++)
+		{
+			m_LightingShader->UploadUniformFloat3("lights[" + std::to_string(i) + "].Position", m_LightPositions[i]);
+			m_LightingShader->UploadUniformFloat3("lights[" + std::to_string(i) + "].Color", m_LightColors[i]);
+
+			const float linear = 0.7f;
+			const float quadratic = 1.8f;
+			m_LightingShader->UploadUniformFloat("lights[" + std::to_string(i) + "].Linear", linear);
+			m_LightingShader->UploadUniformFloat("lights[" + std::to_string(i) + "].Quadratic", quadratic);
+		}
+		m_LightingShader->UploadUniformInt("gPosition", 0);
+		m_LightingShader->UploadUniformInt("gNormal", 1);
+		m_LightingShader->UploadUniformInt("gAlbedoSpec", 2);
 	}
 
 	void RenderLayer::OnDetach() {}
@@ -71,16 +115,13 @@ namespace Akane
 				                                         Renderer::GetRenderData()->ViewProjectionMatrix);
 				material->GetShader()->UploadUniformMat4("u_Transform",
 				                                         renderObject->TransformRef->GetTransformMatrix());
+				material->GetShader()->UploadUniformFloat3("u_ViewPos",
+				                                           Renderer::GetRenderData()->ViewPos);
 				m_Framebuffer->GetColorAttachmentTexture(0)->Bind(0);
 				m_Framebuffer->GetColorAttachmentTexture(1)->Bind(1);
 				m_Framebuffer->GetColorAttachmentTexture(2)->Bind(2);
+				
 
-				material->GetShader()->UploadUniformInt(
-				    "gPosition", 0);
-				material->GetShader()->UploadUniformInt(
-				    "gNormal", 1);
-				material->GetShader()->UploadUniformInt(
-				    "gAlbedoSpec", 2);
 				auto vao = m_MeshSource->GetVertexArray();
 				vao->Bind();
 				RenderCommand::DrawIndexed(vao, m_MeshSource, i);

@@ -22,6 +22,8 @@ namespace Akane {
 		Hoshino::Ref<Hoshino::Framebuffer> m_Framebuffer;
 		Hoshino::Ref<Hoshino::Shader> m_GbufferShader;
 		Hoshino::Ref<Hoshino::Shader> m_LightingShader;
+		std::vector<glm::vec3> m_LightPositions;
+		std::vector<glm::vec3> m_LightColors;
 	};
     
     
