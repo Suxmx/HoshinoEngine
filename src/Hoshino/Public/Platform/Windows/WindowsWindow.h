@@ -1,6 +1,5 @@
 #pragma once
 #include "Hoshino/Window/Window.h"
-#include "Hoshino/Graphics/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>
 namespace Hoshino

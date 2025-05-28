@@ -51,6 +51,9 @@ namespace Hoshino
 
 	void ImGuiLayer::OnImGuiRender()
 	{
+		ImGui::Begin("Hoshino Engine");
+		ImGui::Text("Hello, Hoshino!");
+		ImGui::End();
 	}
 	
 	void ImGuiLayer::Begin()

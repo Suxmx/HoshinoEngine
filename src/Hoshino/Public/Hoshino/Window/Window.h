@@ -1,5 +1,4 @@
 #include "HoshinoMin.h"
-#include "Hoshino/Graphics/GraphicsContext.h"
 #include "Hoshino/Window/WindowProps.h"
 #include "Hoshino/Event/Event.h"
 
@@ -24,6 +23,5 @@ namespace Hoshino
 		static Scope<Window> Create(const WindowProps& props = WindowProps());
 
 	protected:
-		Ref<GraphicsContext> m_Context;
 	};
 } // namespace Hoshino

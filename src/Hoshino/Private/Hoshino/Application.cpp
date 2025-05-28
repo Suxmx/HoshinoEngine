@@ -2,12 +2,10 @@
 
 #include "Hoshino/Log.h"
 
-#include "Hoshino/Graphics/Buffer.h"
-#include "Hoshino/Graphics/Renderer.h"
-#include "Hoshino/Graphics/RenderCommand.h"
 
 #include "Hoshino/TimeStep.h"
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 #define BIND_APP_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
@@ -37,6 +35,8 @@ namespace Hoshino
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
+			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate(timestep);
 
@@ -73,7 +73,6 @@ namespace Hoshino
 	
 	bool Application::OnWindowResize(WindowResizedEvent& event)
 	{
-		RenderCommand::SetViewport(0, 0, event.GetWidth(), event.GetHeight());
 		return true;
 	}
 

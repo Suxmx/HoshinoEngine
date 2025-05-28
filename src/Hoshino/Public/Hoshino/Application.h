@@ -1,9 +1,5 @@
 #pragma once
 #include "Hoshino/HoshinoCore.h"
-#include "Hoshino/Graphics/Buffer.h"
-#include "Hoshino/Graphics/VertexArray.h"
-#include "Hoshino/Graphics/Shader.h"
-#include "Hoshino/Graphics/Camera.h"
 
 #include "Hoshino/Window/Window.h"
 #include "Hoshino/Layer/LayerStack.h"
@@ -28,10 +24,6 @@ namespace Hoshino
 		{
 			return *m_Window;
 		}
-		inline Ref<Camera>& GetCamera()
-		{
-			return m_Camera;
-		}
 		void OnEvent(Event& event);
 
 	private:
@@ -43,7 +35,6 @@ namespace Hoshino
 		static Application* s_Instance;
 
 	protected:
-		Ref<Camera> m_Camera;
 
 	private:
 		
