@@ -5,8 +5,7 @@
 
 #include "Hoshino/TimeStep.h"
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
-#include <nvrhi/nvrhi.h>
+#include <glad/glad.h
 #define BIND_APP_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 namespace Hoshino
@@ -15,8 +14,6 @@ namespace Hoshino
 
 	Application::Application()
 	{
-		nvrhi::GraphicsPipelineDesc psoDesc;
-		CORE_DEBUG("test:{0}", (int)psoDesc.primType);
 		CORE_ASSERT(!s_Instance, "Application already exists!")
 		s_Instance = this;
 		m_Window = Window::Create();
