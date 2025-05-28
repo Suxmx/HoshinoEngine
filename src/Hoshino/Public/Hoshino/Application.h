@@ -4,6 +4,7 @@
 #include "Hoshino/Window/Window.h"
 #include "Hoshino/Layer/LayerStack.h"
 #include "Hoshino/Layer/ImGuiLayer.h"
+#include "Hoshino/Renderer/DeviceManager.h"
 namespace Hoshino
 {
 	class HOSHINO_API Application

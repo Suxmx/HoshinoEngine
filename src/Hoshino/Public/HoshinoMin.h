@@ -5,6 +5,8 @@
 #include "Hoshino/Assert.h"
 #include "Hoshino/Macro.h"
 
+#include <nvrhi/common/resource.h>
+
 namespace Hoshino
 {
 	template <typename T>
@@ -21,4 +23,7 @@ namespace Hoshino
 	{
 		return std::make_unique<T>(std::forward<Args>(args)...);
 	}
+
+	template <typename T>
+	using RefCountPtr = nvrhi::RefCountPtr<T>;
 } // namespace Hoshino
