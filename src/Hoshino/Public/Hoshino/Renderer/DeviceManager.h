@@ -58,7 +58,8 @@ class HOSHINO_API DeviceManager
 	public:
 		static DeviceManager* Create(GraphicsAPI api);
 		void CreateInstance(const InstanceParameters& params);
-		void CreateWindowDeviceAndSwapChain(const DeviceParameters& params);
+		void CreateWindowDeviceAndSwapChain(const DeviceParameters& params,
+		                                    const char* windowTtitle = "HoshinoEngine");
 
 	protected:
 		virtual bool CreateInstanceInternal() = 0;
@@ -74,5 +75,10 @@ class HOSHINO_API DeviceManager
 	protected:
 		DeviceParameters m_DeviceParameters;
 		InstanceParameters m_InstanceParameters;
+
+		// Actual Properties
+		bool m_EnableVSync = false;
+		bool m_IsFullscreen = false;
+		
 	};
 } // namespace Hoshino
