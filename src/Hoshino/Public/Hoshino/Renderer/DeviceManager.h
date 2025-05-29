@@ -9,6 +9,8 @@
 	#include <vulkan/vulkan.h>
 #endif
 
+#include <GLFW/glfw3.h>
+
 namespace Hoshino
 {
 	enum class GraphicsAPI : uint8_t
@@ -28,10 +30,10 @@ namespace Hoshino
 #endif
 	};
 
-	struct DeviceParameters
+	struct DeviceParameters : InstanceParameters
 	{
-		bool startMaximized = false; // ignores backbuffer width/height to be monitor size
-		bool startFullscreen = false;
+		bool startMaximizedWindow = false; // 忽略backbuffer属性，直接最大化窗口
+		bool startFullscreen = false; // 全屏模式，以显示屏为单位
 		bool startBorderless = false;
 		bool allowModeSwitch = false;
 		int windowPosX = -1; // -1 means use default placement
@@ -57,8 +59,8 @@ class HOSHINO_API DeviceManager
 	{
 	public:
 		static DeviceManager* Create(GraphicsAPI api);
-		void CreateInstance(const InstanceParameters& params);
-		void CreateWindowDeviceAndSwapChain(const DeviceParameters& params,
+		bool CreateInstance(const InstanceParameters& params);
+		bool CreateWindowDeviceAndSwapChain(const DeviceParameters& params,
 		                                    const char* windowTtitle = "HoshinoEngine");
 
 	protected:
@@ -79,6 +81,8 @@ class HOSHINO_API DeviceManager
 		// Actual Properties
 		bool m_EnableVSync = false;
 		bool m_IsFullscreen = false;
+
+		GLFWwindow* m_Window = nullptr;
 		
 	};
 } // namespace Hoshino
