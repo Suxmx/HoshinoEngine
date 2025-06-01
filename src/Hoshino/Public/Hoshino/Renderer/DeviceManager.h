@@ -22,6 +22,7 @@ namespace Hoshino
 #pragma region Parameters
 	struct InstanceParameters
 	{
+		bool enableDebugRuntime = false; // 是否启用调试运行时
 #ifdef HOSHINO_VULKAN
 		std::vector<std::string> requiredVulkanInstanceExtensions;
 		std::vector<std::string> requiredVulkanLayers;
@@ -49,6 +50,8 @@ namespace Hoshino
 
 		RenderMsgCb* messageCallback = nullptr;
 #ifdef HOSHINO_VULKAN
+		std::vector<std::string> requiredVulkanDeviceExtensions;
+		std::vector<std::string> optionalVulkanDeviceExtensions;
 		std::vector<size_t> ignoredVulkanValidationMessageLocations = {0x13365b2};
 #endif
 	};
@@ -65,7 +68,7 @@ class HOSHINO_API DeviceManager
 
 	protected:
 		virtual bool CreateInstanceInternal() = 0;
-		virtual bool CreateDevice() = 0;
+		virtual bool CreateNvrhiDevice() = 0;
 		virtual bool CreateSwapChain() = 0;
 		virtual void ResizeSwapChain(uint32_t width, uint32_t height) = 0;
 		virtual void DestroyDeviceAndSwapChain() = 0;
@@ -76,11 +79,11 @@ class HOSHINO_API DeviceManager
 
 	protected:
 		DeviceParameters m_DeviceParameters;
-		InstanceParameters m_InstanceParameters;
 
 		// Actual Properties
 		bool m_EnableVSync = false;
 		bool m_IsFullscreen = false;
+		bool m_InstanceCreated = false;
 
 		GLFWwindow* m_Window = nullptr;
 		

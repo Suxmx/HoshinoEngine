@@ -32,6 +32,8 @@ namespace Hoshino
 		WindowFocus,
 		WindowLostFocus,
 		WindowMove,
+		WindowRefresh,
+		WindowMinimize,
 		// App
 		AppTick,
 		AppRender,

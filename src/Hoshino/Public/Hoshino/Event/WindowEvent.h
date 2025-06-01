@@ -67,4 +67,39 @@ namespace Hoshino
 		EVENT_CLASS_CATEGORY(EventCategoryWindow)
 		EVENT_CLASS_TYPE(WindowClose)
 	};
+
+	class HOSHINO_API WindowRefreshEvent : public Event
+	{
+	public:
+		WindowRefreshEvent() {}
+
+		EVENT_CLASS_CATEGORY(EventCategoryWindow)
+		EVENT_CLASS_TYPE(WindowRefresh)
+
+		std::string ToString() const override
+		{
+			return "WindowRefreshEvent";
+		}
+	};
+	class HOSHINO_API WindowMinimizeEvent : public Event
+	{
+	public:
+		WindowMinimizeEvent(bool minimized) : m_Minimized(minimized) {}
+
+		bool IsMinimized() const
+		{
+			return m_Minimized;
+		}
+
+		EVENT_CLASS_CATEGORY(EventCategoryWindow)
+		EVENT_CLASS_TYPE(WindowMinimize)
+
+		std::string ToString() const override
+		{
+			return m_Minimized ? "WindowMinimizeEvent: Minimized" : "WindowMinimizeEvent: Restored";
+		}
+
+	private:
+		bool m_Minimized;
+	};
 } // namespace Hoshino

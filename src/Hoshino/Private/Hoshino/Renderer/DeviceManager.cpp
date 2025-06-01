@@ -1,10 +1,11 @@
 #include "Hoshino/Renderer/DeviceManager.h"
-
+#include "Hoshino/HoshinoCore.h"
+#include "Hoshino/Application.h"
 #include "Platform/Vulkan/VulkanDeviceManager.h"
 
 namespace Hoshino
 {
-	#pragma region Const
+#pragma region Const
 
 	static const struct
 	{
@@ -15,7 +16,7 @@ namespace Hoshino
 		uint32_t alphaBits;
 		uint32_t depthBits;
 		uint32_t stencilBits;
-	} formatInfo [] = {
+	} formatInfo[] = {
 	    {
 	        TextureFormat::R8_UINT,
 	        8,
@@ -252,12 +253,134 @@ namespace Hoshino
 	    },
 	};
 
-    #pragma endregion Const
+#pragma endregion Const
 
+#pragma region GlfwCallback
 	static void GlfwErrorCallback(int error, const char* description)
 	{
 		CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
+
+	static void WindowIconifyCallback_GLFW(GLFWwindow* window, int iconified)
+	{
+		Application* app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+		WindowMinimizeEvent event(iconified == GLFW_TRUE);
+		app->OnEvent(event);
+	}
+
+	static void WindowFocusCallback_GLFW(GLFWwindow* window, int focused)
+	{
+		Application* app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+		if (focused == GLFW_FALSE)
+		{
+			WindowLostFocusEvent event;
+			app->OnEvent(event);
+		}
+		else
+		{
+			WindowFocusEvent event;
+			app->OnEvent(event);
+		}
+	}
+
+	static void WindowRefreshCallback_GLFW(GLFWwindow* window)
+	{
+		Application* app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+		WindowRefreshEvent event;
+		app->OnEvent(event);
+	}
+
+	static void WindowCloseCallback_GLFW(GLFWwindow* window)
+	{
+		Application* app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+		WindowCloseEvent event;
+		app->OnEvent(event);
+	}
+
+	static void WindowPosCallback_GLFW(GLFWwindow* window, int xpos, int ypos)
+	{
+		Application* app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+		WindowMoveEvent event(xpos, ypos);
+		app->OnEvent(event);
+	}
+
+	static void WindowSizeCallback_GLFW(GLFWwindow* window, int width, int height)
+	{
+		Application* app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+		WindowResizedEvent event(width, height);
+		app->OnEvent(event);
+	}
+
+	static void KeyCallback_GLFW(GLFWwindow* window, int key, int scancode, int action, int mods)
+	{
+		Application* app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+		KeyCode keyCode = static_cast<KeyCode>(key);
+
+		switch (action)
+		{
+		case GLFW_PRESS:
+		{
+			KeyPressedEvent event(keyCode, mods, 0);
+			app->OnEvent(event);
+			break;
+		}
+		case GLFW_REPEAT:
+		{
+			KeyPressedEvent event(keyCode, mods, 1);
+			app->OnEvent(event);
+			break;
+		}
+		case GLFW_RELEASE:
+		{
+			KeyReleasedEvent event(keyCode, mods);
+			app->OnEvent(event);
+			break;
+		}
+		}
+	}
+
+	static void CharCallback_GLFW(GLFWwindow* window, unsigned int keycode)
+	{
+		Application* app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+		KeyTypedEvent event(keycode);
+		app->OnEvent(event);
+	}
+
+	static void MousePosCallback_GLFW(GLFWwindow* window, double xpos, double ypos)
+	{
+		Application* app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+		MouseMovedEvent event((float)xpos, (float)ypos);
+		app->OnEvent(event);
+	}
+
+	static void MouseButtonCallback_GLFW(GLFWwindow* window, int button, int action, int mods)
+	{
+		Application* app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+
+		switch (action)
+		{
+		case GLFW_PRESS:
+		{
+			MouseButtonPressedEvent event(button);
+			app->OnEvent(event);
+			break;
+		}
+		case GLFW_RELEASE:
+		{
+			MouseButtonReleasedEvent event(button);
+			app->OnEvent(event);
+			break;
+		}
+		}
+	}
+
+	static void MouseScrollCallback_GLFW(GLFWwindow* window, double xoffset, double yoffset)
+	{
+		Application* app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+		MouseScrolledEvent event((float)xoffset, (float)yoffset);
+		app->OnEvent(event);
+	}
+#pragma endregion GlfwCallback
 
 	DeviceManager* DeviceManager::Create(GraphicsAPI api)
 	{
@@ -273,6 +396,21 @@ namespace Hoshino
 			return new VulkanDeviceManager();
 		}
 		return nullptr;
+	}
+	
+	bool DeviceManager::CreateInstance(const InstanceParameters& params)
+	{
+		if (m_InstanceCreated) return true;
+		if(!glfwInit())
+		{
+			CORE_ERROR("Failed to initialize GLFW");
+			return false;
+		}
+
+		// 邪门用法 把m_DeviceParameters里继承的参数替换成params的
+		static_cast<InstanceParameters&>(m_DeviceParameters) = params;
+		m_InstanceCreated = CreateInstanceInternal();
+		return m_InstanceCreated;
 	}
 
 	bool DeviceManager::CreateWindowDeviceAndSwapChain(const DeviceParameters& params,
@@ -344,7 +482,8 @@ namespace Hoshino
 			m_DeviceParameters.backBufferHeight = fbHeight;
 		}
 		// 设置userdata
-		glfwSetWindowUserPointer(m_Window, this);
+		Application* appPointer = &Application::Instance();
+		glfwSetWindowUserPointer(m_Window, appPointer);
 
 		// 设置窗口位置
 		if (params.windowPosX != -1 && params.windowPosY != -1)
@@ -352,17 +491,35 @@ namespace Hoshino
 			glfwSetWindowPos(m_Window, params.windowPosX, params.windowPosY);
 		}
 		// 接管Glfw回调
-	// 	glfwSetWindowPosCallback(m_Window, WindowPosCallback_GLFW);
-	// 	glfwSetWindowCloseCallback(m_Window, WindowCloseCallback_GLFW);
-	// 	glfwSetWindowRefreshCallback(m_Window, WindowRefreshCallback_GLFW);
-	// 	glfwSetWindowFocusCallback(m_Window, WindowFocusCallback_GLFW);
-	// 	glfwSetWindowIconifyCallback(m_Window, WindowIconifyCallback_GLFW);
-	// 	glfwSetKeyCallback(m_Window, KeyCallback_GLFW);
-	// 	glfwSetCharModsCallback(m_Window, CharModsCallback_GLFW);
-	// 	glfwSetCursorPosCallback(m_Window, MousePosCallback_GLFW);
-	// 	glfwSetMouseButtonCallback(m_Window, MouseButtonCallback_GLFW);
-	// 	glfwSetScrollCallback(m_Window, MouseScrollCallback_GLFW);
-	// 	glfwSetJoystickCallback(JoystickConnectionCallback_GLFW);
+		glfwSetWindowPosCallback(m_Window, WindowPosCallback_GLFW);
+		glfwSetWindowCloseCallback(m_Window, WindowCloseCallback_GLFW);
+		glfwSetWindowRefreshCallback(m_Window, WindowRefreshCallback_GLFW);
+		glfwSetWindowFocusCallback(m_Window, WindowFocusCallback_GLFW);
+		glfwSetWindowIconifyCallback(m_Window, WindowIconifyCallback_GLFW);
+		glfwSetKeyCallback(m_Window, KeyCallback_GLFW);
+		// glfwSetCharModsCallback(m_Window, CharModsCallback_GLFW);
+		glfwSetCursorPosCallback(m_Window, MousePosCallback_GLFW);
+		glfwSetMouseButtonCallback(m_Window, MouseButtonCallback_GLFW);
+		glfwSetScrollCallback(m_Window, MouseScrollCallback_GLFW);
+
+		// window创建好之后，surface就有了，可以创建Device和SwapChain了
+		if (!CreateDevice())
+		{
+			CORE_ERROR("Failed to create Device and SwapChain");
+			return false;
+		}
+		if (!CreateSwapChain())
+		{
+			CORE_ERROR("Failed to create SwapChain");
+			return false;
+		}
+
+		if(m_DeviceParameters.startMaximizedWindow)
+		{
+			glfwMaximizeWindow(m_Window);
+		}
+		// resize swapchain
+		return true;
 	}
 
 } // namespace Hoshino
