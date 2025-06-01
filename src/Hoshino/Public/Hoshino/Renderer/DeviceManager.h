@@ -53,6 +53,8 @@ namespace Hoshino
 		std::vector<std::string> requiredVulkanDeviceExtensions;
 		std::vector<std::string> optionalVulkanDeviceExtensions;
 		std::vector<size_t> ignoredVulkanValidationMessageLocations = {0x13365b2};
+		bool enableComputeQueue;
+		bool enableCopyQueue;
 #endif
 	};
 

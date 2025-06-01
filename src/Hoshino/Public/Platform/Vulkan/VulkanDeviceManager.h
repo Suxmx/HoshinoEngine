@@ -4,6 +4,12 @@
 	#define VULKAN_HPP_DISPATCH_LOADER_DYNAMIC 1
 #endif
 #include <vulkan/vulkan.hpp>
+
+#if VK_HEADER_VERSION >= 301
+typedef vk::detail::DynamicLoader VulkanDynamicLoader;
+#else
+typedef vk::DynamicLoader VulkanDynamicLoader;
+#endif
 namespace Hoshino
 {
 
@@ -25,7 +31,7 @@ namespace Hoshino
 	private:
 		bool CreateVkWindowsSurface();
 		bool PickVkPhysicalDevice();
-		bool FindVkQueueFamilies();
+		bool FindVkQueueFamilies(const vk::PhysicalDevice& physicalDevice);
 		bool CreateVkDevice();
 	//Properties
 	private:
@@ -34,13 +40,11 @@ namespace Hoshino
 		vk::PhysicalDevice m_VkPhysicalDevice;
 		vk::Device m_VkDevice;
 		vk::DebugReportCallbackEXT m_VkDebugReportCallback;
-#if VK_HEADER_VERSION >= 301
-		typedef vk::detail::DynamicLoader VulkanDynamicLoader;
-#else
-		typedef vk::DynamicLoader VulkanDynamicLoader;
-#endif
-
 		std::unique_ptr<VulkanDynamicLoader> m_DynamicLoader;
+		uint32_t m_GraphicsQueueFamilyIndex = 0;
+		uint32_t m_PresentQueueFamilyIndex = 0;
+		uint32_t m_ComputeQueueFamilyIndex = 0;
+		uint32_t m_TransferQueueFamilyIndex = 0;
 #pragma region Extensions
 		struct VulkanExtensionSet
 		{

@@ -503,7 +503,7 @@ namespace Hoshino
 		glfwSetScrollCallback(m_Window, MouseScrollCallback_GLFW);
 
 		// window创建好之后，surface就有了，可以创建Device和SwapChain了
-		if (!CreateDevice())
+		if (!CreateNvrhiDevice())
 		{
 			CORE_ERROR("Failed to create Device and SwapChain");
 			return false;

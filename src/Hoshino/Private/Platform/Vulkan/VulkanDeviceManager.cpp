@@ -6,7 +6,8 @@
 // Define the Vulkan dynamic dispatcher - this needs to occur in exactly one cpp file in the program.
 VULKAN_HPP_DEFAULT_DISPATCH_LOADER_DYNAMIC_STORAGE
 using string = std::string;
-namespace Hoshino {
+namespace Hoshino
+{
 	static std::vector<const char*> stringSetToVector(const std::unordered_set<std::string>& set)
 	{
 		std::vector<const char*> ret;
@@ -24,13 +25,13 @@ namespace Hoshino {
 	                                                          const char* layerPrefix, const char* msg,
 	                                                          void* userData)
 	{
-		CORE_WARN("[Vulkan: location=0x{0} code={1}, layerPrefix='{2}'] {3}", location, code,
-		                    layerPrefix, msg);
+		CORE_WARN("[Vulkan: location=0x{0} code={1}, layerPrefix='{2}'] {3}", location, code, layerPrefix,
+		          msg);
 		return VK_FALSE;
 	}
 
 	bool VulkanDeviceManager::CreateInstanceInternal()
-    {
+	{
 		m_DynamicLoader = std::make_unique<VulkanDynamicLoader>();
 
 		// https://zhuanlan.zhihu.com/p/534638371 用于链接扩展中的调试层函数
@@ -43,7 +44,7 @@ namespace Hoshino {
 			return false;
 		}
 		// 开始创建vkInstance
-        // 先处理扩展
+		// 先处理扩展
 		uint32_t glfwExtCnt = 0;
 		if (m_DeviceParameters.enableDebugRuntime)
 		{
@@ -56,7 +57,7 @@ namespace Hoshino {
 		{
 			enabledExtensions.instance.insert(glfwExts[i]);
 		}
-        // 添加参数所需的
+		// 添加参数所需的
 		for (const string& ext : m_DeviceParameters.requiredVulkanInstanceExtensions)
 		{
 			enabledExtensions.instance.insert(ext);
@@ -66,15 +67,15 @@ namespace Hoshino {
 			optionalExtensions.instance.insert(ext);
 		}
 
-		std::unordered_set<string> requiredExts= enabledExtensions.instance;
+		std::unordered_set<string> requiredExts = enabledExtensions.instance;
 		for (const auto& vkExt : vk::enumerateInstanceExtensionProperties())
 		{
-            // 如果optional有可满足的顺便加入
-            if(optionalExtensions.instance.find(vkExt.extensionName) != optionalExtensions.instance.end())
-            {
-                enabledExtensions.instance.insert(vkExt.extensionName);
-            }
-            requiredExts.erase(vkExt.extensionName);
+			// 如果optional有可满足的顺便加入
+			if (optionalExtensions.instance.find(vkExt.extensionName) != optionalExtensions.instance.end())
+			{
+				enabledExtensions.instance.insert(vkExt.extensionName);
+			}
+			requiredExts.erase(vkExt.extensionName);
 		}
 		// 不满足的
 		if (!requiredExts.empty())
@@ -96,14 +97,14 @@ namespace Hoshino {
 		}
 		CORE_INFO("{0}", vkInstanceExtsLogSS.str());
 		// Layers
-        for(const auto& layer : m_DeviceParameters.requiredVulkanLayers)
-        {
-            enabledExtensions.layers.insert(layer);
-        }
-        for(const auto& layer : m_DeviceParameters.optionalVulkanLayers)
-        {
-            optionalExtensions.layers.insert(layer);
-        }
+		for (const auto& layer : m_DeviceParameters.requiredVulkanLayers)
+		{
+			enabledExtensions.layers.insert(layer);
+		}
+		for (const auto& layer : m_DeviceParameters.optionalVulkanLayers)
+		{
+			optionalExtensions.layers.insert(layer);
+		}
 		std::unordered_set<string> requiredLayers = enabledExtensions.layers;
 		for (const auto& vkLayer : vk::enumerateInstanceLayerProperties())
 		{
@@ -122,42 +123,42 @@ namespace Hoshino {
 		}
 		CORE_INFO("{0}", vkInstanceLayersLogSS.str());
 		// 不满足的
-        if (!requiredLayers.empty())
-        {
-            std::stringstream ss;
-            ss << "Required Vulkan instance layers not supported: ";
-            for (const auto& layer : requiredLayers)
-            {
-                ss << "\t" << layer << "\n";
-            }
-            CORE_ERROR("{0}", ss.str());
-            return false;
-        }
-        auto instanceExts = stringSetToVector(enabledExtensions.instance);
-        auto instanceLayers = stringSetToVector(enabledExtensions.layers);
+		if (!requiredLayers.empty())
+		{
+			std::stringstream ss;
+			ss << "Required Vulkan instance layers not supported: ";
+			for (const auto& layer : requiredLayers)
+			{
+				ss << "\t" << layer << "\n";
+			}
+			CORE_ERROR("{0}", ss.str());
+			return false;
+		}
+		auto instanceExts = stringSetToVector(enabledExtensions.instance);
+		auto instanceLayers = stringSetToVector(enabledExtensions.layers);
 		auto applicationInfo = vk::ApplicationInfo();
-        // 创建vkInstance
+		// 创建vkInstance
 		vk::InstanceCreateInfo instanceCreateInfo = vk::InstanceCreateInfo()
 		                                                .setEnabledExtensionCount(instanceExts.size())
 		                                                .setPpEnabledExtensionNames(instanceExts.data())
 		                                                .setEnabledLayerCount(instanceLayers.size())
 		                                                .setPpEnabledLayerNames(instanceLayers.data())
 		                                                .setPApplicationInfo(&applicationInfo);
-        vk::Result res = vk::createInstance(&instanceCreateInfo,nullptr,&m_VkInstance);
-        if (res != vk::Result::eSuccess)
-        {
+		vk::Result res = vk::createInstance(&instanceCreateInfo, nullptr, &m_VkInstance);
+		if (res != vk::Result::eSuccess)
+		{
 			CORE_ERROR("Failed to create a Vulkan instance, error code = {0}",
 			           nvrhi::vulkan::resultToString(VkResult(res)));
 			return false;
-		}                                    
+		}
 		return true;
 	}
-    
-    bool VulkanDeviceManager::CreateNvrhiDevice()
-    {
-        // 运行时调试
-        if(m_DeviceParameters.enableDebugRuntime)
-        {
+
+	bool VulkanDeviceManager::CreateNvrhiDevice()
+	{
+		// 运行时调试
+		if (m_DeviceParameters.enableDebugRuntime)
+		{
 			auto info =
 			    vk::DebugReportCallbackCreateInfoEXT()
 			        .setFlags(vk::DebugReportFlagBitsEXT::eError | vk::DebugReportFlagBitsEXT::eWarning |
@@ -173,71 +174,65 @@ namespace Hoshino {
 			            nvrhi::vulkan::resultToString(VkResult(res)));
 		}
 		// 添加参数请求的DeviceExtensions
-		for(const auto& ext : m_DeviceParameters.requiredVulkanDeviceExtensions)
+		for (const auto& ext : m_DeviceParameters.requiredVulkanDeviceExtensions)
 		{
 			enabledExtensions.device.insert(ext);
 		}
-		for(const auto& ext : m_DeviceParameters.optionalVulkanDeviceExtensions)
+		for (const auto& ext : m_DeviceParameters.optionalVulkanDeviceExtensions)
 		{
 			optionalExtensions.device.insert(ext);
 		}
-		if(!CreateVkWindowsSurface())
+		if (!CreateVkWindowsSurface())
 		{
 			CORE_ERROR("Failed to create Vulkan windows surface.");
 			return false;
 		}
-		if(!PickVkPhysicalDevice())
+		if (!PickVkPhysicalDevice())
 		{
 			CORE_ERROR("Failed to pick Vulkan physical device.");
 			return false;
 		}
-		if (!FindVkQueueFamilies())
+		if (!FindVkQueueFamilies(m_VkPhysicalDevice))
 		{
 			CORE_ERROR("Failed to find a suitable Vulkan queue family index.");
 			return false;
 		}
-		if(!CreateVkDevice())
+		if (!CreateVkDevice())
 		{
 			CORE_ERROR("Failed to create Vulkan device.");
 			return false;
 		}
 		// 创建nvrhi::IDevice
-		
 
 		return true;
 	}
-    
-    bool VulkanDeviceManager::CreateSwapChain()
-    {
+
+	bool VulkanDeviceManager::CreateSwapChain()
+	{
 		return false;
 	}
-    
-    void VulkanDeviceManager::ResizeSwapChain(uint32_t width, uint32_t height)
-    {
-        
-    }
-    
-    void VulkanDeviceManager::DestroyDeviceAndSwapChain()
-    {
-        
-    }
-    
-    bool VulkanDeviceManager::BeginFrame()
-    {
-        return VK_FALSE;
-    }
-    
-    bool VulkanDeviceManager::Present()
-    {
-        return VK_FALSE;
-    }
-    
-    nvrhi::IDevice* VulkanDeviceManager::GetDevice() const 
-    {
-        return nullptr;
-    }
 
-	bool VulkanDeviceManager::CreateVkWindowsSurface() {
+	void VulkanDeviceManager::ResizeSwapChain(uint32_t width, uint32_t height) {}
+
+	void VulkanDeviceManager::DestroyDeviceAndSwapChain() {}
+
+	bool VulkanDeviceManager::BeginFrame()
+	{
+		return VK_FALSE;
+	}
+
+	bool VulkanDeviceManager::Present()
+	{
+		return VK_FALSE;
+	}
+
+	nvrhi::IDevice* VulkanDeviceManager::GetDevice() const
+	{
+		return nullptr;
+	}
+
+	bool VulkanDeviceManager::CreateVkWindowsSurface()
+	{
 		VkResult res = glfwCreateWindowSurface(m_VkInstance, m_Window, nullptr, (VkSurfaceKHR*)&m_VkSurface);
 		if (res != VK_SUCCESS)
 		{
@@ -248,13 +243,201 @@ namespace Hoshino {
 		return true;
 	}
 
-	bool VulkanDeviceManager::PickVkPhysicalDevice() {
+	bool VulkanDeviceManager::PickVkPhysicalDevice()
+	{
 		VkFormat requiredVkFormat =
 		    nvrhi::vulkan::convertFormat((nvrhi::Format)m_DeviceParameters.swapChainFormat);
+		VkExtent2D requiredExtent = {m_DeviceParameters.backBufferWidth, m_DeviceParameters.backBufferHeight};
+		std::vector<vk::PhysicalDevice> allDevices = m_VkInstance.enumeratePhysicalDevices();
+		std::vector<vk::PhysicalDevice> discreteDevices;   // 独显
+		std::vector<vk::PhysicalDevice> integratedDevices; // 集显
+		std::stringstream errSS;
+		// 预先构建
+		errSS << "Cannot find a Vulkan device that supports all the required extensions and properties.";
+		for (int i = 0; i < allDevices.size(); i++)
+		{
+			vk::PhysicalDevice const& device = allDevices[i];
+			vk::PhysicalDeviceProperties deviceProperties = device.getProperties();
+			vk::PhysicalDeviceFeatures deviceFeatures = device.getFeatures();
+			errSS << "\n" << "Device " << i << ": " << deviceProperties.deviceName;
+
+			bool deviceSuitable = true;
+			// 检查是否满足Ext
+			std::unordered_set<string> requiredExts = enabledExtensions.device;
+			for (const auto& vkExt : device.enumerateDeviceExtensionProperties())
+			{
+				requiredExts.erase(string(vkExt.extensionName.data()));
+			}
+			if (!requiredExts.empty())
+			{
+				errSS << "\n Required extensions not supported: ";
+				for (const auto& ext : requiredExts)
+				{
+					errSS << "\n\t" << ext;
+				}
+				deviceSuitable = false;
+			}
+			// 各向异性过滤
+			if (!deviceFeatures.samplerAnisotropy)
+			{
+				errSS << "\n Sampler anisotropy not supported.";
+				deviceSuitable = false;
+			}
+			// 纹理压缩
+			if (!deviceFeatures.textureCompressionBC)
+			{
+				errSS << "\n TextureCompressionBC not supported.";
+				deviceSuitable = false;
+			}
+			// 检查队列簇
+			if (!FindVkQueueFamilies(device))
+			{
+				errSS << "\n Failed to find a suitable queue family.";
+				deviceSuitable = false;
+			}
+			// 检查Window及Surface
+			if (m_VkSurface)
+			{
+				bool surfaceSupported = device.getSurfaceSupportKHR(m_PresentQueueFamilyIndex, m_VkSurface);
+				if (!surfaceSupported)
+				{
+					errSS << "\n Surface not supported.";
+					deviceSuitable = false;
+				}
+				else // 检查surface是否满足swapchain所需的贴图的大小、数量、格式要求
+				{
+					vk::SurfaceCapabilitiesKHR surfaceCapabilities =
+					    device.getSurfaceCapabilitiesKHR(m_VkSurface);
+					std::vector<vk::SurfaceFormatKHR> surfaceFormats =
+					    device.getSurfaceFormatsKHR(m_VkSurface);
+					// swapchain贴图数量
+					if (surfaceCapabilities.minImageCount > m_DeviceParameters.swapChainBufferCount ||
+					    surfaceCapabilities.maxImageCount < m_DeviceParameters.swapChainBufferCount)
+					{
+						errSS << "\n Swapchain buffer count not supported."
+						      << "\n\trequested: " << m_DeviceParameters.swapChainBufferCount
+						      << ", available: " << surfaceCapabilities.minImageCount << " - "
+						      << surfaceCapabilities.maxImageCount;
+						deviceSuitable = false;
+					}
+					// swapchain大小
+					if (surfaceCapabilities.minImageExtent.width > requiredExtent.width ||
+					    surfaceCapabilities.minImageExtent.height > requiredExtent.height ||
+					    surfaceCapabilities.maxImageExtent.width < requiredExtent.width ||
+					    surfaceCapabilities.maxImageExtent.height < requiredExtent.height)
+					{
+						errSS << "\n Swapchain extent not supported."
+						      << "\n\trequested: " << requiredExtent.width << "x" << requiredExtent.height
+						      << ", available: " << surfaceCapabilities.minImageExtent.width << "x"
+						      << surfaceCapabilities.minImageExtent.height << " - "
+						      << surfaceCapabilities.maxImageExtent.width << "x"
+						      << surfaceCapabilities.maxImageExtent.height;
+						deviceSuitable = false;
+					}
+					// 遍历支持格式查看是否支持swapchain所需的
+					bool formatSupported = false;
+					for (const auto& format : surfaceFormats)
+					{
+						if (format.format == vk::Format(requiredVkFormat))
+						{
+							formatSupported = true;
+							break;
+						}
+					}
+					if (!formatSupported)
+					{
+						errSS << "\n Swapchain format not supported.";
+						deviceSuitable = false;
+					}
+				}
+			}
+			// 不满足就不加入待选
+			if (!deviceSuitable)
+			{
+				continue;
+			}
+			if (deviceProperties.deviceType == vk::PhysicalDeviceType::eDiscreteGpu)
+			{
+				discreteDevices.push_back(device);
+			}
+			else
+			{
+				integratedDevices.push_back(device);
+			}
+		}
+		// 优先选独显
+		if (!discreteDevices.empty())
+		{
+			m_VkPhysicalDevice = discreteDevices[0];
+			CORE_INFO("Picked Vulkan physical discrete device: {0}",
+			          m_VkPhysicalDevice.getProperties().deviceName.data());
+			return true;
+		}
+		if (!integratedDevices.empty())
+		{
+			m_VkPhysicalDevice = integratedDevices[0];
+			CORE_INFO("Picked Vulkan physical integrated device: {0}",
+			          m_VkPhysicalDevice.getProperties().deviceName.data());
+			return true;
+		}
+		CORE_ERROR("{0}", errSS.str());
+		return false;
 	}
 
-	bool VulkanDeviceManager::FindVkQueueFamilies() {}
+	bool VulkanDeviceManager::FindVkQueueFamilies(const vk::PhysicalDevice& physicalDevice)
+	{
+		// copy from donut
+		auto allQueueFamilies = physicalDevice.getQueueFamilyProperties();
+		for (int i = 0; i < (int)allQueueFamilies.size(); i++)
+		{
+			const vk::QueueFamilyProperties& queueFamily = allQueueFamilies[i];
+			if (m_GraphicsQueueFamilyIndex == -1)
+			{
+				if (queueFamily.queueCount > 0 && (queueFamily.queueFlags & vk::QueueFlagBits::eGraphics))
+				{
+					m_GraphicsQueueFamilyIndex = i;
+				}
+			}
 
-	bool VulkanDeviceManager::CreateVkDevice() {}
+			// 问GPT说是具有更少功能的QueueFamily相应的能力更强
+			if (m_ComputeQueueFamilyIndex == -1)
+			{
+				if (queueFamily.queueCount > 0 && (queueFamily.queueFlags & vk::QueueFlagBits::eCompute) &&
+				    !(queueFamily.queueFlags & vk::QueueFlagBits::eGraphics))
+				{
+					m_ComputeQueueFamilyIndex = i;
+				}
+			}
 
-}
+			if (m_TransferQueueFamilyIndex == -1)
+			{
+				if (queueFamily.queueCount > 0 && (queueFamily.queueFlags & vk::QueueFlagBits::eTransfer) &&
+				    !(queueFamily.queueFlags & vk::QueueFlagBits::eCompute) &&
+				    !(queueFamily.queueFlags & vk::QueueFlagBits::eGraphics))
+				{
+					m_TransferQueueFamilyIndex = i;
+				}
+			}
+
+			if (m_PresentQueueFamilyIndex == -1)
+			{
+				if (queueFamily.queueCount > 0 &&
+				    glfwGetPhysicalDevicePresentationSupport(m_VkInstance, physicalDevice, i))
+				{
+					m_PresentQueueFamilyIndex = i;
+				}
+			}
+		}
+
+		if (m_GraphicsQueueFamilyIndex == -1 || (m_PresentQueueFamilyIndex == -1) ||
+		    (m_ComputeQueueFamilyIndex == -1 && m_DeviceParameters.enableComputeQueue) ||
+		    (m_TransferQueueFamilyIndex == -1 && m_DeviceParameters.enableCopyQueue))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	bool VulkanDeviceManager::CreateVkDevice() {return false;}
+} // namespace Hoshino
