@@ -91,10 +91,10 @@ namespace Hoshino
 			return false;
 		}
 		std::stringstream vkInstanceExtsLogSS;
-		vkInstanceExtsLogSS << "Enabled Vulkan instance extension:\n";
+		vkInstanceExtsLogSS << "Enabled Vulkan instance extension:";
 		for (const auto& ext : enabledExtensions.instance)
 		{
-			vkInstanceExtsLogSS << "\t" << ext << "\n";
+			vkInstanceExtsLogSS << "\n\t" << ext;
 		}
 		CORE_INFO("{0}", vkInstanceExtsLogSS.str());
 		// Layers
@@ -118,10 +118,17 @@ namespace Hoshino
 			requiredLayers.erase(name);
 		}
 		std::stringstream vkInstanceLayersLogSS;
-		vkInstanceLayersLogSS << "Enabled Vulkan instance layers:\n";
-		for (const auto& layer : enabledExtensions.layers)
+		if(!enabledExtensions.layers.empty())
 		{
-			vkInstanceLayersLogSS << "\t" << layer << "\n";
+			vkInstanceLayersLogSS << "Enabled Vulkan instance layers:";
+			for (const auto& layer : enabledExtensions.layers)
+			{
+				vkInstanceLayersLogSS << "\n\t" << layer;
+			}
+		}
+		else
+		{
+			vkInstanceLayersLogSS << "No Vulkan instance layers enabled.\n";
 		}
 		CORE_INFO("{0}", vkInstanceLayersLogSS.str());
 		// 不满足的
@@ -153,6 +160,7 @@ namespace Hoshino
 			           nvrhi::vulkan::resultToString(VkResult(res)));
 			return false;
 		}
+		VULKAN_HPP_DEFAULT_DISPATCHER.init(m_VkInstance);
 		return true;
 	}
 
@@ -500,9 +508,11 @@ namespace Hoshino
 		bool synchronization2Supported = false;
 		bool maintenance4Supported = false;
 		bool aftermathSupported = false;
+		std::stringstream deviceExtsLogSS;
+		deviceExtsLogSS << "Enabled Vulkan device extensions:";
 		for (const auto& ext : enabledExtensions.device)
 		{
-			CORE_INFO("Enabled Vulkan device extension: {0}", ext.data());
+			deviceExtsLogSS << "\n\t" << ext;
 
 			if (ext == VK_KHR_ACCELERATION_STRUCTURE_EXTENSION_NAME) accelStructSupported = true;
 			else if (ext == VK_KHR_RAY_TRACING_PIPELINE_EXTENSION_NAME) rayPipelineSupported = true;
@@ -516,6 +526,21 @@ namespace Hoshino
 			else if (ext == VK_KHR_MAINTENANCE_4_EXTENSION_NAME) maintenance4Supported = true;
 			else if (ext == VK_NV_DEVICE_DIAGNOSTICS_CONFIG_EXTENSION_NAME) aftermathSupported = true;
 		}
+		CORE_INFO("{0}", deviceExtsLogSS.str());
+		std::stringstream deviceLayersLogSS;
+		if (!enabledExtensions.layers.empty())
+		{
+			deviceLayersLogSS << "Enabled Vulkan device layers:";
+			for (const auto& layer : enabledExtensions.layers)
+			{
+				deviceLayersLogSS << "\n\t" << layer;
+			}
+		}
+		else
+		{
+			deviceLayersLogSS << "No Vulkan device layers enabled.";
+		}
+		CORE_INFO("{0}", deviceLayersLogSS.str());
 		// pNext先用于Feature查询
 		void* pNext = nullptr;
 		// 处理各种features

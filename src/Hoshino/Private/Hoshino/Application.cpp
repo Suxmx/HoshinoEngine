@@ -1,7 +1,7 @@
 #include "Hoshino/Application.h"
 
 #include "Hoshino/Log.h"
-
+#include "Hoshino/Renderer/DeviceManager.h"
 
 #include "Hoshino/TimeStep.h"
 #include <GLFW/glfw3.h>
@@ -16,12 +16,16 @@ namespace Hoshino
 	{
 		CORE_ASSERT(!s_Instance, "Application already exists!")
 		s_Instance = this;
-		m_Window = Window::Create();
-		m_Window->SetEventCallbackFn(BIND_APP_EVENT_FN(OnEvent));
-		m_Running = true;
+		auto deviceMgr = DeviceManager::Create(GraphicsAPI::Vulkan);
+		DeviceParameters deviceParams;
+		deviceParams.enableDebugRuntime = true;
+		deviceMgr->CreateWindowDeviceAndSwapChain(deviceParams);
+		// m_Window = Window::Create();
+		// m_Window->SetEventCallbackFn(BIND_APP_EVENT_FN(OnEvent));
+		// m_Running = true;
 
-		m_ImGuiLayer = new ImGuiLayer();
-		PushOverlay(m_ImGuiLayer);
+		// m_ImGuiLayer = new ImGuiLayer();
+		// PushOverlay(m_ImGuiLayer);
 	}
 
 	Application::~Application() {}
@@ -34,8 +38,8 @@ namespace Hoshino
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			// glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+			// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate(timestep);
 

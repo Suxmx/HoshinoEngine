@@ -88,10 +88,12 @@ namespace Hoshino
 		        VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME,
 		        // 可变速率着色
 		        VK_KHR_FRAGMENT_SHADING_RATE_EXTENSION_NAME,
+		        VK_KHR_CREATE_RENDERPASS_2_EXTENSION_NAME,
 		        // 增强的内存管理
 		        VK_KHR_MAINTENANCE_4_EXTENSION_NAME,
 		        // 允许交换链图像有多种可能的格式 增强 HDR 和色彩空间支持
 		        VK_KHR_SWAPCHAIN_MUTABLE_FORMAT_EXTENSION_NAME,
+		        VK_KHR_IMAGE_FORMAT_LIST_EXTENSION_NAME,
 		        // 提供更简洁的同步 API
 		        VK_KHR_SYNCHRONIZATION_2_EXTENSION_NAME,
 		        // NVIDIA 的网格着色器扩展 替代传统顶点、几何着色器管线 提供更灵活的几何处理
