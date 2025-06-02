@@ -70,12 +70,13 @@ namespace Hoshino
 		std::unordered_set<string> requiredExts = enabledExtensions.instance;
 		for (const auto& vkExt : vk::enumerateInstanceExtensionProperties())
 		{
+			string name = vkExt.extensionName;
 			// 如果optional有可满足的顺便加入
-			if (optionalExtensions.instance.find(vkExt.extensionName) != optionalExtensions.instance.end())
+			if (optionalExtensions.instance.find(name) != optionalExtensions.instance.end())
 			{
-				enabledExtensions.instance.insert(vkExt.extensionName);
+				enabledExtensions.instance.insert(name);
 			}
-			requiredExts.erase(vkExt.extensionName);
+			requiredExts.erase(name);
 		}
 		// 不满足的
 		if (!requiredExts.empty())
@@ -108,12 +109,13 @@ namespace Hoshino
 		std::unordered_set<string> requiredLayers = enabledExtensions.layers;
 		for (const auto& vkLayer : vk::enumerateInstanceLayerProperties())
 		{
+			string name = vkLayer.layerName;
 			// 如果optional有可满足的顺便加入
-			if (optionalExtensions.layers.find(vkLayer.layerName) != optionalExtensions.layers.end())
+			if (optionalExtensions.layers.find(name) != optionalExtensions.layers.end())
 			{
-				enabledExtensions.layers.insert(vkLayer.layerName);
+				enabledExtensions.layers.insert(name);
 			}
-			requiredLayers.erase(vkLayer.layerName);
+			requiredLayers.erase(name);
 		}
 		std::stringstream vkInstanceLayersLogSS;
 		vkInstanceLayersLogSS << "Enabled Vulkan instance layers:\n";
@@ -439,5 +441,245 @@ namespace Hoshino
 		return true;
 	}
 
-	bool VulkanDeviceManager::CreateVkDevice() {return false;}
+	bool VulkanDeviceManager::CreateVkDevice()
+	{
+		// 根据之前找到的QueueFamilyIndex构建QueueCreateInfo
+		std::unordered_set<int> uniqueQueueFamilies = {m_GraphicsQueueFamilyIndex, m_PresentQueueFamilyIndex};
+		if (m_DeviceParameters.enableComputeQueue)
+		{
+			uniqueQueueFamilies.insert(m_ComputeQueueFamilyIndex);
+		}
+		if (m_DeviceParameters.enableCopyQueue)
+		{
+			uniqueQueueFamilies.insert(m_TransferQueueFamilyIndex);
+		}
+		std::vector<vk::DeviceQueueCreateInfo> queueCreateInfos;
+		queueCreateInfos.reserve(uniqueQueueFamilies.size());
+		float queuePriority = 1.0f;
+		for (int queueFamilyIndex : uniqueQueueFamilies)
+		{
+			vk::DeviceQueueCreateInfo queueCreateInfo = vk::DeviceQueueCreateInfo()
+			                                                .setQueueFamilyIndex(queueFamilyIndex)
+			                                                .setQueueCount(1)
+			                                                .setPQueuePriorities(&queuePriority);
+			queueCreateInfos.push_back(queueCreateInfo);
+		}
+		// 看哪些Ext可以用
+		auto allDeviceExt = m_VkPhysicalDevice.enumerateDeviceExtensionProperties();
+		std::unordered_set<string> requiredExts = enabledExtensions.device;
+		for (const auto& vkExt : allDeviceExt)
+		{
+			string name = vkExt.extensionName.data();
+			// 如果optional有可满足的顺便加入
+			if (optionalExtensions.device.find(name) != optionalExtensions.device.end())
+			{
+				enabledExtensions.device.insert(name);
+			}
+			requiredExts.erase(name);
+		}
+		// 必要的扩展不满足
+		if (!requiredExts.empty())
+		{
+			std::stringstream ss;
+			ss << "Required Vulkan device extensions not supported: ";
+			for (const auto& ext : requiredExts)
+			{
+				ss << "\t" << ext << "\n";
+			}
+			CORE_ERROR("{0}", ss.str());
+			return false;
+		}
+		bool accelStructSupported = false;
+		bool rayPipelineSupported = false;
+		bool rayQuerySupported = false;
+		bool meshletsSupported = false;
+		bool vrsSupported = false;
+		bool interlockSupported = false;
+		bool barycentricSupported = false;
+		bool storage16BitSupported = false;
+		bool synchronization2Supported = false;
+		bool maintenance4Supported = false;
+		bool aftermathSupported = false;
+		for (const auto& ext : enabledExtensions.device)
+		{
+			CORE_INFO("Enabled Vulkan device extension: {0}", ext.data());
+
+			if (ext == VK_KHR_ACCELERATION_STRUCTURE_EXTENSION_NAME) accelStructSupported = true;
+			else if (ext == VK_KHR_RAY_TRACING_PIPELINE_EXTENSION_NAME) rayPipelineSupported = true;
+			else if (ext == VK_KHR_RAY_QUERY_EXTENSION_NAME) rayQuerySupported = true;
+			else if (ext == VK_NV_MESH_SHADER_EXTENSION_NAME) meshletsSupported = true;
+			else if (ext == VK_KHR_FRAGMENT_SHADING_RATE_EXTENSION_NAME) vrsSupported = true;
+			else if (ext == VK_EXT_FRAGMENT_SHADER_INTERLOCK_EXTENSION_NAME) interlockSupported = true;
+			else if (ext == VK_KHR_FRAGMENT_SHADER_BARYCENTRIC_EXTENSION_NAME) barycentricSupported = true;
+			else if (ext == VK_KHR_16BIT_STORAGE_EXTENSION_NAME) storage16BitSupported = true;
+			else if (ext == VK_KHR_SYNCHRONIZATION_2_EXTENSION_NAME) synchronization2Supported = true;
+			else if (ext == VK_KHR_MAINTENANCE_4_EXTENSION_NAME) maintenance4Supported = true;
+			else if (ext == VK_NV_DEVICE_DIAGNOSTICS_CONFIG_EXTENSION_NAME) aftermathSupported = true;
+		}
+		// pNext先用于Feature查询
+		void* pNext = nullptr;
+		// 处理各种features
+		vk::PhysicalDeviceFeatures2 deviceFeatures2;
+		// Determine support for Buffer Device Address, the Vulkan 1.2 way
+		auto bufferDeviceAddressFeatures = vk::PhysicalDeviceBufferDeviceAddressFeatures();
+		// Determine support for maintenance4
+		auto maintenance4Features = vk::PhysicalDeviceMaintenance4Features();
+		// Determine support for aftermath
+		auto aftermathPhysicalFeatures = vk::PhysicalDeviceDiagnosticsConfigFeaturesNV();
+		bufferDeviceAddressFeatures.pNext = pNext;
+		pNext = &bufferDeviceAddressFeatures;
+		if (maintenance4Supported)
+		{
+			maintenance4Features.pNext = pNext;
+			pNext = &maintenance4Features;
+		}
+		if (aftermathSupported)
+		{
+			aftermathPhysicalFeatures.pNext = pNext;
+			pNext = &aftermathPhysicalFeatures;
+		}
+		deviceFeatures2.pNext = pNext;
+		// 获取一些Feature的State
+		m_VkPhysicalDevice.getFeatures2(&deviceFeatures2);
+		// 直接Cpy的donut
+		auto accelStructFeatures =
+		    vk::PhysicalDeviceAccelerationStructureFeaturesKHR().setAccelerationStructure(true);
+		auto rayPipelineFeatures = vk::PhysicalDeviceRayTracingPipelineFeaturesKHR()
+		                               .setRayTracingPipeline(true)
+		                               .setRayTraversalPrimitiveCulling(true);
+		auto rayQueryFeatures = vk::PhysicalDeviceRayQueryFeaturesKHR().setRayQuery(true);
+		auto meshletFeatures =
+		    vk::PhysicalDeviceMeshShaderFeaturesNV().setTaskShader(true).setMeshShader(true);
+		auto interlockFeatures =
+		    vk::PhysicalDeviceFragmentShaderInterlockFeaturesEXT().setFragmentShaderPixelInterlock(true);
+		auto barycentricFeatures =
+		    vk::PhysicalDeviceFragmentShaderBarycentricFeaturesKHR().setFragmentShaderBarycentric(true);
+		auto storage16BitFeatures =
+		    vk::PhysicalDevice16BitStorageFeatures().setStorageBuffer16BitAccess(true);
+		auto vrsFeatures = vk::PhysicalDeviceFragmentShadingRateFeaturesKHR()
+		                       .setPipelineFragmentShadingRate(true)
+		                       .setPrimitiveFragmentShadingRate(true)
+		                       .setAttachmentFragmentShadingRate(true);
+		auto vulkan13features = vk::PhysicalDeviceVulkan13Features()
+		                            .setSynchronization2(synchronization2Supported)
+		                            .setMaintenance4(maintenance4Features.maintenance4);
+		auto aftermathFeatures = vk::DeviceDiagnosticsConfigCreateInfoNV().setFlags(
+		    vk::DeviceDiagnosticsConfigFlagBitsNV::eEnableResourceTracking |
+		    vk::DeviceDiagnosticsConfigFlagBitsNV::eEnableShaderDebugInfo |
+		    vk::DeviceDiagnosticsConfigFlagBitsNV::eEnableShaderErrorReporting);
+		// Add a Vulkan 1.1 structure with default settings to make it easier for apps to modify them
+		auto vulkan11features = vk::PhysicalDeviceVulkan11Features();
+		auto vulkan12features = vk::PhysicalDeviceVulkan12Features()
+		                            .setDescriptorIndexing(true)
+		                            .setRuntimeDescriptorArray(true)
+		                            .setDescriptorBindingPartiallyBound(true)
+		                            .setDescriptorBindingVariableDescriptorCount(true)
+		                            .setTimelineSemaphore(true)
+		                            .setShaderSampledImageArrayNonUniformIndexing(true)
+		                            .setBufferDeviceAddress(bufferDeviceAddressFeatures.bufferDeviceAddress);
+		// 重置pNext用于Feature启用
+		vk::PhysicalDeviceProperties physicalDeviceProperties = m_VkPhysicalDevice.getProperties();
+		m_DeviceName = physicalDeviceProperties.deviceName.data();
+		pNext = nullptr;
+		if (accelStructSupported)
+		{
+			accelStructFeatures.pNext = pNext;
+			pNext = &accelStructFeatures;
+		}
+		if (rayPipelineSupported)
+		{
+			rayPipelineFeatures.pNext = pNext;
+			pNext = &rayPipelineFeatures;
+		}
+		if (rayQuerySupported)
+		{
+			rayQueryFeatures.pNext = pNext;
+			pNext = &rayQueryFeatures;
+		}
+		if (meshletsSupported)
+		{
+			meshletFeatures.pNext = pNext;
+			pNext = &meshletFeatures;
+		}
+		if (vrsSupported)
+		{
+			vrsFeatures.pNext = pNext;
+			pNext = &vrsFeatures;
+		}
+		if (interlockSupported)
+		{
+			interlockFeatures.pNext = pNext;
+			pNext = &interlockFeatures;
+		}
+		if (barycentricSupported)
+		{
+			barycentricFeatures.pNext = pNext;
+			pNext = &barycentricFeatures;
+		}
+		if (storage16BitSupported)
+		{
+			storage16BitFeatures.pNext = pNext;
+			pNext = &storage16BitFeatures;
+		}
+#ifdef HOSHINO_AFTERMATH
+		if (aftermathSupported)
+		{
+			aftermathFeatures.pNext = pNext;
+			pNext = &aftermathFeatures;
+		}
+#endif
+		if (physicalDeviceProperties.apiVersion >= VK_API_VERSION_1_3)
+		{
+			vulkan13features.pNext = pNext;
+			pNext = &vulkan13features;
+		}
+		if (physicalDeviceProperties.apiVersion < VK_API_VERSION_1_3 && maintenance4Supported)
+		{
+			maintenance4Features.pNext = pNext;
+			pNext = &maintenance4Features;
+		}
+		vulkan11features.pNext = pNext;
+		pNext = &vulkan11features;
+		vulkan12features.pNext = pNext;
+		auto deviceFeatures = vk::PhysicalDeviceFeatures()
+		                          .setShaderImageGatherExtended(true)
+		                          .setSamplerAnisotropy(true)
+		                          .setTessellationShader(true)
+		                          .setTextureCompressionBC(true)
+		                          .setGeometryShader(true)
+		                          .setImageCubeArray(true)
+		                          .setShaderInt16(true)
+		                          .setFillModeNonSolid(true)
+		                          .setFragmentStoresAndAtomics(true)
+		                          .setDualSrcBlend(true)
+		                          .setVertexPipelineStoresAndAtomics(true);
+		auto layerVec = stringSetToVector(enabledExtensions.layers);
+		auto extVec = stringSetToVector(enabledExtensions.device);
+		auto deviceCreateInfo = vk::DeviceCreateInfo()
+		                            .setQueueCreateInfoCount(queueCreateInfos.size())
+		                            .setPQueueCreateInfos(queueCreateInfos.data())
+		                            .setPEnabledFeatures(&deviceFeatures)
+		                            .setEnabledLayerCount(layerVec.size())
+		                            .setPpEnabledLayerNames(layerVec.data())
+		                            .setEnabledExtensionCount(extVec.size())
+		                            .setPpEnabledExtensionNames(extVec.data())
+		                            .setPNext(&vulkan12features);
+		auto res = m_VkPhysicalDevice.createDevice(&deviceCreateInfo, nullptr, &m_VkDevice);
+		if (res != vk::Result::eSuccess)
+		{
+			CORE_ERROR("Failed to create Vulkan device, error code = {0}",
+			           nvrhi::vulkan::resultToString(VkResult(res)));
+			return false;
+		}
+		// 获取各个Queue
+		m_VkDevice.getQueue(m_GraphicsQueueFamilyIndex, 0, &m_GraphicsQueue);
+		m_VkDevice.getQueue(m_PresentQueueFamilyIndex, 0, &m_PresentQueue);
+		if(m_DeviceParameters.enableComputeQueue)
+			m_VkDevice.getQueue(m_ComputeQueueFamilyIndex, 0, &m_ComputeQueue);
+		if(m_DeviceParameters.enableCopyQueue)
+			m_VkDevice.getQueue(m_TransferQueueFamilyIndex, 0, &m_TransferQueue);
+		VULKAN_HPP_DEFAULT_DISPATCHER.init(m_VkDevice);
+		CORE_INFO("Vulkan device created successfully: {0}", m_DeviceName);
+		return true;
+	}
 } // namespace Hoshino

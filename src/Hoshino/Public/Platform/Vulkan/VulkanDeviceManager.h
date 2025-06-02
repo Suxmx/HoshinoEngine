@@ -41,10 +41,15 @@ namespace Hoshino
 		vk::Device m_VkDevice;
 		vk::DebugReportCallbackEXT m_VkDebugReportCallback;
 		std::unique_ptr<VulkanDynamicLoader> m_DynamicLoader;
-		uint32_t m_GraphicsQueueFamilyIndex = 0;
-		uint32_t m_PresentQueueFamilyIndex = 0;
-		uint32_t m_ComputeQueueFamilyIndex = 0;
-		uint32_t m_TransferQueueFamilyIndex = 0;
+		int m_GraphicsQueueFamilyIndex = 0;
+		int m_PresentQueueFamilyIndex = 0;
+		int m_ComputeQueueFamilyIndex = 0;
+		int m_TransferQueueFamilyIndex = 0;
+		vk::Queue m_GraphicsQueue;
+		vk::Queue m_PresentQueue;
+		vk::Queue m_ComputeQueue;
+		vk::Queue m_TransferQueue;
+		std::string m_DeviceName;
 #pragma region Extensions
 		struct VulkanExtensionSet
 		{
