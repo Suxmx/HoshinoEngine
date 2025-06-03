@@ -1,4 +1,5 @@
 #include "Platform/Vulkan/VulkanDeviceManager.h"
+#include "Hoshino/Renderer/RenderMessageCallback.h"
 #include <cstddef>
 
 #include <nvrhi/vulkan.h>
@@ -225,7 +226,37 @@ namespace Hoshino
 			return false;
 		}
 		// 创建nvrhi::IDevice
-
+		auto vecInstanceExt = stringSetToVector(enabledExtensions.instance);
+		auto vecLayers = stringSetToVector(enabledExtensions.layers);
+		auto vecDeviceExt = stringSetToVector(enabledExtensions.device);
+		nvrhi::vulkan::DeviceDesc deviceDesc;
+		deviceDesc.errorCB = &RenderMsgCb::Instance();
+		deviceDesc.instance = m_VkInstance;
+		deviceDesc.physicalDevice = m_VkPhysicalDevice;
+		deviceDesc.device = m_VkDevice;
+		//queue
+		deviceDesc.graphicsQueue = m_GraphicsQueue;
+		deviceDesc.graphicsQueueIndex = m_GraphicsQueueFamilyIndex;
+		if (m_DeviceParameters.enableComputeQueue)
+		{
+			deviceDesc.computeQueue = m_ComputeQueue;
+			deviceDesc.computeQueueIndex = m_ComputeQueueFamilyIndex;
+		}
+		if (m_DeviceParameters.enableCopyQueue)
+		{
+			deviceDesc.transferQueue = m_TransferQueue;
+			deviceDesc.transferQueueIndex = m_TransferQueueFamilyIndex;
+		}
+		deviceDesc.instanceExtensions = vecInstanceExt.data();
+		deviceDesc.numInstanceExtensions = vecInstanceExt.size();
+		deviceDesc.deviceExtensions = vecDeviceExt.data();
+		deviceDesc.numDeviceExtensions = vecDeviceExt.size();
+		deviceDesc.bufferDeviceAddressSupported = m_BufferDeviceAddressSupported;
+#if HOSHINO_AFTERMATH	
+		deviceDesc.aftermathEnabled = m_DeviceParams.enableAftermath;
+#endif
+		m_NvrhiDevice = nvrhi::vulkan::createDevice(deviceDesc);
+		//TODO: validationLayer
 		return true;
 	}
 
@@ -712,6 +743,7 @@ namespace Hoshino
 		                            .setTimelineSemaphore(true)
 		                            .setShaderSampledImageArrayNonUniformIndexing(true)
 		                            .setBufferDeviceAddress(bufferDeviceAddressFeatures.bufferDeviceAddress);
+		m_BufferDeviceAddressSupported = vulkan12features.bufferDeviceAddress;
 		// 重置pNext用于Feature启用
 		vk::PhysicalDeviceProperties physicalDeviceProperties = m_VkPhysicalDevice.getProperties();
 		m_DeviceName = physicalDeviceProperties.deviceName.data();

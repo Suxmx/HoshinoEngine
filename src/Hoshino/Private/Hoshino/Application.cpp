@@ -34,23 +34,24 @@ namespace Hoshino
 	{
 		while (m_Running)
 		{
-			float time = (float)glfwGetTime();
-			Timestep timestep = time - m_LastFrameTime;
-			m_LastFrameTime = time;
+		//	float time = (float)glfwGetTime();
+		//	Timestep timestep = time - m_LastFrameTime;
+		//	m_LastFrameTime = time;
 
-			// glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate(timestep);
+		//	// glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		//	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//	for (Layer* layer : m_LayerStack)
+		//		layer->OnUpdate(timestep);
 
-			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack)
-				layer->OnImGuiRender();
-			m_ImGuiLayer->End();
+		//	m_ImGuiLayer->Begin();
+		//	for (Layer* layer : m_LayerStack)
+		//		layer->OnImGuiRender();
+		//	m_ImGuiLayer->End();
 
-			m_Window->OnUpdate();
+		//	m_Window->OnUpdate();
+		glfwPollEvents();
 		}
-		CORE_INFO("Engine ShutDown!");
+		//CORE_INFO("Engine ShutDown!");
 	}
 
 	void Application::OnEvent(Event& event)

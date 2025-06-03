@@ -518,6 +518,7 @@ namespace Hoshino
 		{
 			glfwMaximizeWindow(m_Window);
 		}
+		glfwShowWindow(m_Window);
 		// resize swapchain
 		return true;
 	}

@@ -36,6 +36,7 @@ namespace Hoshino
 		void DestroyVkSwapChain();
 		// Properties
 	private:
+		bool m_BufferDeviceAddressSupported ;
 		bool m_SwapChainMutableFormatSupported;
 		uint32_t m_SwapChainIndex = uint32_t(-1);
 

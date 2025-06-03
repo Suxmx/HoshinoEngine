@@ -13,7 +13,7 @@ package("nvrhi")
     on_test(function (package)
     end)
 package_end()
-
+ 
 add_cxflags("/utf-8")
 add_rules("mode.debug", "mode.releasedbg", "mode.release", "mode.minsizerel","mode.profile")
 set_arch("x64")

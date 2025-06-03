@@ -4,8 +4,14 @@
 namespace Hoshino
 {
 
-	class RenderMsgCb : nvrhi::IMessageCallback
+	class RenderMsgCb : public nvrhi::IMessageCallback
 	{
+	public:
+		static RenderMsgCb& Instance()
+		{
+			static RenderMsgCb instance;
+			return instance;
+		}
 		void message(nvrhi::MessageSeverity severity, const char* messageText) override
 		{
 			switch (severity)
