@@ -47,6 +47,7 @@ namespace Hoshino
 		uint32_t swapChainSampleCount = 1;
 		uint32_t swapChainSampleQuality = 0;
 		bool vsyncEnabled = false;
+		uint32_t maxFramesInFlight = 3; // 最大帧数
 
 		RenderMsgCb* messageCallback = nullptr;
 #ifdef HOSHINO_VULKAN
@@ -88,6 +89,7 @@ class HOSHINO_API DeviceManager
 		bool m_InstanceCreated = false;
 
 		GLFWwindow* m_Window = nullptr;
+		nvrhi::DeviceHandle m_NvrhiDevice = nullptr;
 		
 	};
 } // namespace Hoshino

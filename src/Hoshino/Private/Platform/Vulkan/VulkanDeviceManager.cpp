@@ -19,6 +19,18 @@ namespace Hoshino
 		return ret;
 	}
 
+	template <typename T>
+	static std::vector<T> setToVector(const std::unordered_set<T>& set)
+	{
+		std::vector<T> ret;
+		for (const auto& s : set)
+		{
+			ret.push_back(s);
+		}
+
+		return ret;
+	}
+
 	static VKAPI_ATTR VkBool32 VKAPI_CALL vulkanDebugCallback(vk::DebugReportFlagsEXT flags,
 	                                                          vk::DebugReportObjectTypeEXT objType,
 	                                                          uint64_t obj, size_t location, int32_t code,
@@ -217,9 +229,105 @@ namespace Hoshino
 		return true;
 	}
 
+	
+
 	bool VulkanDeviceManager::CreateSwapChain()
 	{
-		return false;
+		DestroyVkSwapChain();
+		m_SwapChainFormat = {
+		    vk::Format(nvrhi::vulkan::convertFormat((nvrhi::Format)m_DeviceParameters.swapChainFormat)),
+		    vk::ColorSpaceKHR::eSrgbNonlinear};
+		vk::Extent2D swapChainExtent = {m_DeviceParameters.backBufferWidth,
+		                                m_DeviceParameters.backBufferHeight};
+		std::unordered_set<uint32_t> uniqueQueues = {uint32_t(m_GraphicsQueueFamilyIndex),
+		                                             uint32_t(m_PresentQueueFamilyIndex)};
+		std::vector<uint32_t> queueFamilyIndices = setToVector(uniqueQueues);
+		const bool enableSwapChainSharing = queueFamilyIndices.size() > 1;
+		auto desc =
+		    vk::SwapchainCreateInfoKHR()
+		        .setSurface(m_VkSurface)
+		        .setMinImageCount(m_DeviceParameters.swapChainBufferCount)
+		        .setImageFormat(m_SwapChainFormat.format)
+		        .setImageColorSpace(m_SwapChainFormat.colorSpace)
+		        .setImageExtent(swapChainExtent)
+		        .setImageArrayLayers(1)
+		        .setImageUsage(vk::ImageUsageFlagBits::eColorAttachment |
+		                       vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled)
+		        .setImageSharingMode(enableSwapChainSharing ? vk::SharingMode::eConcurrent
+		                                                    : vk::SharingMode::eExclusive)
+		        .setFlags(m_SwapChainMutableFormatSupported ? vk::SwapchainCreateFlagBitsKHR::eMutableFormat
+		                                                    : vk::SwapchainCreateFlagBitsKHR(0))
+		        .setQueueFamilyIndexCount(enableSwapChainSharing ? uint32_t(queueFamilyIndices.size()) : 0)
+		        .setPQueueFamilyIndices(enableSwapChainSharing ? queueFamilyIndices.data() : nullptr)
+		        .setPreTransform(vk::SurfaceTransformFlagBitsKHR::eIdentity)
+		        .setCompositeAlpha(vk::CompositeAlphaFlagBitsKHR::eOpaque)
+		        .setPresentMode(m_DeviceParameters.vsyncEnabled ? vk::PresentModeKHR::eFifo
+		                                                        : vk::PresentModeKHR::eImmediate)
+		        .setClipped(true)
+		        .setOldSwapchain(nullptr);
+		// 可变格式交换链 针对常见的RGBA/BGRA格式创建"格式对"
+		std::vector<vk::Format> imageFormats = {m_SwapChainFormat.format};
+		switch (m_SwapChainFormat.format)
+		{
+		case vk::Format::eR8G8B8A8Unorm:
+			imageFormats.push_back(vk::Format::eR8G8B8A8Srgb);
+			break;
+		case vk::Format::eR8G8B8A8Srgb:
+			imageFormats.push_back(vk::Format::eR8G8B8A8Unorm);
+			break;
+		case vk::Format::eB8G8R8A8Unorm:
+			imageFormats.push_back(vk::Format::eB8G8R8A8Srgb);
+			break;
+		case vk::Format::eB8G8R8A8Srgb:
+			imageFormats.push_back(vk::Format::eB8G8R8A8Unorm);
+			break;
+		default:
+			break;
+		}
+
+		auto imageFormatListCreateInfo = vk::ImageFormatListCreateInfo().setViewFormats(imageFormats);
+
+		if (m_SwapChainMutableFormatSupported) desc.pNext = &imageFormatListCreateInfo;
+
+		const vk::Result res = m_VkDevice.createSwapchainKHR(&desc, nullptr, &m_VkSwapChain);
+		if (res != vk::Result::eSuccess)
+		{
+			CORE_ERROR("Failed to create Vulkan swap chain, error code = {0}",
+			           nvrhi::vulkan::resultToString(VkResult(res)));
+			return false;
+		}
+		// retrieve swap chain images
+		auto images = m_VkDevice.getSwapchainImagesKHR(m_VkSwapChain);
+		for (auto image : images)
+		{
+			SwapChainImage sci;
+			sci.image = image;
+
+			nvrhi::TextureDesc textureDesc;
+			textureDesc.width = m_DeviceParameters.backBufferWidth;
+			textureDesc.height = m_DeviceParameters.backBufferHeight;
+			textureDesc.format = (nvrhi::Format)m_DeviceParameters.swapChainFormat;
+			textureDesc.debugName = "Swap chain image";
+			textureDesc.initialState = nvrhi::ResourceStates::Present;
+			textureDesc.keepInitialState = true;
+			textureDesc.isRenderTarget = true;
+
+			sci.rhiHandle = m_NvrhiDevice->createHandleForNativeTexture(
+			    nvrhi::ObjectTypes::VK_Image, nvrhi::Object(sci.image), textureDesc);
+			m_SwapChainImages.push_back(sci);
+		}
+
+		m_SwapChainIndex = 0;
+		// 在Present()中用于vkQueuePresentKHR 通知GPU等待所有渲染操作完成后再呈现图像
+		m_PresentSemaphores.reserve(m_DeviceParameters.maxFramesInFlight + 1);
+		// 在BeginFrame()中用于vkAcquireNextImageKHR 通知GPU等待直到交换链图像可用后再开始渲染
+		m_AcquireSemaphores.reserve(m_DeviceParameters.maxFramesInFlight + 1);
+		for (uint32_t i = 0; i < m_DeviceParameters.maxFramesInFlight + 1; ++i)
+		{
+			m_PresentSemaphores.push_back(m_VkDevice.createSemaphore(vk::SemaphoreCreateInfo()));
+			m_AcquireSemaphores.push_back(m_VkDevice.createSemaphore(vk::SemaphoreCreateInfo()));
+		}
+		return true;
 	}
 
 	void VulkanDeviceManager::ResizeSwapChain(uint32_t width, uint32_t height) {}
@@ -525,6 +633,8 @@ namespace Hoshino
 			else if (ext == VK_KHR_SYNCHRONIZATION_2_EXTENSION_NAME) synchronization2Supported = true;
 			else if (ext == VK_KHR_MAINTENANCE_4_EXTENSION_NAME) maintenance4Supported = true;
 			else if (ext == VK_NV_DEVICE_DIAGNOSTICS_CONFIG_EXTENSION_NAME) aftermathSupported = true;
+			else if (ext == VK_KHR_SWAPCHAIN_MUTABLE_FORMAT_EXTENSION_NAME)
+				m_SwapChainMutableFormatSupported = true;
 		}
 		CORE_INFO("{0}", deviceExtsLogSS.str());
 		std::stringstream deviceLayersLogSS;
@@ -706,5 +816,21 @@ namespace Hoshino
 		VULKAN_HPP_DEFAULT_DISPATCHER.init(m_VkDevice);
 		CORE_INFO("Vulkan device created successfully: {0}", m_DeviceName);
 		return true;
+	}
+	
+	void VulkanDeviceManager::DestroyVkSwapChain()
+	{
+		if (m_VkDevice)
+		{
+			m_VkDevice.waitIdle();
+		}
+
+		if (m_VkSwapChain)
+		{
+			m_VkDevice.destroySwapchainKHR(m_VkSwapChain);
+			m_VkSwapChain = nullptr;
+		}
+
+		m_SwapChainImages.clear();
 	}
 } // namespace Hoshino

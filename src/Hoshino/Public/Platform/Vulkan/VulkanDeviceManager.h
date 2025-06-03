@@ -33,8 +33,12 @@ namespace Hoshino
 		bool PickVkPhysicalDevice();
 		bool FindVkQueueFamilies(const vk::PhysicalDevice& physicalDevice);
 		bool CreateVkDevice();
-	//Properties
+		void DestroyVkSwapChain();
+		// Properties
 	private:
+		bool m_SwapChainMutableFormatSupported;
+		uint32_t m_SwapChainIndex = uint32_t(-1);
+
 		vk::Instance m_VkInstance;
 		vk::SurfaceKHR m_VkSurface;
 		vk::PhysicalDevice m_VkPhysicalDevice;
@@ -50,6 +54,18 @@ namespace Hoshino
 		vk::Queue m_ComputeQueue;
 		vk::Queue m_TransferQueue;
 		std::string m_DeviceName;
+		// SwapChain
+		vk::SwapchainKHR m_VkSwapChain;
+		struct SwapChainImage
+		{
+			vk::Image image;
+			nvrhi::TextureHandle rhiHandle;
+		};
+
+		std::vector<SwapChainImage> m_SwapChainImages;
+		vk::SurfaceFormatKHR m_SwapChainFormat;
+		std::vector<vk::Semaphore> m_AcquireSemaphores;
+		std::vector<vk::Semaphore> m_PresentSemaphores;
 #pragma region Extensions
 		struct VulkanExtensionSet
 		{
