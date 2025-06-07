@@ -265,90 +265,10 @@ namespace Hoshino
 	bool VulkanDeviceManager::CreateSwapChain()
 	{
 		DestroyVkSwapChain();
-		m_SwapChainFormat = {
-		    vk::Format(nvrhi::vulkan::convertFormat((nvrhi::Format)m_DeviceParameters.swapChainFormat)),
-		    vk::ColorSpaceKHR::eSrgbNonlinear};
-		vk::Extent2D swapChainExtent = {m_DeviceParameters.backBufferWidth,
-		                                m_DeviceParameters.backBufferHeight};
-		std::unordered_set<uint32_t> uniqueQueues = {uint32_t(m_GraphicsQueueFamilyIndex),
-		                                             uint32_t(m_PresentQueueFamilyIndex)};
-		std::vector<uint32_t> queueFamilyIndices = setToVector(uniqueQueues);
-		const bool enableSwapChainSharing = queueFamilyIndices.size() > 1;
-		auto desc =
-		    vk::SwapchainCreateInfoKHR()
-		        .setSurface(m_VkSurface)
-		        .setMinImageCount(m_DeviceParameters.swapChainBufferCount)
-		        .setImageFormat(m_SwapChainFormat.format)
-		        .setImageColorSpace(m_SwapChainFormat.colorSpace)
-		        .setImageExtent(swapChainExtent)
-		        .setImageArrayLayers(1)
-		        .setImageUsage(vk::ImageUsageFlagBits::eColorAttachment |
-		                       vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled)
-		        .setImageSharingMode(enableSwapChainSharing ? vk::SharingMode::eConcurrent
-		                                                    : vk::SharingMode::eExclusive)
-		        .setFlags(m_SwapChainMutableFormatSupported ? vk::SwapchainCreateFlagBitsKHR::eMutableFormat
-		                                                    : vk::SwapchainCreateFlagBitsKHR(0))
-		        .setQueueFamilyIndexCount(enableSwapChainSharing ? uint32_t(queueFamilyIndices.size()) : 0)
-		        .setPQueueFamilyIndices(enableSwapChainSharing ? queueFamilyIndices.data() : nullptr)
-		        .setPreTransform(vk::SurfaceTransformFlagBitsKHR::eIdentity)
-		        .setCompositeAlpha(vk::CompositeAlphaFlagBitsKHR::eOpaque)
-		        .setPresentMode(m_DeviceParameters.vsyncEnabled ? vk::PresentModeKHR::eFifo
-		                                                        : vk::PresentModeKHR::eImmediate)
-		        .setClipped(true)
-		        .setOldSwapchain(nullptr);
-		// 可变格式交换链 针对常见的RGBA/BGRA格式创建"格式对"
-		std::vector<vk::Format> imageFormats = {m_SwapChainFormat.format};
-		switch (m_SwapChainFormat.format)
+		if(!CreateVkSwapChain())
 		{
-		case vk::Format::eR8G8B8A8Unorm:
-			imageFormats.push_back(vk::Format::eR8G8B8A8Srgb);
-			break;
-		case vk::Format::eR8G8B8A8Srgb:
-			imageFormats.push_back(vk::Format::eR8G8B8A8Unorm);
-			break;
-		case vk::Format::eB8G8R8A8Unorm:
-			imageFormats.push_back(vk::Format::eB8G8R8A8Srgb);
-			break;
-		case vk::Format::eB8G8R8A8Srgb:
-			imageFormats.push_back(vk::Format::eB8G8R8A8Unorm);
-			break;
-		default:
-			break;
-		}
-
-		auto imageFormatListCreateInfo = vk::ImageFormatListCreateInfo().setViewFormats(imageFormats);
-
-		if (m_SwapChainMutableFormatSupported) desc.pNext = &imageFormatListCreateInfo;
-
-		const vk::Result res = m_VkDevice.createSwapchainKHR(&desc, nullptr, &m_VkSwapChain);
-		if (res != vk::Result::eSuccess)
-		{
-			CORE_ERROR("Failed to create Vulkan swap chain, error code = {0}",
-			           nvrhi::vulkan::resultToString(VkResult(res)));
 			return false;
 		}
-		// retrieve swap chain images
-		auto images = m_VkDevice.getSwapchainImagesKHR(m_VkSwapChain);
-		for (auto image : images)
-		{
-			SwapChainImage sci;
-			sci.image = image;
-
-			nvrhi::TextureDesc textureDesc;
-			textureDesc.width = m_DeviceParameters.backBufferWidth;
-			textureDesc.height = m_DeviceParameters.backBufferHeight;
-			textureDesc.format = (nvrhi::Format)m_DeviceParameters.swapChainFormat;
-			textureDesc.debugName = "Swap chain image";
-			textureDesc.initialState = nvrhi::ResourceStates::Present;
-			textureDesc.keepInitialState = true;
-			textureDesc.isRenderTarget = true;
-
-			sci.rhiHandle = m_NvrhiDevice->createHandleForNativeTexture(
-			    nvrhi::ObjectTypes::VK_Image, nvrhi::Object(sci.image), textureDesc);
-			m_SwapChainImages.push_back(sci);
-		}
-
-		m_SwapChainIndex = 0;
 		// 在Present()中用于vkQueuePresentKHR 通知GPU等待所有渲染操作完成后再呈现图像
 		m_PresentSemaphores.reserve(m_DeviceParameters.maxFramesInFlight + 1);
 		// 在BeginFrame()中用于vkAcquireNextImageKHR 通知GPU等待直到交换链图像可用后再开始渲染
@@ -361,23 +281,126 @@ namespace Hoshino
 		return true;
 	}
 
-	void VulkanDeviceManager::ResizeSwapChain(uint32_t width, uint32_t height) {}
+	void VulkanDeviceManager::ResizeSwapChain()
+	{
+		if (m_VkDevice)
+		{
+			DestroyVkSwapChain();
+			CreateVkSwapChain();
+		}
+	}
 
-	void VulkanDeviceManager::DestroyDeviceAndSwapChain() {}
+	void VulkanDeviceManager::DestroyDeviceAndSwapChain()
+	{
+		DestroyVkSwapChain();
+		for (auto& semaphore : m_AcquireSemaphores)
+		{
+			m_VkDevice.destroySemaphore(semaphore);
+		}
+		m_AcquireSemaphores.clear();
+		for (auto& semaphore : m_PresentSemaphores)
+		{
+			m_VkDevice.destroySemaphore(semaphore);
+		}
+		m_PresentSemaphores.clear();
+		m_NvrhiDevice = nullptr;
+
+		m_DeviceName.clear();
+
+		if (m_VkDevice)
+		{
+			m_VkDevice.destroy();
+			m_VkDevice = nullptr;
+		}
+
+		if (m_VkSurface)
+		{
+			assert(m_VkInstance);
+			m_VkInstance.destroySurfaceKHR(m_VkSurface);
+			m_VkInstance = nullptr;
+		}
+
+		if (m_VkDebugReportCallback)
+		{
+			m_VkInstance.destroyDebugReportCallbackEXT(m_VkDebugReportCallback);
+		}
+
+		if (m_VkInstance)
+		{
+			m_VkInstance.destroy();
+			m_VkInstance = nullptr;
+		}
+	}
 
 	bool VulkanDeviceManager::BeginFrame()
 	{
-		return VK_FALSE;
+		const vk::Semaphore& acquireSemaphore = m_AcquireSemaphores[m_AcquireSemaphoreIndex];
+		vk::Result res = m_VkDevice.acquireNextImageKHR(m_VkSwapChain, UINT64_MAX, acquireSemaphore,
+		                                                vk::Fence(), &m_SwapChainIndex);
+		m_AcquireSemaphoreIndex = (m_AcquireSemaphoreIndex + 1) % m_AcquireSemaphores.size();
+		if (res == vk::Result::eSuccess)
+		{
+			m_NvrhiDevice->queueWaitForSemaphore(nvrhi::CommandQueue::Graphics, acquireSemaphore, 0);
+			return true;
+		}
+		return false;
 	}
 
 	bool VulkanDeviceManager::Present()
 	{
-		return VK_FALSE;
+		const vk::Semaphore& presentSemaphore = m_PresentSemaphores[m_PresentSemaphoreIndex];
+		m_NvrhiDevice->queueSignalSemaphore(nvrhi::CommandQueue::Graphics,presentSemaphore, 0);
+		// From Donut
+		// NVRHI buffers the semaphores and signals them when something is submitted to a queue.
+		// Call 'executeCommandLists' with no command lists to actually signal the semaphore.
+		m_NvrhiDevice->executeCommandLists(nullptr, 0);
+		vk::PresentInfoKHR presentInfo = vk::PresentInfoKHR()
+		                                     .setWaitSemaphoreCount(1)
+		                                     .setPWaitSemaphores(&presentSemaphore)
+		                                     .setSwapchainCount(1)
+		                                     .setPSwapchains(&m_VkSwapChain)
+		                                     .setPImageIndices(&m_SwapChainIndex);
+		// 这里实际上是CPU同步向GPU发送了Present请求，但是参数中有传递信号量
+		// 在GPU处是异步的，等信号量置位之后才会present，不会阻塞CPU
+		auto res = m_PresentQueue.presentKHR(presentInfo);
+		if (!(res == vk::Result::eSuccess || res == vk::Result::eErrorOutOfDateKHR ||
+		      res == vk::Result::eSuboptimalKHR))
+		{
+			return false;
+		}
+		m_PresentSemaphoreIndex = (m_PresentSemaphoreIndex + 1) % m_PresentSemaphores.size();
+
+		// 等待直到剩余渲染帧为最大帧-1（因为还要加上当前帧
+		while (m_FrameInFlights.size()>=m_DeviceParameters.maxFramesInFlight)
+		{
+			nvrhi::EventQueryHandle query = m_FrameInFlights.front();
+			m_FrameInFlights.pop();
+			m_NvrhiDevice->waitEventQuery(query);
+
+			m_QueryPool.push(query);
+		}
+		// 池里有就优先从池子里面取
+		nvrhi::EventQueryHandle curFrameQuery;
+		if(!m_QueryPool.empty())
+		{
+			curFrameQuery = m_QueryPool.front();
+			m_QueryPool.pop();
+		}
+		else 
+		{
+			curFrameQuery = m_NvrhiDevice->createEventQuery();
+		}
+		
+		m_NvrhiDevice->resetEventQuery(curFrameQuery);
+		m_NvrhiDevice->setEventQuery(curFrameQuery, nvrhi::CommandQueue::Graphics);
+		m_FrameInFlights.push(curFrameQuery);
+
+		return true;
 	}
 
 	nvrhi::IDevice* VulkanDeviceManager::GetDevice() const
 	{
-		return nullptr;
+		return m_NvrhiDevice;
 	}
 
 	bool VulkanDeviceManager::CreateVkWindowsSurface()
@@ -864,5 +887,96 @@ namespace Hoshino
 		}
 
 		m_SwapChainImages.clear();
+	}
+
+	bool VulkanDeviceManager::CreateVkSwapChain()
+	{
+		m_SwapChainFormat = {
+		    vk::Format(nvrhi::vulkan::convertFormat((nvrhi::Format)m_DeviceParameters.swapChainFormat)),
+		    vk::ColorSpaceKHR::eSrgbNonlinear};
+		vk::Extent2D swapChainExtent = {m_DeviceParameters.backBufferWidth,
+		                                m_DeviceParameters.backBufferHeight};
+		std::unordered_set<uint32_t> uniqueQueues = {uint32_t(m_GraphicsQueueFamilyIndex),
+		                                             uint32_t(m_PresentQueueFamilyIndex)};
+		std::vector<uint32_t> queueFamilyIndices = setToVector(uniqueQueues);
+		const bool enableSwapChainSharing = queueFamilyIndices.size() > 1;
+		// 防止validation layer报错
+		vk::SurfaceCapabilitiesKHR surfaceCapabilities = m_VkPhysicalDevice.getSurfaceCapabilitiesKHR(m_VkSurface);
+		auto desc =
+		    vk::SwapchainCreateInfoKHR()
+		        .setSurface(m_VkSurface)
+		        .setMinImageCount(m_DeviceParameters.swapChainBufferCount)
+		        .setImageFormat(m_SwapChainFormat.format)
+		        .setImageColorSpace(m_SwapChainFormat.colorSpace)
+		        .setImageExtent(swapChainExtent)
+		        .setImageArrayLayers(1)
+		        .setImageUsage(vk::ImageUsageFlagBits::eColorAttachment |
+		                       vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled)
+		        .setImageSharingMode(enableSwapChainSharing ? vk::SharingMode::eConcurrent
+		                                                    : vk::SharingMode::eExclusive)
+		        .setFlags(m_SwapChainMutableFormatSupported ? vk::SwapchainCreateFlagBitsKHR::eMutableFormat
+		                                                    : vk::SwapchainCreateFlagBitsKHR(0))
+		        .setQueueFamilyIndexCount(enableSwapChainSharing ? uint32_t(queueFamilyIndices.size()) : 0)
+		        .setPQueueFamilyIndices(enableSwapChainSharing ? queueFamilyIndices.data() : nullptr)
+		        .setPreTransform(vk::SurfaceTransformFlagBitsKHR::eIdentity)
+		        .setCompositeAlpha(vk::CompositeAlphaFlagBitsKHR::eOpaque)
+		        .setPresentMode(m_DeviceParameters.vsyncEnabled ? vk::PresentModeKHR::eFifo
+		                                                        : vk::PresentModeKHR::eImmediate)
+		        .setClipped(true)
+		        .setOldSwapchain(nullptr);
+		// 可变格式交换链 针对常见的RGBA/BGRA格式创建"格式对"
+		std::vector<vk::Format> imageFormats = {m_SwapChainFormat.format};
+		switch (m_SwapChainFormat.format)
+		{
+		case vk::Format::eR8G8B8A8Unorm:
+			imageFormats.push_back(vk::Format::eR8G8B8A8Srgb);
+			break;
+		case vk::Format::eR8G8B8A8Srgb:
+			imageFormats.push_back(vk::Format::eR8G8B8A8Unorm);
+			break;
+		case vk::Format::eB8G8R8A8Unorm:
+			imageFormats.push_back(vk::Format::eB8G8R8A8Srgb);
+			break;
+		case vk::Format::eB8G8R8A8Srgb:
+			imageFormats.push_back(vk::Format::eB8G8R8A8Unorm);
+			break;
+		default:
+			break;
+		}
+
+		auto imageFormatListCreateInfo = vk::ImageFormatListCreateInfo().setViewFormats(imageFormats);
+
+		if (m_SwapChainMutableFormatSupported) desc.pNext = &imageFormatListCreateInfo;
+
+		const vk::Result res = m_VkDevice.createSwapchainKHR(&desc, nullptr, &m_VkSwapChain);
+		if (res != vk::Result::eSuccess)
+		{
+			CORE_ERROR("Failed to create Vulkan swap chain, error code = {0}",
+			           nvrhi::vulkan::resultToString(VkResult(res)));
+			return false;
+		}
+		// retrieve swap chain images
+		auto images = m_VkDevice.getSwapchainImagesKHR(m_VkSwapChain);
+		for (auto image : images)
+		{
+			SwapChainImage sci;
+			sci.image = image;
+
+			nvrhi::TextureDesc textureDesc;
+			textureDesc.width = m_DeviceParameters.backBufferWidth;
+			textureDesc.height = m_DeviceParameters.backBufferHeight;
+			textureDesc.format = (nvrhi::Format)m_DeviceParameters.swapChainFormat;
+			textureDesc.debugName = "Swap chain image";
+			textureDesc.initialState = nvrhi::ResourceStates::Present;
+			textureDesc.keepInitialState = true;
+			textureDesc.isRenderTarget = true;
+
+			sci.rhiHandle = m_NvrhiDevice->createHandleForNativeTexture(
+			    nvrhi::ObjectTypes::VK_Image, nvrhi::Object(sci.image), textureDesc);
+			m_SwapChainImages.push_back(sci);
+		}
+
+		m_SwapChainIndex = 0;
+		return true;
 	}
 } // namespace Hoshino

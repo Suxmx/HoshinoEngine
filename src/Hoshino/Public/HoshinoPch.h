@@ -4,7 +4,6 @@
 #include <cstdint>
 #include <iostream>
 #include <string>
-#include <vector>
 #include <memory>
 #include <algorithm>
 #include <functional>
@@ -16,6 +15,7 @@
 #include <unordered_set>
 #include <map>
 #include <vector>
+#include <queue>
 #include <set>
 #include <list>
 #include <initializer_list>

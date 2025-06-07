@@ -16,10 +16,10 @@ namespace Hoshino
 	{
 		CORE_ASSERT(!s_Instance, "Application already exists!")
 		s_Instance = this;
-		auto deviceMgr = DeviceManager::Create(GraphicsAPI::Vulkan);
+		m_DeviceMgr = DeviceManager::Create(GraphicsAPI::Vulkan);
 		DeviceParameters deviceParams;
 		deviceParams.enableDebugRuntime = true;
-		deviceMgr->CreateWindowDeviceAndSwapChain(deviceParams);
+		m_DeviceMgr->CreateWindowDeviceAndSwapChain(deviceParams);
 		// m_Window = Window::Create();
 		// m_Window->SetEventCallbackFn(BIND_APP_EVENT_FN(OnEvent));
 		// m_Running = true;
@@ -34,9 +34,9 @@ namespace Hoshino
 	{
 		while (m_Running)
 		{
-		//	float time = (float)glfwGetTime();
-		//	Timestep timestep = time - m_LastFrameTime;
-		//	m_LastFrameTime = time;
+			float time = (float)glfwGetTime();
+			Timestep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
 
 		//	// glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		//	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -49,7 +49,8 @@ namespace Hoshino
 		//	m_ImGuiLayer->End();
 
 		//	m_Window->OnUpdate();
-		glfwPollEvents();
+			m_DeviceMgr->UpdateWindowSize();
+			glfwPollEvents();
 		}
 		//CORE_INFO("Engine ShutDown!");
 	}

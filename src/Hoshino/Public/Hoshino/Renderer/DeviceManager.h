@@ -47,7 +47,7 @@ namespace Hoshino
 		uint32_t swapChainSampleCount = 1;
 		uint32_t swapChainSampleQuality = 0;
 		bool vsyncEnabled = false;
-		uint32_t maxFramesInFlight = 3; // 最大帧数
+		uint32_t maxFramesInFlight = 2; // CPU向GPU最多预先提交的帧数（多了就等待present之后再提交）
 
 		RenderMsgCb* messageCallback = nullptr;
 #ifdef HOSHINO_VULKAN
@@ -73,10 +73,18 @@ class HOSHINO_API DeviceManager
 		virtual bool CreateInstanceInternal() = 0;
 		virtual bool CreateNvrhiDevice() = 0;
 		virtual bool CreateSwapChain() = 0;
-		virtual void ResizeSwapChain(uint32_t width, uint32_t height) = 0;
+		virtual void ResizeSwapChain() = 0;
 		virtual void DestroyDeviceAndSwapChain() = 0;
 		virtual bool BeginFrame() = 0;
 		virtual bool Present() = 0;
+
+		void BackBufferResizing();
+		void BackBufferResized();
+
+		void UpdateWindowSize();
+		void Render();
+		
+
 	public:
 		virtual nvrhi::IDevice* GetDevice() const = 0;
 
@@ -87,9 +95,14 @@ class HOSHINO_API DeviceManager
 		bool m_EnableVSync = false;
 		bool m_IsFullscreen = false;
 		bool m_InstanceCreated = false;
+		bool m_WindowVisible;
+		bool m_WindowFocused;
 
 		GLFWwindow* m_Window = nullptr;
-		nvrhi::DeviceHandle m_NvrhiDevice = nullptr;
-		
+		std::vector<nvrhi::FramebufferHandle> m_SwapChainFramebuffers;
+		std::queue<nvrhi::EventQueryHandle> m_FrameInFlights; // CPU已提交但是仍在渲染的帧
+		std::queue<nvrhi::EventQueryHandle> m_QueryPool;
+
+		friend class Application;
 	};
 } // namespace Hoshino

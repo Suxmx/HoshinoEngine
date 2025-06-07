@@ -520,7 +520,68 @@ namespace Hoshino
 		}
 		glfwShowWindow(m_Window);
 		// resize swapchain
+		// reset the back buffer size state to enforce a resize event
+		m_DeviceParameters.backBufferWidth = 0;
+		m_DeviceParameters.backBufferHeight = 0;
+
+		UpdateWindowSize();
 		return true;
 	}
+	
+	void DeviceManager::Render()
+	{
+		
+	}
+	void DeviceManager::UpdateWindowSize()
+	{
+		int width, height;
+		glfwGetWindowSize(m_Window, &width, &height);
+		if(width == 0|| height == 0)
+		{
+			m_WindowVisible =false;
+			return;
+		}
+		m_WindowVisible = true;
+		m_WindowFocused = glfwGetWindowAttrib(m_Window, GLFW_FOCUSED) == 1;
+		if (static_cast<int>(m_DeviceParameters.backBufferWidth) != width ||
+		    static_cast<int>(m_DeviceParameters.backBufferHeight) != height ||
+		    m_DeviceParameters.vsyncEnabled != m_EnableVSync)
+		{
+			BackBufferResizing();
 
+			m_DeviceParameters.backBufferWidth = width;
+			m_DeviceParameters.backBufferHeight = height;
+			m_DeviceParameters.vsyncEnabled = m_EnableVSync;
+
+			ResizeSwapChain();
+			BackBufferResized();
+		}
+	}
+
+	void DeviceManager::BackBufferResizing()
+	{
+		// m_SwapChainFramebuffers.clear();
+
+		// for (auto it : m_vRenderPasses)
+		// {
+		// 	it->BackBufferResizing();
+		// }
+	}
+
+	void DeviceManager::BackBufferResized()
+	{
+		// for (auto it : m_vRenderPasses)
+		// {
+		// 	it->BackBufferResized(m_DeviceParams.backBufferWidth, m_DeviceParams.backBufferHeight,
+		// 	                      m_DeviceParams.swapChainSampleCount);
+		// }
+
+		// uint32_t backBufferCount = GetBackBufferCount();
+		// m_SwapChainFramebuffers.resize(backBufferCount);
+		// for (uint32_t index = 0; index < backBufferCount; index++)
+		// {
+		// 	m_SwapChainFramebuffers[index] = GetDevice()->createFramebuffer(
+		// 	    nvrhi::FramebufferDesc().addColorAttachment(GetBackBuffer(index)));
+		// }
+	}
 } // namespace Hoshino

@@ -4,6 +4,7 @@
 	#define VULKAN_HPP_DISPATCH_LOADER_DYNAMIC 1
 #endif
 #include <vulkan/vulkan.hpp>
+#include <nvrhi/vulkan.h>
 
 #if VK_HEADER_VERSION >= 301
 typedef vk::detail::DynamicLoader VulkanDynamicLoader;
@@ -19,7 +20,7 @@ namespace Hoshino
 		virtual bool CreateInstanceInternal() override;
 		virtual bool CreateNvrhiDevice() override;
 		virtual bool CreateSwapChain() override;
-		virtual void ResizeSwapChain(uint32_t width, uint32_t height) override;
+		virtual void ResizeSwapChain() override;
 		virtual void DestroyDeviceAndSwapChain() override;
 		virtual bool BeginFrame() override;
 		virtual bool Present() override;
@@ -34,6 +35,7 @@ namespace Hoshino
 		bool FindVkQueueFamilies(const vk::PhysicalDevice& physicalDevice);
 		bool CreateVkDevice();
 		void DestroyVkSwapChain();
+		bool CreateVkSwapChain();
 		// Properties
 	private:
 		bool m_BufferDeviceAddressSupported ;
@@ -42,6 +44,7 @@ namespace Hoshino
 
 		vk::Instance m_VkInstance;
 		vk::SurfaceKHR m_VkSurface;
+		nvrhi::vulkan::DeviceHandle m_NvrhiDevice = nullptr;
 		vk::PhysicalDevice m_VkPhysicalDevice;
 		vk::Device m_VkDevice;
 		vk::DebugReportCallbackEXT m_VkDebugReportCallback;
@@ -67,6 +70,8 @@ namespace Hoshino
 		vk::SurfaceFormatKHR m_SwapChainFormat;
 		std::vector<vk::Semaphore> m_AcquireSemaphores;
 		std::vector<vk::Semaphore> m_PresentSemaphores;
+		uint32_t m_AcquireSemaphoreIndex = 0;
+		uint32_t m_PresentSemaphoreIndex = 0;
 #pragma region Extensions
 		struct VulkanExtensionSet
 		{

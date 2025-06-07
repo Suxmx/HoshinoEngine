@@ -31,6 +31,7 @@ namespace Hoshino
 		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
+		DeviceManager* m_DeviceMgr;
 		bool m_Running;
 		float m_LastFrameTime = 0.0f;
 		static Application* s_Instance;
