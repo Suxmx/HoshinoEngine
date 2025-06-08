@@ -2,6 +2,8 @@
 
 #include "Hoshino/Log.h"
 #include "Hoshino/Renderer/DeviceManager.h"
+#include "Hoshino/Renderer/ShaderCompiler.h"
+#include "Hoshino/Renderer/ShaderFactory.h"
 
 #include "Hoshino/TimeStep.h"
 #include <GLFW/glfw3.h>
@@ -32,26 +34,40 @@ namespace Hoshino
 
 	void Application::Run()
 	{
-		while (m_Running)
-		{
-			float time = (float)glfwGetTime();
-			Timestep timestep = time - m_LastFrameTime;
-			m_LastFrameTime = time;
+		// while (m_Running)
+		// {
+		// 	float time = (float)glfwGetTime();
+		// 	Timestep timestep = time - m_LastFrameTime;
+		// 	m_LastFrameTime = time;
 
-		//	// glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		//	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//	for (Layer* layer : m_LayerStack)
-		//		layer->OnUpdate(timestep);
+		// //	// glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		// //	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		// //	for (Layer* layer : m_LayerStack)
+		// //		layer->OnUpdate(timestep);
 
-		//	m_ImGuiLayer->Begin();
-		//	for (Layer* layer : m_LayerStack)
-		//		layer->OnImGuiRender();
-		//	m_ImGuiLayer->End();
+		// //	m_ImGuiLayer->Begin();
+		// //	for (Layer* layer : m_LayerStack)
+		// //		layer->OnImGuiRender();
+		// //	m_ImGuiLayer->End();
 
-		//	m_Window->OnUpdate();
-			m_DeviceMgr->UpdateWindowSize();
-			glfwPollEvents();
-		}
+		// //	m_Window->OnUpdate();
+		// 	m_DeviceMgr->UpdateWindowSize();
+		// 	glfwPollEvents();
+		// }
+
+		ShaderCompileDesc vertDesc{
+			.filePath = "Res/Shader/Hlsl/vert.hlsl", .outputPath = "CompiledShader/vert.bin",
+			.compilerType = ShaderCompiler::CompilerType::SPIRV,
+			.shaderType = ShaderType::Vertex,
+			.generateHeader = true
+		};
+		ShaderCompiler::CompileShaderToPath(vertDesc);
+		ShaderCompileDesc fragDesc{.filePath = "Res/Shader/Hlsl/frag.hlsl",
+		                           .outputPath = "CompiledShader/frag.bin",
+		                           .compilerType = ShaderCompiler::CompilerType::SPIRV,
+		                           .shaderType = ShaderType::Pixel,
+		                           .generateHeader = true};
+		ShaderCompiler::CompileShaderToPath(fragDesc);
 		//CORE_INFO("Engine ShutDown!");
 	}
 
