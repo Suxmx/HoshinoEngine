@@ -462,7 +462,9 @@ namespace Hoshino
 			m_Data.Height = height;
 			if (m_DeviceMgr)
 			{
+				m_DeviceMgr->BackBufferResizing();
 				m_DeviceMgr->OnResize(m_Data.Width, m_Data.Height);
+				m_DeviceMgr->BackBufferResized();
 			}
 		}
 		else

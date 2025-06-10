@@ -7,7 +7,8 @@
 
 #include "Hoshino/TimeStep.h"
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
+#include <nvrhi/utils.h>
+
 #define BIND_APP_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 namespace Hoshino
@@ -21,6 +22,8 @@ namespace Hoshino
 		m_Window = Window::Create();
 		m_Window->Init();
 		m_Window->SetEventCallbackFn(BIND_APP_EVENT_FN(OnEvent));
+
+		m_CommandList=GetDeviceManager()->GetDevice()->createCommandList();
 		// m_Window->SetEventCallbackFn(BIND_APP_EVENT_FN(OnEvent));
 		// m_Running = true;
 
@@ -34,21 +37,25 @@ namespace Hoshino
 	{
 		while (m_Running)
 		{
-		// 	float time = (float)glfwGetTime();
-		// 	Timestep timestep = time - m_LastFrameTime;
-		// 	m_LastFrameTime = time;
+			static int frameCount = 0;
+			
+			// 开始帧并获取命令列表
+			GetDeviceManager()->BeginFrame();
+			if (m_CommandList)
+			{
+				m_CommandList->open();
 
-		// //	// glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		// //	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		// //	for (Layer* layer : m_LayerStack)
-		// //		layer->OnUpdate(timestep);
+				nvrhi::IFramebuffer* framebuffer = GetDeviceManager()->GetCurrentFramebuffer();
+				nvrhi::utils::ClearColorAttachment(m_CommandList, framebuffer, 0, nvrhi::Color(0.f));
 
-		// //	m_ImGuiLayer->Begin();
-		// //	for (Layer* layer : m_LayerStack)
-		// //		layer->OnImGuiRender();
-		// //	m_ImGuiLayer->End();
+				m_CommandList->close();
+				GetDeviceManager()->GetDevice()->executeCommandList(m_CommandList);
+			}
 
-		// //	m_Window->OnUpdate();
+			CORE_TRACE("Frame: {0}", frameCount++);
+
+			// 显示帧
+			GetDeviceManager()->Present();
 			m_Window->UpdateWindowSize();
 			glfwPollEvents();
 		}

@@ -24,11 +24,13 @@ namespace Hoshino
 		virtual void DestroyDeviceAndSwapChain() override;
 		virtual bool BeginFrame() override;
 		virtual bool Present() override;
+		virtual uint32_t GetBackBufferCount() override;
+		virtual nvrhi::ITexture* GetBackBuffer(uint32_t index) override;
 
 	public:
 		virtual nvrhi::IDevice* GetDevice() const override;
 		VulkanDeviceManager(GLFWwindow* window) : m_Window(window) {}
-
+		virtual nvrhi::IFramebuffer* GetCurrentFramebuffer() override;
 		// Funcs
 	private:
 		bool CreateVkWindowsSurface();
@@ -37,6 +39,7 @@ namespace Hoshino
 		bool CreateVkDevice();
 		void DestroyVkSwapChain();
 		bool CreateVkSwapChain();
+		virtual uint32_t GetCurrentBackBufferIndex() override;
 		// Properties
 	private:
 		bool m_BufferDeviceAddressSupported;

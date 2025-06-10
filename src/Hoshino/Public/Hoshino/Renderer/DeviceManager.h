@@ -67,7 +67,7 @@ class HOSHINO_API DeviceManager
 	public:
 		bool CreateInstance(const InstanceParameters& params);
 		bool CreateDevice(const DeviceParameters& params);
-
+		virtual nvrhi::IFramebuffer* GetCurrentFramebuffer()  = 0;
 	protected:
 		virtual bool CreateInstanceInternal() = 0;
 		virtual bool CreateNvrhiDevice() = 0;
@@ -76,6 +76,12 @@ class HOSHINO_API DeviceManager
 		virtual void DestroyDeviceAndSwapChain() = 0;
 		virtual bool BeginFrame() = 0;
 		virtual bool Present() = 0;
+		virtual uint32_t GetCurrentBackBufferIndex() = 0;
+		virtual uint32_t GetBackBufferCount() = 0;
+		virtual nvrhi::ITexture* GetBackBuffer(uint32_t index) = 0;
+
+		void BackBufferResizing();
+		void BackBufferResized();
 
 		void OnResize(uint32_t width, uint32_t height);
 

@@ -46,6 +46,10 @@ namespace Hoshino
 			return m_GlfwWindow;
 		}
 		void UpdateWindowSize();
+		DeviceManager* GetDeviceManager()
+		{
+			return m_DeviceMgr.get();
+		}
 		// Create
 		static Scope<Window> Create(const WindowSpecification& props = WindowSpecification());
 

@@ -67,5 +67,21 @@ namespace Hoshino
 			return new VulkanDeviceManager(window);
 		}
 	}
-	
+
+	void DeviceManager::BackBufferResizing()
+	{
+		m_SwapChainFramebuffers.clear();
+	}
+
+	void DeviceManager::BackBufferResized()
+	{
+		uint32_t backBufferCount = GetBackBufferCount();
+		m_SwapChainFramebuffers.resize(backBufferCount);
+		for (uint32_t index = 0; index < backBufferCount; index++)
+		{
+			m_SwapChainFramebuffers[index] = GetDevice()->createFramebuffer(
+			    nvrhi::FramebufferDesc().addColorAttachment(GetBackBuffer(index)));
+		}
+	}
+
 } // namespace Hoshino

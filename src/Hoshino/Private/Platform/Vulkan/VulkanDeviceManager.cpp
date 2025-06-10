@@ -335,8 +335,27 @@ namespace Hoshino
 	bool VulkanDeviceManager::BeginFrame()
 	{
 		const vk::Semaphore& acquireSemaphore = m_AcquireSemaphores[m_AcquireSemaphoreIndex];
-		vk::Result res = m_VkDevice.acquireNextImageKHR(m_VkSwapChain, UINT64_MAX, acquireSemaphore,
-		                                                vk::Fence(), &m_SwapChainIndex);
+		vk::Result res;
+		int const maxAttempts = 3;
+		for (int attempt = 0; attempt < maxAttempts; ++attempt)
+		{
+			res = m_VkDevice.acquireNextImageKHR(m_VkSwapChain, UINT64_MAX, acquireSemaphore, vk::Fence(),
+			                                     &m_SwapChainIndex);
+			if ((res == vk::Result::eErrorOutOfDateKHR || res == vk::Result::eSuboptimalKHR) &&
+			    attempt < maxAttempts)
+			{
+				BackBufferResizing();
+				auto surfaceCaps = m_VkPhysicalDevice.getSurfaceCapabilitiesKHR(m_VkSurface);
+
+				m_DeviceParameters.backBufferWidth = surfaceCaps.currentExtent.width;
+				m_DeviceParameters.backBufferHeight = surfaceCaps.currentExtent.height;
+
+				ResizeSwapChain();
+				BackBufferResized();
+			}
+			else break;
+		}
+
 		m_AcquireSemaphoreIndex = (m_AcquireSemaphoreIndex + 1) % m_AcquireSemaphores.size();
 		if (res == vk::Result::eSuccess)
 		{
@@ -362,7 +381,7 @@ namespace Hoshino
 		                                     .setPImageIndices(&m_SwapChainIndex);
 		// 这里实际上是CPU同步向GPU发送了Present请求，但是参数中有传递信号量
 		// 在GPU处是异步的，等信号量置位之后才会present，不会阻塞CPU
-		auto res = m_PresentQueue.presentKHR(presentInfo);
+		auto res = m_PresentQueue.presentKHR(&presentInfo);
 		if (!(res == vk::Result::eSuccess || res == vk::Result::eErrorOutOfDateKHR ||
 		      res == vk::Result::eSuboptimalKHR))
 		{
@@ -397,10 +416,26 @@ namespace Hoshino
 
 		return true;
 	}
+	
+	uint32_t VulkanDeviceManager::GetBackBufferCount()
+	{
+		return uint32_t(m_SwapChainImages.size());
+	}
+	
+	nvrhi::ITexture* VulkanDeviceManager::GetBackBuffer(uint32_t index)
+	{
+		if (index < m_SwapChainImages.size()) return m_SwapChainImages[index].rhiHandle;
+		return nullptr;
+	}
 
 	nvrhi::IDevice* VulkanDeviceManager::GetDevice() const
 	{
 		return m_NvrhiDevice;
+	}
+	
+	nvrhi::IFramebuffer* VulkanDeviceManager::GetCurrentFramebuffer() 
+	{
+		return m_SwapChainFramebuffers[GetCurrentBackBufferIndex()];
 	}
 
 	bool VulkanDeviceManager::CreateVkWindowsSurface()
@@ -978,5 +1013,10 @@ namespace Hoshino
 
 		m_SwapChainIndex = 0;
 		return true;
+	}
+
+	uint32_t VulkanDeviceManager::GetCurrentBackBufferIndex()
+	{
+		return m_SwapChainIndex;
 	}
 } // namespace Hoshino
