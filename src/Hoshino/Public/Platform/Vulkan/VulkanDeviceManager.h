@@ -27,8 +27,9 @@ namespace Hoshino
 
 	public:
 		virtual nvrhi::IDevice* GetDevice() const override;
+		VulkanDeviceManager(GLFWwindow* window) : m_Window(window) {}
 
-	//Funcs
+		// Funcs
 	private:
 		bool CreateVkWindowsSurface();
 		bool PickVkPhysicalDevice();
@@ -38,10 +39,11 @@ namespace Hoshino
 		bool CreateVkSwapChain();
 		// Properties
 	private:
-		bool m_BufferDeviceAddressSupported ;
+		bool m_BufferDeviceAddressSupported;
 		bool m_SwapChainMutableFormatSupported;
 		uint32_t m_SwapChainIndex = uint32_t(-1);
 
+		GLFWwindow* m_Window = nullptr;
 		vk::Instance m_VkInstance;
 		vk::SurfaceKHR m_VkSurface;
 		nvrhi::vulkan::DeviceHandle m_NvrhiDevice = nullptr;
@@ -86,7 +88,8 @@ namespace Hoshino
 		    // layers
 		    {},
 		    // device
-		    {VK_KHR_MAINTENANCE1_EXTENSION_NAME, VK_KHR_SWAPCHAIN_EXTENSION_NAME},
+		    {VK_KHR_MAINTENANCE1_EXTENSION_NAME, VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+		     VK_KHR_TIMELINE_SEMAPHORE_EXTENSION_NAME},
 		};
 
 		// optional extensions

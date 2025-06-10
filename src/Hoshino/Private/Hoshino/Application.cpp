@@ -18,11 +18,9 @@ namespace Hoshino
 	{
 		CORE_ASSERT(!s_Instance, "Application already exists!")
 		s_Instance = this;
-		m_DeviceMgr = DeviceManager::Create(GraphicsAPI::Vulkan);
-		DeviceParameters deviceParams;
-		deviceParams.enableDebugRuntime = true;
-		m_DeviceMgr->CreateWindowDeviceAndSwapChain(deviceParams);
-		// m_Window = Window::Create();
+		m_Window = Window::Create();
+		m_Window->Init();
+		m_Window->SetEventCallbackFn(BIND_APP_EVENT_FN(OnEvent));
 		// m_Window->SetEventCallbackFn(BIND_APP_EVENT_FN(OnEvent));
 		// m_Running = true;
 
@@ -34,8 +32,8 @@ namespace Hoshino
 
 	void Application::Run()
 	{
-		// while (m_Running)
-		// {
+		while (m_Running)
+		{
 		// 	float time = (float)glfwGetTime();
 		// 	Timestep timestep = time - m_LastFrameTime;
 		// 	m_LastFrameTime = time;
@@ -51,23 +49,23 @@ namespace Hoshino
 		// //	m_ImGuiLayer->End();
 
 		// //	m_Window->OnUpdate();
-		// 	m_DeviceMgr->UpdateWindowSize();
-		// 	glfwPollEvents();
-		// }
+			m_Window->UpdateWindowSize();
+			glfwPollEvents();
+		}
 
-		ShaderCompileDesc vertDesc{
-			.filePath = "Res/Shader/Hlsl/vert.hlsl", .outputPath = "CompiledShader/vert.bin",
-			.compilerType = ShaderCompiler::CompilerType::SPIRV,
-			.shaderType = ShaderType::Vertex,
-			.generateHeader = true
-		};
-		ShaderCompiler::CompileShaderToPath(vertDesc);
-		ShaderCompileDesc fragDesc{.filePath = "Res/Shader/Hlsl/frag.hlsl",
-		                           .outputPath = "CompiledShader/frag.bin",
-		                           .compilerType = ShaderCompiler::CompilerType::SPIRV,
-		                           .shaderType = ShaderType::Pixel,
-		                           .generateHeader = true};
-		ShaderCompiler::CompileShaderToPath(fragDesc);
+		// ShaderCompileDesc vertDesc{
+		// 	.filePath = "Res/Shader/Hlsl/vert.hlsl", .outputPath = "CompiledShader/vert.bin",
+		// 	.compilerType = ShaderCompiler::CompilerType::SPIRV,
+		// 	.shaderType = ShaderType::Vertex,
+		// 	.generateHeader = true
+		// };
+		// ShaderCompiler::CompileShaderToPath(vertDesc);
+		// ShaderCompileDesc fragDesc{.filePath = "Res/Shader/Hlsl/frag.hlsl",
+		//                            .outputPath = "CompiledShader/frag.bin",
+		//                            .compilerType = ShaderCompiler::CompilerType::SPIRV,
+		//                            .shaderType = ShaderType::Pixel,
+		//                            .generateHeader = true};
+		// ShaderCompiler::CompileShaderToPath(fragDesc);
 		//CORE_INFO("Engine ShutDown!");
 	}
 

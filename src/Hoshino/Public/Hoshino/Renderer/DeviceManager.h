@@ -63,11 +63,10 @@ namespace Hoshino
 // Basicly from donut	
 class HOSHINO_API DeviceManager
 	{
+		friend class Window;
 	public:
-		static DeviceManager* Create(GraphicsAPI api);
 		bool CreateInstance(const InstanceParameters& params);
-		bool CreateWindowDeviceAndSwapChain(const DeviceParameters& params,
-		                                    const char* windowTtitle = "HoshinoEngine");
+		bool CreateDevice(const DeviceParameters& params);
 
 	protected:
 		virtual bool CreateInstanceInternal() = 0;
@@ -78,14 +77,13 @@ class HOSHINO_API DeviceManager
 		virtual bool BeginFrame() = 0;
 		virtual bool Present() = 0;
 
-		void BackBufferResizing();
-		void BackBufferResized();
+		void OnResize(uint32_t width, uint32_t height);
 
-		void UpdateWindowSize();
 		void Render();
 		
 
 	public:
+		static DeviceManager* Create(GraphicsAPI api, GLFWwindow* window);
 		virtual nvrhi::IDevice* GetDevice() const = 0;
 
 	protected:
@@ -98,7 +96,6 @@ class HOSHINO_API DeviceManager
 		bool m_WindowVisible;
 		bool m_WindowFocused;
 
-		GLFWwindow* m_Window = nullptr;
 		std::vector<nvrhi::FramebufferHandle> m_SwapChainFramebuffers;
 		std::queue<nvrhi::EventQueryHandle> m_FrameInFlights; // CPU已提交但是仍在渲染的帧
 		std::queue<nvrhi::EventQueryHandle> m_QueryPool;
