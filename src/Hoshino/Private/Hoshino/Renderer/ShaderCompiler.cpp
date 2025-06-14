@@ -6,7 +6,7 @@ namespace Hoshino
 {
 	std::string ShaderCompiler::m_SlangPath = ".\\Res\\slangc.exe";
 
-	bool ShaderCompiler::CompileShaderToPath(const ShaderCompileDesc& desc)
+	bool ShaderCompiler::CompileShader(const ShaderCompileDesc& desc)
 	{
 		// 构建编译命令行
 		std::string cmdLine = BuildShaderCommandLine(desc);
@@ -14,7 +14,7 @@ namespace Hoshino
 		// 添加重定向标准错误到标准输出，方便捕获所有输出
 		cmdLine += " 2>&1";
 
-		if(desc.logCmd)
+		if (desc.logCmd || HOSHIINO_GRAPHICS_DEBUG)
 		{
 			CORE_TRACE("Compiling shader: {0}", cmdLine);
 		}

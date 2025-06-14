@@ -29,6 +29,21 @@ namespace Hoshino
 
 		// m_ImGuiLayer = new ImGuiLayer();
 		// PushOverlay(m_ImGuiLayer);
+
+		ShaderCompileDesc vertDesc{.filePath = "Res/Shader/Hlsl/triangle_vert.hlsl",
+		                           .outputPath = ".\\CompiledShader/triangle_vert.spv",
+		                           .compilerType = ShaderCompiler::CompilerType::SPIRV,
+		                           .shaderType = ShaderType::Vertex,
+		                           .logCmd = true};
+
+		ShaderCompileDesc fragDesc{.filePath = "Res/Shader/Hlsl/triangle_frag.hlsl",
+		                           .outputPath = ".\\CompiledShader/triangle_frag.spv",
+		                           .compilerType = ShaderCompiler::CompilerType::SPIRV,
+		                           .shaderType = ShaderType::Pixel,
+		                           .logCmd = true};
+		auto shaderFactory = ShaderFactory(GetDeviceManager()->GetDevice());
+		m_VertexShader = shaderFactory.CreateShaderFromSource(vertDesc,"main");
+		m_PixelShader = shaderFactory.CreateShaderFromSource(fragDesc,"main");
 	}
 
 	Application::~Application() {}
@@ -41,18 +56,37 @@ namespace Hoshino
 			
 			// 开始帧并获取命令列表
 			GetDeviceManager()->BeginFrame();
-			if (m_CommandList)
+			auto framebuffer = GetDeviceManager()->GetCurrentFramebuffer();
+			if (!m_Pipeline)
 			{
-				m_CommandList->open();
+				nvrhi::GraphicsPipelineDesc psoDesc;
+				psoDesc.VS = m_VertexShader;
+				psoDesc.PS = m_PixelShader;
+				psoDesc.primType = nvrhi::PrimitiveType::TriangleList;
+				psoDesc.renderState.depthStencilState.depthTestEnable = false;
 
-				nvrhi::IFramebuffer* framebuffer = GetDeviceManager()->GetCurrentFramebuffer();
-				nvrhi::utils::ClearColorAttachment(m_CommandList, framebuffer, 0, nvrhi::Color(0.f));
-
-				m_CommandList->close();
-				GetDeviceManager()->GetDevice()->executeCommandList(m_CommandList);
+				m_Pipeline = GetDeviceManager()->GetDevice()->createGraphicsPipeline(psoDesc, framebuffer);
 			}
 
-			CORE_TRACE("Frame: {0}", frameCount++);
+			m_CommandList->open();
+
+			nvrhi::utils::ClearColorAttachment(m_CommandList, framebuffer, 0, nvrhi::Color(0.f));
+
+			nvrhi::GraphicsState state;
+			state.pipeline = m_Pipeline;
+			state.framebuffer = framebuffer;
+			state.viewport.addViewportAndScissorRect(framebuffer->getFramebufferInfo().getViewport());
+
+			m_CommandList->setGraphicsState(state);
+
+			nvrhi::DrawArguments args;
+			args.vertexCount = 3;
+			m_CommandList->draw(args);
+
+			m_CommandList->close();
+			GetDeviceManager()->GetDevice()->executeCommandList(m_CommandList);
+
+			// CORE_TRACE("Frame: {0}", frameCount++);
 
 			// 显示帧
 			GetDeviceManager()->Present();
@@ -60,12 +94,7 @@ namespace Hoshino
 			glfwPollEvents();
 		}
 
-		// ShaderCompileDesc vertDesc{
-		// 	.filePath = "Res/Shader/Hlsl/vert.hlsl", .outputPath = "CompiledShader/vert.bin",
-		// 	.compilerType = ShaderCompiler::CompilerType::SPIRV,
-		// 	.shaderType = ShaderType::Vertex,
-		// 	.generateHeader = true
-		// };
+		
 		// ShaderCompiler::CompileShaderToPath(vertDesc);
 		// ShaderCompileDesc fragDesc{.filePath = "Res/Shader/Hlsl/frag.hlsl",
 		//                            .outputPath = "CompiledShader/frag.bin",

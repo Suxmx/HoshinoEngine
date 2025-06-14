@@ -272,7 +272,7 @@ namespace Hoshino
 		deviceParams.backBufferWidth = m_Specification.Width;
 		deviceParams.backBufferHeight = m_Specification.Height;
 		deviceParams.vsyncEnabled = false;
-		deviceParams.enableDebugRuntime = true;
+		deviceParams.enableDebugRuntime = HOSHIINO_GRAPHICS_DEBUG;
 
 		if (!glfwInit())
 		{
@@ -455,13 +455,15 @@ namespace Hoshino
 		}
 		m_Data.WindowVisible = false;
 		m_Data.WindowFocused = glfwGetWindowAttrib(m_GlfwWindow, GLFW_FOCUSED) == 1;
-		if (static_cast<int>(m_Data.Width) != width || static_cast<int>(m_Data.Width) != height ||
+		if (static_cast<int>(m_Data.Width) != width || static_cast<int>(m_Data.Height) != height ||
 		    m_Data.VsyncEnabled != m_Specification.VSync)
 		{
 			m_Data.Width = width;
 			m_Data.Height = height;
+			m_Data.VsyncEnabled = m_Specification.VSync;
 			if (m_DeviceMgr)
 			{
+				CORE_INFO("Window resized to {0}x{1}", m_Data.Width, m_Data.Height);
 				m_DeviceMgr->BackBufferResizing();
 				m_DeviceMgr->OnResize(m_Data.Width, m_Data.Height);
 				m_DeviceMgr->BackBufferResized();

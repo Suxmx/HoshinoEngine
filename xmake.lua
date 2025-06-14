@@ -12,7 +12,7 @@ package("nvrhi")
     end) 
     on_test(function (package)
     end)
-package_end()
+package_end() 
  
 add_cxflags("/utf-8")
 add_rules("mode.debug", "mode.releasedbg", "mode.release", "mode.minsizerel","mode.profile")
@@ -25,4 +25,4 @@ includes("src/Hoshino","src/Client","Res","src/nvrhi")
 
 add_defines("HOSHINO_STATIC_BUILD","HOSHINO_ASSERT","HOSHINO_DEBUG_LOG")
 -- Graphics
-add_defines("HOSHINO_VULKAN") 
+add_defines("HOSHINO_VULKAN")  

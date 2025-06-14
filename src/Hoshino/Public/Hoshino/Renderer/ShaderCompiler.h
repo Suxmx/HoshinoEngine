@@ -1,3 +1,4 @@
+#pragma once
 #include "HoshinoMin.h"
 
 namespace Hoshino
@@ -14,7 +15,7 @@ namespace Hoshino
 			DXIL,
 			SPIRV
 		};
-		static bool CompileShaderToPath(const ShaderCompileDesc& desc);
+		static bool CompileShader(const ShaderCompileDesc& desc);
 
 	private:
 		static std::string BuildShaderCommandLine(const ShaderCompileDesc& desc);

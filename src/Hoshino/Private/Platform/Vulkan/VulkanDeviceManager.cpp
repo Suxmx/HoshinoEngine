@@ -158,7 +158,9 @@ namespace Hoshino
 		}
 		auto instanceExts = stringSetToVector(enabledExtensions.instance);
 		auto instanceLayers = stringSetToVector(enabledExtensions.layers);
-		auto applicationInfo = vk::ApplicationInfo();
+		auto applicationInfo = vk::ApplicationInfo()
+		                           .setApiVersion(VK_API_VERSION_1_3);
+		;
 		// 创建vkInstance
 		vk::InstanceCreateInfo instanceCreateInfo = vk::InstanceCreateInfo()
 		                                                .setEnabledExtensionCount(instanceExts.size())

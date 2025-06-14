@@ -27,3 +27,5 @@ namespace Hoshino
 	template <typename T>
 	using RefCountPtr = nvrhi::RefCountPtr<T>;
 } // namespace Hoshino
+
+#define HOSHIINO_GRAPHICS_DEBUG true

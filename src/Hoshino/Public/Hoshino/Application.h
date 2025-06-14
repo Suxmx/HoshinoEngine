@@ -40,6 +40,10 @@ namespace Hoshino
 		float m_LastFrameTime = 0.0f;
 		static Application* s_Instance;
 		nvrhi::CommandListHandle m_CommandList;
+		nvrhi::GraphicsPipelineHandle m_Pipeline;
+
+		nvrhi::ShaderHandle m_VertexShader;
+		nvrhi::ShaderHandle m_PixelShader;
 
 	protected:
 
