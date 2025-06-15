@@ -69,321 +69,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fab33c0f-b470-4745-8fa7-fb931af3bfb6" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitmodules" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Model/CornellBox-Original.mtl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Model/CornellBox-Original.obj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Model/backpack.mtl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Model/backpack.obj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Shader/Frag/Blue.glsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Shader/Frag/Normal.glsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Shader/Frag/fGbuffer.glsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Shader/Frag/fLighting.glsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Shader/Hlsl/frag.hlsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Shader/Hlsl/triangle_frag.hlsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Shader/Hlsl/triangle_vert.hlsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Shader/Hlsl/vert.hlsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Shader/Vert/Vertex.vert" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Shader/Vert/vGbuffer.glsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Shader/Vert/vLighting.glsl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/Texture/test.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/debug/Res/slangc.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/3rdParty/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/3rdParty/glfw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/3rdParty/glm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/3rdParty/imgui" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/3rdParty/spdlog" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Client/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Hoshino/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.clangd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Res/xmake.lua" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/HoshinoEngine.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/include/nvrhi/common/resource.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/include/nvrhi/common/resource.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/src/vulkan/vulkan-backend.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/src/vulkan/vulkan-backend.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan.cppm" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan.cppm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_core.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_core.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_enums.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_enums.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_extension_inspection.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_extension_inspection.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_funcs.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_funcs.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_handles.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_handles.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_hash.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_hash.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_raii.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_raii.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_shared.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_shared.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_static_assertions.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_static_assertions.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_structs.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_structs.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_to_string.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_to_string.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Client/xmake.lua" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Hoshino/Private/Hoshino/Layer/ImGuiLayer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hoshino/Private/Hoshino/Layer/ImGuiLayer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Hoshino/Private/Hoshino/Log.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hoshino/Private/Hoshino/Log.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Hoshino/Public/Hoshino/Assert.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hoshino/Public/Hoshino/Assert.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Hoshino/Public/Hoshino/Macro.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Hoshino/Public/Hoshino/Macro.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Hoshino/xmake.lua" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/CLA.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/ThirdPartyLicenses.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/cmake/FetchAftermath.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/cmake/FindNVAPI.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/doc/ProgrammingGuide.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/doc/Tutorial.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/include/nvrhi/common/aftermath.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/include/nvrhi/common/containers.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/include/nvrhi/common/misc.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/include/nvrhi/common/resource.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/include/nvrhi/common/resourcebindingmap.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/include/nvrhi/d3d11.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/include/nvrhi/d3d12.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/include/nvrhi/nvrhi.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/include/nvrhi/nvrhiHLSL.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/include/nvrhi/utils.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/include/nvrhi/validation.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/include/nvrhi/vulkan.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/NVIDIA_CLA_v1.0.1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/include/rtxmu/AccelStructManager.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/include/rtxmu/D3D12AccelStructManager.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/include/rtxmu/D3D12Suballocator.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/include/rtxmu/Logger.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/include/rtxmu/Suballocator.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/include/rtxmu/VkAccelStructManager.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/include/rtxmu/VulkanSuballocator.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/src/D3D12AccelStructManager.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/src/D3D12Suballocator.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/src/Logger.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/src/VkAccelStructManager.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/rtxmu/src/VulkanSuballocator.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/common/aftermath.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/common/dxgi-format.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/common/dxgi-format.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/common/format-info.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/common/misc.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/common/state-tracking.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/common/state-tracking.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/common/utils.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/common/versioning.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d11/d3d11-backend.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d11/d3d11-buffer.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d11/d3d11-commandlist.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d11/d3d11-compute.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d11/d3d11-constants.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d11/d3d11-device.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d11/d3d11-graphics.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d11/d3d11-queries.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d11/d3d11-resource-bindings.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d11/d3d11-shader.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d11/d3d11-texture.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-backend.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-buffer.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-commandlist.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-compute.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-constants.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-descriptor-heap.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-device.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-graphics.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-meshlets.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-queries.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-raytracing.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-resource-bindings.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-shader.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-state-tracking.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-texture.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/d3d12/d3d12-upload.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/nvrhiConfig.cmake.in" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/validation/validation-backend.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/validation/validation-commandlist.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/validation/validation-device.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-allocator.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-backend.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-buffer.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-commandlist.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-compute.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-constants.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-device.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-graphics.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-meshlets.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-queries.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-queue.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-raytracing.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-resource-bindings.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-shader.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-staging-texture.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-state-tracking.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-texture.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/src/vulkan/vulkan-upload.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/.github/dependabot.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/.github/workflows/codeql.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/.github/workflows/main.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/.github/workflows/msvc.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/.github/workflows/uwp.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/.github/workflows/wsl.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/Android.bp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/CMakePresets.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/CODE_OF_CONDUCT.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/SECURITY.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/cmake/DirectX-Headers.pc.in" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/cmake/JoinPaths.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/cmake/directx-headers-config.cmake.in" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/googletest/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/googletest/MockDevice.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/googletest/feature_support_test.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/googletest/meson.build" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/D3D12TokenizedProgramFormat.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/DirectML.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3d12.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3d12.idl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3d12compatibility.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3d12compatibility.idl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3d12sdklayers.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3d12sdklayers.idl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3d12shader.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3d12video.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3d12video.idl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3dcommon.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3dcommon.idl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3dx12.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3dx12_barriers.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3dx12_check_feature_support.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3dx12_core.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3dx12_default.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3dx12_pipeline_state_stream.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3dx12_property_format_table.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3dx12_render_pass.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3dx12_resource_helpers.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3dx12_root_signature.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/d3dx12_state_object.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/dxcore.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/dxcore_interface.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/dxgicommon.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/dxgicommon.idl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/dxgiformat.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/directx/dxgiformat.idl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/dxguids/dxguids.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/wsl/stubs/basetsd.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/wsl/stubs/oaidl.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/wsl/stubs/ocidl.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/wsl/stubs/rpc.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/wsl/stubs/rpcndr.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/wsl/stubs/unknwn.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/wsl/stubs/unknwnbase.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/wsl/stubs/winapifamily.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/wsl/stubs/wrl/client.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/wsl/stubs/wrl/implements.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/wsl/winadapter.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/include/wsl/wrladapter.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/meson.build" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/meson_options.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/src/d3dx12_property_format_table.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/src/dxguids.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/test/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/test/feature_check_test.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/test/meson.build" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/DirectX-Headers/test/test.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/.github/ISSUE_TEMPLATE/bug_report.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/.github/dependabot.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/.github/pull_request_template.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/.github/workflows/ci.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/.reuse/dep5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/BUILD.gn" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/BUILD.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/CODE_OF_CONDUCT.adoc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/CONTRIBUTING.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/LICENSES/Apache-2.0.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/LICENSES/MIT.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/Makefile.release" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/SECURITY.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vk_video/vulkan_video_codec_av1std.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vk_video/vulkan_video_codec_av1std_decode.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vk_video/vulkan_video_codec_av1std_encode.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vk_video/vulkan_video_codec_h264std.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vk_video/vulkan_video_codec_h264std_decode.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vk_video/vulkan_video_codec_h264std_encode.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vk_video/vulkan_video_codec_h265std.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vk_video/vulkan_video_codec_h265std_decode.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vk_video/vulkan_video_codec_h265std_encode.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vk_video/vulkan_video_codecs_common.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vk_enum_string_helper.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vk_icd.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vk_layer.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vk_platform.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan.cppm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_android.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_beta.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_core.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_directfb.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_enums.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_extension_inspection.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_format_traits.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_fuchsia.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_funcs.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_ggp.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_handles.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_hash.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_hpp_macros.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_ios.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_macos.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_metal.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_raii.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_screen.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_shared.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_static_assertions.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_structs.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_to_string.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_vi.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_video.hpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_wayland.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_win32.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_xcb.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_xlib.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_xlib_xrandr.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/registry/apiconventions.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/registry/cgenerator.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/registry/generator.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/registry/parse_dependency.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/registry/profiles/VP_KHR_roadmap.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/registry/reg.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/registry/spec_tools/conventions.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/registry/spec_tools/util.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/registry/stripAPI.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/registry/validusage.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/registry/video.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/registry/vk.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/registry/vkconventions.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/tests/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/tests/integration/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/tests/vk_icd.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/thirdparty/Vulkan-Headers/tests/vk_layer.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/tools/nvrhi.natvis" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/tools/shaderCompiler/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/tools/shaderCompiler/options.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/tools/shaderCompiler/options.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/tools/shaderCompiler/shaderCompiler.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nvrhi/xmake.lua" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/xmake.lua" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -411,50 +102,9 @@
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/3rdParty/nvrhi/include/nvrhi/common/resource.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/3rdParty/nvrhi/src/vulkan/vulkan-backend.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/3rdParty/nvrhi/src/vulkan/vulkan-resource-bindings.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/3rdParty/nvrhi/thirdparty/Vulkan-Headers/include/vulkan/vulkan_funcs.hpp" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
@@ -484,12 +134,13 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "RunOnceActivity.west.config.association.type.startup.service": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.advertisement.text.has.clang-format": "true",
     "cf.advertisement.text.overridden": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "E:/HoshinoEngine_C/bin/debug",
+    "last_opened_file_path": "E:/HoshinoEngine",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -531,9 +182,9 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
     <configuration name="Client" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Hoshino" TARGET_NAME="Client" CONFIG_NAME="Debug-Visual Studio" RUN_TARGET_PROJECT_NAME="Hoshino" RUN_TARGET_NAME="Client">
@@ -804,6 +455,7 @@
       <workItem from="1749971023667" duration="28000" />
       <workItem from="1749971061104" duration="4678000" />
       <workItem from="1749975856074" duration="548000" />
+      <workItem from="1749976665874" duration="188000" />
     </task>
     <servers />
   </component>
