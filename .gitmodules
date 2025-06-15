@@ -1,0 +1,16 @@
+[submodule "src/3rdParty/imgui"]
+	path = src/3rdParty/imgui
+	url = git@github.com:ocornut/imgui.git
+	branch = docking
+[submodule "src/3rdParty/nvrhi"]
+	path = src/3rdParty/nvrhi
+	url = git@github.com:NVIDIA-RTX/NVRHI.git
+[submodule "src/3rdParty/glfw"]
+	path = src/3rdParty/glfw
+	url = git@github.com:glfw/glfw.git
+[submodule "src/3rdParty/glm"]
+	path = src/3rdParty/glm
+	url = git@github.com:g-truc/glm.git
+[submodule "src/3rdParty/spdlog"]
+	path = src/3rdParty/spdlog
+	url = git@github.com:gabime/spdlog.git

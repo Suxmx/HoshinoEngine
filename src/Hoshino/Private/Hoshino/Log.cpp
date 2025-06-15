@@ -1,5 +1,7 @@
 #include "Hoshino/Log.h"
 
+#include "spdlog/pattern_formatter.h"
+
 // 定义静态成员变量
 std::shared_ptr<spdlog::logger> Hoshino::Log::s_CoreLogger;
 std::shared_ptr<spdlog::logger> Hoshino::Log::s_ClientLogger;

@@ -8,13 +8,15 @@
 			__debugbreak();          \
 		}                            \
 	}
-#else
 #define APP_ASSERT(x, ...)          \
-	{                               \
-		if (!(x))                   \
-		{                           \
-			APP_ERROR(__VA_ARGS__); \
-			__debugbreak();         \
-		}                           \
-	}
+{                               \
+if (!(x))                   \
+{                           \
+APP_ERROR(__VA_ARGS__); \
+__debugbreak();         \
+}                           \
+}
+#else
+#define CORE_ASSERT(x, ...)
+#define APP_ASSERT(x, ...)
 #endif // HOSHINO_ASSERT
