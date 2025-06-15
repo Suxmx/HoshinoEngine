@@ -1,7 +1,0 @@
-target("Client")   
-    set_kind("binary")
-    add_files("**.cpp")
-    add_includedirs("Public")
-    add_packages("glfw", "glm","vulkansdk","imgui","glad","spdlog","assimp","nvrhi")
-    add_deps("HoshinoEngine","Res")
-    add_links("HoshinoEngine") 

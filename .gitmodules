@@ -1,0 +1,16 @@
+[submodule "src/3rdParty/imgui"]
+	path = src/3rdParty/imgui
+	url = https://github.com/Suxmx/imgui.git
+	branch = docking
+[submodule "src/3rdParty/nvrhi"]
+	path = src/3rdParty/nvrhi
+	url = https://github.com/Suxmx/NVRHI.git
+[submodule "src/3rdParty/glfw"]
+	path = src/3rdParty/glfw
+	url = https://github.com/Suxmx/glfw.git
+[submodule "src/3rdParty/glm"]
+	path = src/3rdParty/glm
+	url = https://github.com/Suxmx/glm.git
+[submodule "src/3rdParty/spdlog"]
+	path = src/3rdParty/spdlog
+	url = https://github.com/Suxmx/spdlog.git
