@@ -12,3 +12,4 @@ compile_commands.json
 vsxmake2022/
 bin/
 .idea/
+imgui.ini
